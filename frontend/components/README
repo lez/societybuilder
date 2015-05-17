@@ -1,0 +1,8 @@
+files here originate from the componentjs ecosystem, installed with 'component install',
+and then their index.js files are moved here for simple require'ing.
+
+The problem was that
+ - npm packages like component-upload had wrong require's in them to be used directly (require('emitter') instead of require('component-emitter'))
+ - decomponentify did not work for me
+
+if you have a better way to automatically install components, feel free to do so.

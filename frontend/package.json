@@ -1,0 +1,24 @@
+{
+  "name": "is",
+  "dependencies": [
+    "gulp",
+    "gulp-browserify",
+    "random-string"
+  ],
+  "scripts": [
+    "react_components/App.jsx"
+  ],
+  "devDependencies": {
+    "browserify": "^10.2.1",
+    "gulp": "^3.8.11",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-react": "^3.0.1",
+    "gulp-streamify": "0.0.5",
+    "gulp-uglify": "^1.2.0",
+    "random-string": "^0.1.2",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.1"
+  }
+}
