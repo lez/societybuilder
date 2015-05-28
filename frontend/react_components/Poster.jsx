@@ -49,7 +49,6 @@ var Poster = React.createClass({
                   <input
                     type="file"
                     name="selected-files"
-                    multiple={comment ? 0 : 1}
                     onChange={this.upload}
                     ref="selectedfiles"
                   />
@@ -137,7 +136,7 @@ var Poster = React.createClass({
     }
     var data = {
       image_ids: image_ids,
-      comment: this.refs.content.getDOMNode().value,
+      content: this.refs.content.getDOMNode().value,
     };
     if (this.props.reply_id) data.reply_id = this.props.reply_id;
     if (this.state.video) data.video_url = this.state.video.url;

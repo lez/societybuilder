@@ -16,7 +16,7 @@ requires = [
 
 setup(name='InternetState',
       version='0.0',
-      description='InternetState open community building platform',
+      description='InternetState community building platform',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -27,7 +27,7 @@ setup(name='InternetState',
       author='',
       author_email='',
       url='',
-      keywords='web pyramid pylons',
+      keywords='community',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,

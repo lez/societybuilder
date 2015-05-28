@@ -7,12 +7,13 @@ from .auth import IsAuthPolicy
 # import pages
 
 def main(global_settings, **settings):
-    config = Configurator(settings=settings, authentication_policy=IsAuthPolicy(), root_factory=RootFactory,)
+    config = Configurator(settings=settings, authentication_policy=IsAuthPolicy(), root_factory=RootFactory)
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.add_route('signup', '/signup')
     config.add_route('api', '/api/content')
+    config.add_route('upload', '/upload')
     config.include('pyramid_redis_sessions')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.scan(__name__)

@@ -32,8 +32,8 @@ signup_form = """
 creator = """
 <div id="creator"></div>
 <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
-<script type="text/javascript" src="/static/js/app.js" />
-<script type="text/javascript" src="/static/js/jquery.min.js" />
+<script type="text/javascript" src="/static/js/app.js"></script>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript">
 IS.addComposer(document.getElementById('creator'), 'asdf');
 </script>
