@@ -1,0 +1,67 @@
+.Commenter .thumbnail {
+    width: 32px;
+    height: 32px;
+    margin-right: 3px;
+    vertical-align: top;
+}
+
+.Commenter .content {
+    resize: none;
+    padding: 3px 7px 0 7px;
+    font-family: Helvetica,Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    min-height: 23px;
+    height: 30px;
+    /*width: 100%;*/
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.Commenter .fileinput-button {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    opacity: 0.8;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    height: 1.5em;
+    width: 1.5em;
+    padding: 2px 10px 2px 7px;
+    margin-left: 2px;
+    margin-bottom: 1px;
+}
+
+.Commenter .fileinput-button:hover {
+    opacity: 1;
+    background: #f7f7f7;
+}
+
+.Commenter .fileinput-button input {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.3;
+    left: 0;
+    top: 0;
+    cursor: inherit;
+}
+
+.Commenter .ImgUp {
+    margin-left: 32px;
+}
+
+/* TODO where should this go? clearly can't go to 2 places */
+/* .Gallery .Commenter {
+    position: absolute;
+    left: 0px;
+    padding-left: 10px;
+    bottom: 10px;
+    z-index: 11;
+    background-color: white;
+} */
+
+

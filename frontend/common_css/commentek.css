@@ -1,0 +1,39 @@
+.content_bottom_right {
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    z-index: 1;
+}
+
+.comment_composer {
+    padding-left: 80px;
+    padding-top: 5px;
+}
+
+.mvcomment {
+    white-space: pre-wrap;      /* CSS3 */
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;
+    width: 280px;
+    padding: 2px;
+}
+
+.mvcomment_text {
+    vertical-align: top;
+    width: 240px;
+}
+
+.mvcomment_text a {
+    color: #018E40;
+}
+
+.content_images_wrapper {
+    margin-top: 10px;
+}
+
+.image_with_comments table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}

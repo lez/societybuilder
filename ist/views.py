@@ -8,6 +8,10 @@ from .model.base import ValidationError
 from .model.user import User
 from .util import *
 
+logo = """
+<img src="/static/img/is_logo.gif" width="40" height="40" />
+"""
+
 login_form = """
 <form action="/login" method="POST">
 <input name="login" type="text" placeholder="login" />
@@ -27,7 +31,9 @@ signup_form = """
 
 creator = """
 <div id="creator"></div>
-<script type="text/javascript" src="/static/app.big.js" />
+<link href="/static/style/bundle.css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/static/js/app.js" />
+<script type="text/javascript" src="/static/js/jquery.min.js" />
 <script type="text/javascript">
 IS.addComposer(document.getElementById('creator'), 'asdf');
 </script>
@@ -37,7 +43,7 @@ IS.addComposer(document.getElementById('creator'), 'asdf');
 def home_view(request):
     login = authenticated_userid(request)
 
-    return Response('hello, %s' % login + login_form +' ' + str(int(request.session.created)) + creator)
+    return Response(logo + 'hello, %s' % login + login_form +' ' + str(int(request.session.created)) + creator)
 
 @view_config(route_name='login')
 def login_view(request):

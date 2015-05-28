@@ -1,0 +1,41 @@
+/* this puts an invisible dot after the floated divs, implicitly making its height big enough */
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+}
+.wordwrap {
+   white-space: pre-wrap;      /* CSS3 */
+   white-space: -moz-pre-wrap; /* Firefox */
+   white-space: pre-wrap;     /* Opera <7 */
+   white-space: -o-pre-wrap;   /* Opera 7 */
+   word-wrap: break-word;      /* IE */
+}
+.float_left {
+    float: left;
+}
+.float_right {
+    float: right;
+}
+.marginleft_10 {
+    margin-left: 10px;
+}
+.marginleft_20 {
+    margin-left: 20px;
+}
+.marginleft_5 {
+    margin-left: 5px;
+}
+.margintop_10 {
+    margin-top: 10px;
+}
+.margintop_5 {
+    margin-top: 5px;
+}
+.marginbottom_5 {
+    margin-bottom: 5px;
+}

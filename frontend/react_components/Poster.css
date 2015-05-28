@@ -1,0 +1,124 @@
+.Poster {
+    display: block;
+    width: 445px;
+}
+
+.Poster h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 3px 2px;
+    border-bottom: 0;
+    padding: 0 0 0 0;
+    display: inline;
+    line-height: 26px;
+    font-family: 'Open Sans',sans-serif;
+}
+
+.Poster .video_img {
+    position: relative;
+    display: block;
+    vertical-align: top;
+    height: 210px;
+    width: 280px;
+    float: left;
+    margin: 4px;
+}
+
+.Poster .video_img #thumbnail {
+    width: 280px;
+}
+
+.Poster .video_img .delete_button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 1;
+    display: none;
+    width: 14px;
+    height: 12px;
+}
+
+.Poster .video_img:hover .delete_button
+{
+    display: block;
+}
+
+.Poster .content {
+    resize: none;
+    padding: 8px 7px 0 7px;
+    font-family: Helvetica,Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    min-height: 63px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.Poster .wrapper {
+    display: block;
+}
+
+.Poster #images {
+    display: -moz-grid-line;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.Poster #images.higher {
+    height: 120px;
+}
+
+.Poster .sep {
+    clear: both;
+}
+
+.Poster .ImgUp {
+    margin: 4px;
+}
+
+.Poster .post-button {
+    float: right;
+}
+
+.Poster .fileinput-button {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    opacity: 0.8;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    display: block;
+    height: 1.5em;
+    float: left;
+    padding: 2px 10px 2px 7px;
+}
+
+.Poster .fileinput-button:hover {
+    opacity: 1;
+    background: #f7f7f7;
+}
+
+.Poster .fileinput-button input {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.3;
+    right: 0;
+    top: 0;
+    cursor: inherit;
+}
+.Poster .fileinput-button img {
+    float: left;
+}
+
+.Poster .fileinput-button span {
+    font-size: 0.8em;
+    line-height: 1.8em;
+    float: left;
+}
+
+.Poster .composer_footer {
+    width: 100%;
+    border-collapse: collapse;
+}

@@ -1,3 +1,6 @@
+/ist/static/js/app.js
+/ist/static/style/bundle.css
 __pycache__
 .idea
 InternetState.egg-info
+node_modules

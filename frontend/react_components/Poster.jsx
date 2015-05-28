@@ -11,10 +11,7 @@ var Poster = React.createClass({
   },
 
   getMaxImgs: function() {
-    if (this.props.composer_mode == 'small') return 1;
-    if (this.props.composer_mode == 'wall') return 12;
-    alert(this.props.composer_mode);
-    return 0;
+    return 12;
   },
 
   render: function() {
@@ -22,13 +19,9 @@ var Poster = React.createClass({
     var upload_complete = this.onUploadComplete;
     var remove_video = this.onRemoveVideo;
     var max_imgs = this.getMaxImgs();
-    var comment = this.props.composer_mode == 'small';
 
     return (
       <div className="Poster">
-        {comment ? null : <div className="composer_header">
-          <h3>Üzenet írás</h3>
-        </div>}
         <div className="wrapper">
           <div>
             <textarea
@@ -145,15 +138,11 @@ var Poster = React.createClass({
     var data = {
       image_ids: image_ids,
       comment: this.refs.content.getDOMNode().value,
-      type: this.props.content_type,
-      c_user_id: this.props.c_user_id,
-      user_id: this.props.user_id,
-      page_num: this.props.page_num
     };
     if (this.props.reply_id) data.reply_id = this.props.reply_id;
     if (this.state.video) data.video_url = this.state.video.url;
     jQuery.ajax({
-      url: '/req/rest/content.php',
+      url: '/api/content',
       type: 'POST',
       data: data,
       success: function(result){
