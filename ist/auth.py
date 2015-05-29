@@ -1,6 +1,8 @@
+from symbol import decorator
 from pyramid.compat import native_, bytes_
+from pyramid.httpexceptions import HTTPForbidden
 from pyramid.interfaces import IAuthenticationPolicy
-from pyramid.security import remember
+from pyramid.security import remember, authenticated_userid
 from webob.cookies import CookieProfile
 from zope.interface import implementer
 from .model.user import User, AuthToken
@@ -11,6 +13,16 @@ def remember_user(user, request):
     token = AuthToken(token=random_string(100), user=user)
     token.save()
     return remember(request, token.token)
+
+
+def require_login(func):
+    def lookup_user(request, *args, **kwargs):
+        userid = authenticated_userid(request)
+        if not userid:
+            raise HTTPForbidden('You must be logged in')
+        request.current_user = User.get(id=userid)
+        return func(request, *args, **kwargs)
+    return lookup_user
 
 
 @implementer(IAuthenticationPolicy)

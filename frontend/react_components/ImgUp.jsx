@@ -43,7 +43,7 @@ var ImgUp = React.createClass({
 
   startUpload: function (){
     this.up = new Upload(this.props.file);
-    this.up.to('/u.php');
+    this.up.to('/upload');
     this.up.on('progress', function(progress){this.setState({'percent': progress.percent})}.bind(this));
     this.up.on('error', function(a,b){alert('hiba a képek feltöltésénél!');});
     this.up.on('end', function(a,b){

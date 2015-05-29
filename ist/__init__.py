@@ -14,6 +14,7 @@ def main(global_settings, **settings):
     config.add_route('signup', '/signup')
     config.add_route('api', '/api/content')
     config.add_route('upload', '/upload')
+    config.add_route('hello', '/hello')
     config.include('pyramid_redis_sessions')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.scan(__name__)

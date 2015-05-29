@@ -2,7 +2,7 @@ from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 from pyramid.response import Response
 from pyramid.security import forget, authenticated_userid
 from pyramid.view import view_config
-from .auth import remember_user
+from .auth import remember_user, require_login
 from .model.base import ValidationError
 
 from .model.user import User
@@ -44,6 +44,11 @@ def home_view(request):
     login = authenticated_userid(request)
 
     return Response(logo + 'hello, %s' % login + login_form +' ' + str(int(request.session.created)) + creator)
+
+@view_config(route_name='hello')
+@require_login
+def hello_view(request):
+    return Response('hello, %s!' % request.current_user.email)
 
 @view_config(route_name='login')
 def login_view(request):
