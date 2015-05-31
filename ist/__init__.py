@@ -15,8 +15,9 @@ def main(global_settings, **settings):
     config.add_route('api', '/api/content')
     config.add_route('upload', '/upload')
     config.add_route('hello', '/hello')
-    config.include('pyramid_redis_sessions')
+    config.add_route('media', '/media/*subpath')
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.include('pyramid_redis_sessions')
     config.scan(__name__)
     return config.make_wsgi_app()
 

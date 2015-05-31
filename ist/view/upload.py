@@ -29,8 +29,8 @@ def store_file(request):
         user=request.current_user,
         orig_filename=filename,
     )
-    image.path = '/tmp/%s.%s' % (random_string(), image.extension)
+    image.path = 'tmp/%s.%s' % (random_string(), image.extension)
+    os.makedirs(os.path.dirname(image.real_path), exist_ok=True)
     image.save()
-
-    os.rename(tmpname, image.path)
-    return {'success': 1}
+    os.rename(tmpname, image.real_path)
+    return {'success': 1, 'image_id': image.id, 'thumbnail': image.uri(thumbnail='100x100')}

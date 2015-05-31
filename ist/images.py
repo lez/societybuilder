@@ -14,3 +14,6 @@ def identify(path):
     mime = MIME_TYPES[props[1]]
     width, height = props[2].split('x')
     return width, height, mime
+
+def generate_thumbnail(src, dst, *, width, height):
+    sh.convert(src, '-strip', '-resize', '{}x{}^'.format(width, height), '-gravity', 'center', '-extent', '{}x{}'.format(width, height), dst)

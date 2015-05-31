@@ -1,5 +1,6 @@
-/ist/static/js/app.js
-/ist/static/style/bundle.css
+ist/static/js/app.js
+ist/static/style/bundle.css
+ist/media
 __pycache__
 .idea
 InternetState.egg-info
