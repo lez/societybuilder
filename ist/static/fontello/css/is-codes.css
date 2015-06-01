@@ -1,0 +1,8 @@
+
+.icon-cog:before { content: '\e800'; } /* '' */
+.icon-lock:before { content: '\e801'; } /* '' */
+.icon-email:before { content: '\e802'; } /* '' */
+.icon-cancel:before { content: '\e803'; } /* '' */
+.icon-lock-open:before { content: '\e804'; } /* '' */
+.icon-camera:before { content: '\e808'; } /* '' */
+.icon-lock-open-alt:before { content: '\e80d'; } /* '' */

@@ -44,8 +44,7 @@ var Poster = React.createClass({
               <td>
                 {(this.state.imgs.length < max_imgs) ?
                 <span className="fileinput-button">
-                  <img src="/images/icons/photoupload.png" />
-                  <span>kép</span>
+                  <i className="icon-camera"></i>
                   <input
                     type="file"
                     name="selected-files"
@@ -70,7 +69,7 @@ var Poster = React.createClass({
     // input.files in itself is of FileList type
     for (var i=0; i<input.files.length; i++){
       if (this.state.imgs.length >= this.getMaxImgs()){
-        alert('Jelenleg csak '+this.getMaxImgs()+' képet tudsz feltölteni egy hozzászóláshoz!');
+        alert('Only '+this.getMaxImgs()+' images are allowed');
         break;
       }
       var f = input.files[i];

@@ -13,7 +13,7 @@ var JS_ENTRYPOINTS = ['react_components/App.jsx'];
 
 var CSS_DEST_DIR = '../ist/static/style';
 var CSS_BUNDLE = 'bundle.css';
-var CSS_FILES = 'react_components/**/*.css';
+var CSS_FILES = ['react_components/*.css', 'common_css/*.css', '../ist/static/fontello/css/is-codes.css'];
 
 //gulp.task('transform', function() {
 //    gulp.src('react_components/App.jsx')

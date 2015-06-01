@@ -17,7 +17,7 @@ var ImgUp = React.createClass({
     return (
       <div className="ImgUp">
         <span className="percentage">{this.stateString()}</span>
-        <a href="#" onClick={this.del} className="delete_button"><img src="/images/icons/discrete_delete.png" /></a>
+        <a href="#" onClick={this.del} className="delete_button"><i className="icon-cancel"></i></a>
         <span id="preview" ref="preview" className="thumb">
           {thumb}
         </span>
