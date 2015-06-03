@@ -1,4 +1,3 @@
-from symbol import decorator
 from pyramid.compat import native_, bytes_
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.interfaces import IAuthenticationPolicy

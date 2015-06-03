@@ -38,7 +38,6 @@ var ImgUp = React.createClass({
   del: function() {
     this.up.abort();
     this.props.onImageDelete(this.props.file);
-    return false;
   },
 
   startUpload: function (){
