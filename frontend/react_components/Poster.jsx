@@ -2,6 +2,7 @@ var randomString = require('random-string');
 var React = require('react');
 var Images = require('./Images.jsx');
 var Video = require('./Video.jsx');
+var Strings = require('../common_js/Strings.js')
 
 var Poster = React.createClass({
   getInitialState: function() {
@@ -35,10 +36,6 @@ var Poster = React.createClass({
             onImageDelete={image_delete}
             onUploadComplete={upload_complete}
           />
-          {this.state.video?<Video
-            video={this.state.video}
-            onRemoveVideo={remove_video}
-          />:null}
           <table className="composer_footer">
             <tr>
               <td>
@@ -93,11 +90,6 @@ var Poster = React.createClass({
     this.setState({'imgs': this.state.imgs});
   },
 
-  onRemoveVideo: function() {
-    this.setState({'video': null, 'video_removed': true});
-    return false;
-  },
-
   updateTextArea: function(){
     var content = this.refs.content.getDOMNode();
     if (content.scrollHeight > content.clientHeight) {
@@ -105,55 +97,26 @@ var Poster = React.createClass({
       if (new_height > 500) new_height = 500;
       content.style.height =  new_height + "px";
     }
-
-    // youtube videos:
-    if (!this.state.video_removed && !this.state.video){
-      var match = content.value.match(/(youtube\.com)\/(v\/|u\/|embed\/|watch\?v=)([^#\&\?]{11})/i);
-      if (match){
-        jQuery.ajax({
-          url: '/req/rest/video.php',
-          type: 'GET',
-          data: {'url': 'http://www.'+match[0]},
-          success: function(result) {
-            var replydata = JSON.parse(result);
-            if (replydata.success) {
-              this.setState({'video': replydata.video});
-            }
-          }.bind(this)
-        });
-        console.log(match);
-      }
-    }
   },
 
   submit: function() {
-    if (this.submitting) return false;
-    this.submitting = true;
-    var image_ids = [];
-    for (var i=0; i<this.state.imgs.length; i++){
-      image_ids.push(this.state.imgs[i].image_id);
-    }
     var data = {
-      image_ids: image_ids,
+      image_ids: this.state.imgs.map('image_id'),
       content: this.refs.content.getDOMNode().value,
     };
-    if (this.props.reply_id) data.reply_id = this.props.reply_id;
-    if (this.state.video) data.video_url = this.state.video.url;
     jQuery.ajax({
       url: '/api/content',
       type: 'POST',
       data: data,
       success: function(result){
-        var replydata = JSON.parse(result);
-        if (!replydata.success) {
-          alert(replydata.error);
-          this.submitting = false;
-        }
-        else
+        if (!result.success) {
+          alert(result.error ? result.error : Strings.general_error);
+        } else {
           document.location.reload();
+        }
       }.bind(this),
       error: function(result){
-        this.submitting = false;
+        alert(Strings.general_error);
       }.bind(this)
     });
   }

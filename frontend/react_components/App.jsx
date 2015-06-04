@@ -2,10 +2,7 @@ var internet_state = {
   addComposer: function(element, tube) {
     var React = require('react');
     var Poster = require('./Poster.jsx');
-    React.render(
-      <Poster tube={tube} />,
-      element
-    );
+    React.render(<Poster tube={tube} />, element);
   },
 
 /*  addCommenter: function(element, thumbnail, user_id, item_type, item_id, appendto){
