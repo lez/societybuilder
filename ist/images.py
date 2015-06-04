@@ -10,7 +10,8 @@ MIME_TYPES = {
 def identify(path):
     if not os.path.exists(path):
         raise FileNotFoundError('File not found: %s' % path)
-    stdout, stderr = subprocess.Popen(['identify', path])
+    stdout, stderr = subprocess.Popen(['identify', path], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+    stdout = stdout.decode()
     props = stdout.split(' ')
     width, height = props[2].split('x')
     return int(width), int(height), MIME_TYPES[props[1]]
