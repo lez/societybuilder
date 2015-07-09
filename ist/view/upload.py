@@ -34,3 +34,4 @@ def store_file(request):
     image.save()
     os.rename(tmpname, image.real_path)
     return {'success': 1, 'image_id': image.id, 'thumbnail': image.uri(thumbnail='100x100')}
+

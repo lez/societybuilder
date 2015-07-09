@@ -8,42 +8,6 @@ from .model.base import ValidationError
 from .model.user import User
 from .util import *
 
-logo = """
-<img src="/static/img/is_logo.gif" width="40" height="40" />
-"""
-
-login_form = """
-<form action="/login" method="POST">
-<input name="login" type="text" placeholder="login" />
-<input name="passwd" type="password" placeholder="password" />
-<input name="submit" type="submit" value="Log in" />
-</form>
-"""
-
-signup_form = """
-<form action="/signup" method="POST">
-<input name="login" type="text" placeholder="login" />
-<input name="passwd" type="password" placeholder="password" />
-<input name="email" type="text" placeholder="email address" />
-<input name="submit" type="submit" value="Sign up" />
-</form>
-"""
-
-creator = """
-<div id="creator"></div>
-<link href="/static/style/bundle.css" media="all" rel="stylesheet" />
-<script type="text/javascript" src="/static/js/app.js"></script>
-<script type="text/javascript" src="/static/js/jquery.min.js"></script>
-<script type="text/javascript">
-IS.addComposer(document.getElementById('creator'), 'asdf');
-</script>
-"""
-
-@view_config(route_name='home')
-def home_view(request):
-    login = authenticated_userid(request)
-
-    return Response(logo + 'hello, %s' % login + login_form +' ' + str(int(request.session.created)) + creator)
 
 @view_config(route_name='hello')
 @require_login
@@ -54,7 +18,7 @@ def hello_view(request):
 def login_view(request):
     if authenticated_userid(request):
         raise HTTPForbidden('You are already logged in')
-    next = request.params.get('next') or '/'
+    next = request.params.get('next') or request.referer or '/'
     if 'login' not in request.POST:
         return Response('invalid login')
     login = request.POST.get('login')
@@ -72,7 +36,8 @@ def logout_view(request):
     if 'user' in request.session:
         del request.session['user']
     headers = forget(request)
-    return HTTPFound(location=request.route_url('home'), headers=headers)
+    return_to = request.referer or '/'
+    return HTTPFound(location=return_to, headers=headers)
 
 @view_config(route_name='signup')
 def signup_view(request):

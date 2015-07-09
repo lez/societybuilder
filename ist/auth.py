@@ -1,6 +1,6 @@
 from pyramid.compat import native_, bytes_
 from pyramid.httpexceptions import HTTPForbidden
-from pyramid.interfaces import IAuthenticationPolicy
+from pyramid.interfaces import IAuthenticationPolicy, IRendererInfo, IRendererFactory
 from pyramid.security import remember, authenticated_userid
 from webob.cookies import CookieProfile
 from zope.interface import implementer
@@ -20,6 +20,17 @@ def require_login(func):
         if not userid:
             raise HTTPForbidden('You must be logged in')
         request.current_user = User.get(id=userid)
+        return func(request, *args, **kwargs)
+    return lookup_user
+
+
+def check_login(func):
+    def lookup_user(request, *args, **kwargs):
+        userid = authenticated_userid(request)
+        if not userid:
+            request.current_user = None
+        else:
+            request.current_user = User.get(id=userid)
         return func(request, *args, **kwargs)
     return lookup_user
 
@@ -75,3 +86,12 @@ class _SimpleSerializer(object):
 
     def dumps(self, appstruct):
         return bytes_(appstruct)
+
+
+@implementer(IRendererFactory)
+class XHPyRenderer:
+    def __init__(self, info):
+        pass
+
+    def __call__(self, value, system):
+        return str(value)
