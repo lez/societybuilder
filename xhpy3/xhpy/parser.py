@@ -707,7 +707,7 @@ def xhpy_text():
       text.append(' ')
     end = token.end
     text.append(t[1])
-  yield tokenize.STRING, "%r" % ''.join(text).replace('\'', '\\\'')
+  yield tokenize.STRING, "%r" % ''.join(text)  # todo should be worked around in <script> instead
 
 @method(symbol('('))
 def led(self):

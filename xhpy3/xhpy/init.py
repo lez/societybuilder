@@ -77,7 +77,7 @@ class XHPyFinder(PathFinder):
 
   def find_spec(self, name, path, target=None):
     ms = PathFinder.find_spec(name, path, target)
-    if self.is_xhpy_module(name):
+    if ms and self.is_xhpy_module(name):
       ms.loader = XHPyLoader(ms.origin)
     return ms
 
@@ -93,4 +93,4 @@ def register_xhpy_module(name):
   MetaPathHandler.register_xhpy_module(name)
 
 sys.meta_path.insert(0, MetaPathHandler())
-register_xhpy_module('xhpy')
+register_xhpy_module('xhpy3.xhpy')  # when refactored out, overwrite this to 'xhpy'
