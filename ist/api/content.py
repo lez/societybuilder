@@ -5,7 +5,11 @@ from ist.model.content import Content
 @view_config(route_name='api', renderer='json', request_method='POST')
 @require_login
 def content_view(request):
-    content = request.POST['content']
+    try:
+        content = request.POST['content']
+    except KeyError:
+        return {'success': 0, 'error': 'invalid request'}
+
     if len(content) > 5000:
         return {'success': 0, 'error': 'Content is too long'}
     image_ids = request.POST.getall('image_ids[]')
