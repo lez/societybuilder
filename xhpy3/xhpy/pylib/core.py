@@ -19,6 +19,8 @@ class XHPyStrictValidator(object):
   def validateAttributeValue(self, element, attr, val):
     if val is None:
       return None
+    if attr.startswith('data-'):
+      return val
 
     that = element
     decl = that._xhpyAttributeDeclaration()
