@@ -21,9 +21,20 @@ class :ui:page(:x:element):
 
   def render(self):
     user = self.getAttribute('user')
-    a = <x:doctype><html><head><x:frag><script type="text/javascript" src="/static/js/app.js"></script><script type="text/javascript" src="/static/js/jquery.min.js"></script><link href="/static/style/bundle.css" media="all" rel="stylesheet" /></x:frag><title>Title, overwrite me!</title></head><body><ui:header user={user} /></body></html></x:doctype>
-    # a = <html><body></body></html>
-    return a
+    return \
+    <x:doctype>
+      <html>
+        <head>
+          <script type="text/javascript" src="/static/js/app.js"></script>
+          <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+          <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
+          <title>Title, overwrite me!</title>
+        </head>
+        <body>
+          <ui:header user={user} />
+        </body>
+      </html>
+    </x:doctype>
 
 class :ui:usermenu(:x:element):
   attribute object user
@@ -31,41 +42,56 @@ class :ui:usermenu(:x:element):
 
   def render(self):
     user = self.getAttribute('user')
-    a = <div id="usermenu">Hello, {user.login}!</div>
-    a.appendChild(<ui:logoutbutton />)
-    a.appendChild(<ui:creator />)
-    return a
+    return \
+    <div id="usermenu">
+      Hello, {user.login}!
+      <ui:logoutbutton />
+      <ui:creator />
+    </div>
 
 class :ui:logo(:x:element):
   category %block
   def render(self):
-    return <img src="/static/img/is_logo.gif" width="40" height="40" />
-
-
+    return <span>logo</span>
 
 class :ui:signupbox(:x:element):
   category %block
 
   def render(self):
-    a = <div id="signupbox"><form action="/signup" method="post"><input name="login" type="text" placeholder="login" /><input name="passwd" type="password" placeholder="password" /><input name="email" type="text" placeholder="email address" /><input name="submit" type="submit" value="Sign up" /></form></div>
-    return a
+    return \
+    <div id="signupbox">
+      <form action="/signup" method="post">
+        <input name="login" type="text" placeholder="login" />
+        <input name="passwd" type="password" placeholder="password" />
+        <input name="email" type="text" placeholder="email address" />
+        <input name="submit" type="submit" value="Sign up" />
+      </form>
+    </div>
 
 class :ui:loginbox(:x:element):
   category %block
 
   def render(self):
-    a = <div id="loginbox"><form action="/login" method="post"><input name="login" type="text" placeholder="login" /><input name="passwd" type="password" placeholder="password" /><input name="submit" type="submit" value="Log in" /></form></div>
-    return a
+    return \
+    <div id="loginbox">
+      <form action="/login" method="post">
+        <input name="login" type="text" placeholder="login" />
+        <input name="passwd" type="password" placeholder="password" />
+        <input name="submit" type="submit" value="Log in" />
+      </form>
+    </div>
 
 class :ui:logoutbutton(:x:element):
   category %block
   def render(self):
-    a = <a href="/logout">logout</a>
-    return a
+    return <a href="/logout">logout</a>
 
 class :ui:creator(:x:element):
   category %block
   def render(self):
-    a = <div id="creatorbox"><div id="creator"></div><script type="text/javascript">IS.addComposer(document.getElementById('creator'), 'asdf');</script></div>
-    return a
+    return \
+    <div id="creatorbox">
+      <div id="creator"></div>
+      <script type="text/javascript">IS.addComposer(document.getElementById('creator'), 'asdf');</script>
+    </div>
 
