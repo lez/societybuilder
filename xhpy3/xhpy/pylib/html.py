@@ -89,7 +89,10 @@ class :xhpy:pseudo-singleton(:xhpy:html-element):
     buf = self.renderBaseAttrs() + '>'
     children = self.getChildren()
     if children:
-      buf += :x:base.renderChild(children[0])
+      if self.tagName == 'script':
+        buf += children[0]
+      else:
+        buf += :x:base.renderChild(children[0])
     return buf + '</' + self.tagName + '>'
 
 # XHP element definitions
