@@ -93,4 +93,5 @@ def register_xhpy_module(name):
   MetaPathHandler.register_xhpy_module(name)
 
 sys.meta_path.insert(0, MetaPathHandler())
-register_xhpy_module('xhpy3.xhpy')  # when refactored out, overwrite this to 'xhpy'
+register_xhpy_module('xhpy3.xhpy')  # when refactored, delete this line
+register_xhpy_module('xhpy')
