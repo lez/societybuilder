@@ -89,10 +89,7 @@ class :xhpy:pseudo-singleton(:xhpy:html-element):
     buf = self.renderBaseAttrs() + '>'
     children = self.getChildren()
     if children:
-      if self.tagName == 'script':
-        buf += children[0]
-      else:
-        buf += :x:base.renderChild(children[0])
+      buf += :x:base.renderChild(children[0])
     return buf + '</' + self.tagName + '>'
 
 # XHP element definitions
@@ -676,6 +673,12 @@ class :script(:xhpy:pseudo-singleton):
   def __init__(self, attributes={}, children=[]):
     super(:xhpy:html-element, self).__init__(attributes, children)
     self.tagName = 'script'
+  def stringify(self):
+    buf = self.renderBaseAttrs() + '>'
+    children = self.getChildren()
+    if children:
+      buf += children[0]
+    return buf + '</' + self.tagName + '>'
 
 
 class :select(:xhpy:html-element):
