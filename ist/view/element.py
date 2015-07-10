@@ -28,7 +28,7 @@ class :ui:page(:x:element):
           <script type="text/javascript" src="/static/js/app.js"></script>
           <script type="text/javascript" src="/static/js/jquery.min.js"></script>
           <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
-          <title>Title, overwrite me!</title>
+          <title>Title</title>
         </head>
         <body>
           <ui:header user={user} />
@@ -47,6 +47,7 @@ class :ui:usermenu(:x:element):
       Hello, {user.login}!
       <ui:logoutbutton />
       <ui:creator />
+      <ui:createpage />
     </div>
 
 class :ui:logo(:x:element):
@@ -95,3 +96,14 @@ class :ui:creator(:x:element):
       <script type="text/javascript">IS.addComposer(document.getElementById('creator'), 'asdf');</script>
     </div>
 
+class :ui:createpage(:x:element):
+  category %block
+
+  def render(self):
+    return \
+    <form data-url="/api/page" id="createpage" method="post" onsubmit="IS.submit(event, this);">
+      <input type="text" name="name" placeholder="Name" />
+      <input type="text" name="description" placeholder="Short description" />
+      <input type="checkbox" name="owner_public" checked="checked" />
+      <input type="submit" name="submit" value="Create Page" />
+    </form>
