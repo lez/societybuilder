@@ -106,4 +106,17 @@ class :ui:createpage(:x:element):
       <input type="text" name="description" placeholder="Short description" />
       <input type="checkbox" name="owner_public" checked="checked" />
       <input type="submit" name="submit" value="Create Page" />
+      <ui:inputimage name="image" />
     </form>
+
+class :ui:inputimage(:x:element):
+  category %block
+  attribute string name @required
+
+  def render(self):
+    name = self.getAttribute('name')
+
+    return \
+    <input type="hidden" name={name}/>
+
+
