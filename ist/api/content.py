@@ -2,7 +2,7 @@ from pyramid.view import view_config
 from ist.auth import require_login
 from ist.model.content import Content
 
-@view_config(route_name='api', renderer='json', request_method='POST')
+@view_config(route_name='content', renderer='json', request_method='POST')
 @require_login
 def content_view(request):
     try:

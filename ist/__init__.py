@@ -1,6 +1,7 @@
 from pyramid.config import Configurator
 from pyramid.tests.pkgs.staticpermapp import RootFactory
 from .auth import IsAuthPolicy
+from .api import api_methods
 
 from xhpy3.xhpy.init import register_xhpy_module
 register_xhpy_module('ist.view')
@@ -12,7 +13,7 @@ def main(global_settings, **settings):
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.add_route('signup', '/signup')
-    config.add_route('api', '/api/content')
+    config.include(api_methods, '/api')
     config.add_route('upload', '/upload')
     config.add_route('hello', '/hello')
     config.add_route('test', '/test')
