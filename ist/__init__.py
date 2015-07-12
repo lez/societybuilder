@@ -2,6 +2,7 @@ from pyramid.config import Configurator
 from pyramid.tests.pkgs.staticpermapp import RootFactory
 from .auth import IsAuthPolicy
 from .api import api_methods
+from .view import notfound
 
 from xhpy3.xhpy.init import register_xhpy_module
 register_xhpy_module('ist.view')
@@ -19,6 +20,7 @@ def main(global_settings, **settings):
     config.add_route('test', '/test')
     config.add_route('media', '/media/*subpath')
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_notfound_view(notfound)
     config.include('pyramid_redis_sessions')
     config.scan(__name__)
     return config.make_wsgi_app()
