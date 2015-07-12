@@ -32,6 +32,7 @@ class :ui:page(:x:element):
         </head>
         <body>
           <ui:header user={user} />
+          {self.getChildren()}
         </body>
       </html>
     </x:doctype>
@@ -46,8 +47,6 @@ class :ui:usermenu(:x:element):
     <div id="usermenu">
       Hello, {user.login}!
       <ui:logoutbutton />
-      <ui:creator />
-      <ui:createpage />
     </div>
 
 class :ui:logo(:x:element):
