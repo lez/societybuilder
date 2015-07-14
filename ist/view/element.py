@@ -1,4 +1,5 @@
 from xhpy3.xhpy.pylib import *
+from ist.model.page import Page
 
 class :ui:header(:x:element):
   attribute object user
@@ -25,13 +26,14 @@ class :ui:page(:x:element):
     <x:doctype>
       <html>
         <head>
-          <script type="text/javascript" src="/static/js/app.js"></script>
           <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+          <script type="text/javascript" src="/static/js/app.js"></script>
           <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
           <title>Title</title>
         </head>
         <body>
           <ui:header user={user} />
+          <ui:sidebar user={user} />
           {self.getChildren()}
         </body>
       </html>
@@ -47,6 +49,20 @@ class :ui:usermenu(:x:element):
     <div id="usermenu">
       Hello, {user.login}!
       <ui:logoutbutton />
+    </div>
+
+class :ui:sidebar(:x:element):
+  attribute object user
+  category %block
+
+  def render(self):
+    user = self.getAttribute('user')
+    return \
+    <div id="sidebar">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/page/create">Create page</a></li>
+      </ul>
     </div>
 
 class :ui:logo(:x:element):
@@ -119,3 +135,26 @@ class :ui:inputimage(:x:element):
     <input type="hidden" name={name}/>
 
 
+class :ui:showpage(:x:element):
+  attribute Page page,
+            object user
+  category %block
+
+  def render(self):
+    page = self.getAttribute('page')
+    user = self.getAttribute('user')
+
+    if page.user == user:
+      info = "This page is YOURS"
+    elif page.owner_public:
+      owner = page.user
+      info = "Owner: %s" % owner.login
+    else:
+      info = "Whose page is this?"
+
+    return \
+    <div id="showpage">
+      <div class="info">{info}</div>
+      <div class="title">{page.name}</div>
+      <div class="description">{page.description}</div>
+    </div>

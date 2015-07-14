@@ -2,10 +2,12 @@ from pyramid.config import Configurator
 from pyramid.tests.pkgs.staticpermapp import RootFactory
 from .auth import IsAuthPolicy
 from .api import api_methods
+from .page import page_methods
 from .view import notfound
 
 from xhpy3.xhpy.init import register_xhpy_module
 register_xhpy_module('ist.view')
+register_xhpy_module('ist.page.layout')
 
 def main(global_settings, **settings):
     config = Configurator(settings=settings, authentication_policy=IsAuthPolicy(), root_factory=RootFactory)
@@ -18,6 +20,7 @@ def main(global_settings, **settings):
     config.add_route('upload', '/upload')
     config.add_route('hello', '/hello')
     config.add_route('test', '/test')
+    config.include(page_methods, '/page')
     config.add_route('media', '/media/*subpath')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_notfound_view(notfound)

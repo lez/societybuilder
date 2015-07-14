@@ -11,3 +11,12 @@ def test(request):
         <ui:creator />
         <ui:createpage />
     </ui:page>
+
+
+@view_config(route_name='home', renderer='xhpy')
+@check_login
+def home(request):
+    return \
+    <ui:page user={request.current_user} >
+        home
+    </ui:page>
