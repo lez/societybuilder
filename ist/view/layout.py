@@ -7,16 +7,17 @@ from ist.view.element import *
 @check_login
 def test(request):
     return \
-    <ui:page user={request.current_user} >
+    <ui:layout user={request.current_user} >
         <ui:creator />
         <ui:createpage />
-    </ui:page>
+    </ui:layout>
 
 
 @view_config(route_name='home', renderer='xhpy')
 @check_login
 def home(request):
     return \
-    <ui:page user={request.current_user} >
-        home
-    </ui:page>
+    <ui:layout user={request.current_user} >
+        Home
+    </ui:layout>
+

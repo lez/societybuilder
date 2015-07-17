@@ -1,22 +1,7 @@
 from xhpy3.xhpy.pylib import *
 from ist.model.page import Page
 
-class :ui:header(:x:element):
-  attribute object user
-  category %flow
-
-  def render(self):
-    user = self.getAttribute('user')
-    a = <div id="header"><ui:logo/></div>
-    if user:
-      user_parts = [<ui:usermenu user={user} />]
-    else:
-      user_parts = [<ui:loginbox />, <ui:signupbox />]
-    for part in user_parts:
-      a.appendChild(part)
-    return a
-
-class :ui:page(:x:element):
+class :ui:layout(:x:element):
   attribute object user
   category %block
 
@@ -38,6 +23,21 @@ class :ui:page(:x:element):
         </body>
       </html>
     </x:doctype>
+
+class :ui:header(:x:element):
+  attribute object user
+  category %flow
+
+  def render(self):
+    user = self.getAttribute('user')
+    a = <div id="header"><ui:logo/></div>
+    if user:
+      user_parts = [<ui:usermenu user={user} />]
+    else:
+      user_parts = [<ui:loginbox />, <ui:signupbox />]
+    for part in user_parts:
+      a.appendChild(part)
+    return a
 
 class :ui:usermenu(:x:element):
   attribute object user
@@ -61,7 +61,9 @@ class :ui:sidebar(:x:element):
     <div id="sidebar">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/page/create">Create page</a></li>
+        <li><a href="/page/all">All pages</a></li>
+        {<li><a href="/page/my">My pages</a></li> if user else None}
+        {<li><a href="/page/create">Create page</a></li> if user else None}
       </ul>
     </div>
 
@@ -158,3 +160,4 @@ class :ui:showpage(:x:element):
       <div class="title">{page.name}</div>
       <div class="description">{page.description}</div>
     </div>
+

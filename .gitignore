@@ -6,3 +6,4 @@ __pycache__
 InternetState.egg-info
 node_modules
 xhpy3/xhpy/tests/precompiled/
+*.swp

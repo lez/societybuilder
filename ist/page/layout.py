@@ -10,9 +10,9 @@ from ist.model.page import Page
 @require_login
 def create_page(request):
     return \
-    <ui:page user={request.current_user} >
+    <ui:layout user={request.current_user} >
         <ui:createpage />
-    </ui:page>
+    </ui:layout>
 
 @view_config(route_name='showpage', renderer='xhpy')
 @check_login
@@ -28,6 +28,28 @@ def show_page(request):
         raise HTTPNotFound('nosuchpage')
 
     return \
-    <ui:page user={request.current_user} >
+    <ui:layout user={request.current_user} >
         <ui:showpage page={page} user={request.current_user} />
-    </ui:page>
+    </ui:layout>
+
+@view_config(route_name='showallpages', renderer='xhpy')
+@check_login
+def show_all_pages(request):
+    pages = Page.select()
+
+    a = <ul/>
+    for page in pages:
+        a.appendChild(<li><a href={"/page/show/%d"%page.id}>{page.name}</a></li>)
+    
+    return <ui:layout user={request.current_user}>{a}</ui:layout>
+
+@view_config(route_name='showmypages', renderer='xhpy')
+@require_login
+def show_my_pages(request):
+    pages = Page.select().where(Page.user==request.current_user)
+
+    a = <ul/>
+    for page in pages:
+        a.appendChild(<li><a href={"/page/show/%d"%page.id}>{page.name}</a></li>)
+    
+    return <ui:layout user={request.current_user}>{a}</ui:layout>
