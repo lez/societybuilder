@@ -1,14 +1,13 @@
 import shutil
+
 from pyramid.view import view_config
 import os
 import tempfile
-from ist.auth import require_login
 from ist.model.image import Image
 from ..util import *
 from .. import images
 
-@view_config(route_name='upload', renderer='json', request_method='POST')
-@require_login
+@view_config(route_name='upload', renderer='json', request_method='POST', permission='user')
 def store_file(request):
     filename = request.POST['file'].filename.split('/')[-1]
     input_file = request.POST['file'].file
@@ -26,7 +25,7 @@ def store_file(request):
         height=height,
         mime=mime,
         size=size,
-        user=request.current_user,
+        user=request.user,
         orig_filename=filename,
     )
     image.path = 'tmp/%s.%s' % (random_string(), image.extension)

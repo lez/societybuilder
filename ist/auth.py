@@ -1,6 +1,6 @@
 from pyramid.compat import native_, bytes_
 from pyramid.httpexceptions import HTTPForbidden
-from pyramid.interfaces import IAuthenticationPolicy, IRendererInfo, IRendererFactory
+from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy, IRendererInfo, IRendererFactory
 from pyramid.security import remember, authenticated_userid
 from webob.cookies import CookieProfile
 from zope.interface import implementer
@@ -13,30 +13,14 @@ def remember_user(user, request):
     token.save()
     return remember(request, token.token)
 
-
-def require_login(func):
-    def lookup_user(request, *args, **kwargs):
-        userid = authenticated_userid(request)
-        if not userid:
-            raise HTTPForbidden('You must be logged in')
-        request.current_user = User.get(id=userid)
-        return func(request, *args, **kwargs)
-    return lookup_user
-
-
-def check_login(func):
-    def lookup_user(request, *args, **kwargs):
-        userid = authenticated_userid(request)
-        if not userid:
-            request.current_user = None
-        else:
-            request.current_user = User.get(id=userid)
-        return func(request, *args, **kwargs)
-    return lookup_user
-
+def user(request):
+    userid = authenticated_userid(request)
+    if not userid:
+        return None
+    return User.get(id=userid)
 
 @implementer(IAuthenticationPolicy)
-class IsAuthPolicy:
+class IsAuthenticationPolicy:
     def __init__(self):
         self.cookie_profile = CookieProfile(
             cookie_name = 'me',
@@ -71,13 +55,13 @@ class IsAuthPolicy:
     def _cookie_domains(self, request):
         return [None, request.domain]
 
-    # def unauthenticated_userid(self, request):
-    #     l.info('unauthenticated_userid')
-    #     return 'what'
-    #
-    # def effective_principals(self, request):
-    #     l.info('effective_principals')
-    #     return ['user']
+    def unauthenticated_userid(self, request):
+        l.info('unauthenticated_userid')
+        return 'nobody'
+
+    def effective_principals(self, request):
+        l.info('effective_principals')
+        return ['user']
 
 
 class _SimpleSerializer(object):
@@ -95,3 +79,23 @@ class XHPyRenderer:
 
     def __call__(self, value, system):
         return str(value)
+
+@implementer(IAuthorizationPolicy)
+class IsAuthorizationPolicy:
+
+    def permits(self, context, principals, permission):
+        """ Return ``True`` if any of the ``principals`` is allowed the
+        ``permission`` in the current ``context``, else return ``False``
+        """
+        l.info('permits()')
+        return True
+
+    def principals_allowed_by_permission(self, context, permission):
+        """ Return a set of principal identifiers allowed by the
+        ``permission`` in ``context``.  This behavior is optional; if you
+        choose to not implement it you should define this method as
+        something which raises a ``NotImplementedError``.  This method
+        will only be called when the
+        ``pyramid.security.principals_allowed_by_permission`` API is
+        used."""
+        raise NotImplementedError()

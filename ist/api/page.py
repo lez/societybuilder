@@ -1,9 +1,7 @@
 from pyramid.view import view_config
-from ist.auth import require_login
 from ist.model.page import Page
 
-@view_config(route_name='page', renderer='json', request_method='POST')
-@require_login
+@view_config(route_name='page', renderer='json', request_method='POST', permission='user')
 def content_view(request):
     keys = ('name', 'description', 'owner_public')
     for k in keys:
@@ -24,7 +22,7 @@ def content_view(request):
     if len(description) > 250:
         return {'success': 0, 'error': 'Too long description'}
 
-    user = request.current_user
+    user = request.user
 
     page = Page(user=user, name=name, description=description, owner_public=owner_public)
     page.save()
