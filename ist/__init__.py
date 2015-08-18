@@ -26,6 +26,7 @@ def main(global_settings, **settings):
     config.include(page_methods, '/page')
     config.add_route('media', '/media/*subpath')
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_route('favicon', '/favicon.ico')
     config.add_notfound_view(notfound)
     config.include('pyramid_redis_sessions')
     config.scan(__name__)
