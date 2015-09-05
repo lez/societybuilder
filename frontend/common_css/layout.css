@@ -1,0 +1,33 @@
+#main {
+    width: 960px;
+    margin: 0px auto;
+}
+
+#header {
+    height: 70px;
+    margin-top: 20px;
+}
+
+#user_header {
+    float: right;
+}
+
+#sidebar {
+    float: left;
+}
+
+#content {
+    display: inline-block;
+    padding-left: 20px;
+}
+
+#rightbar {
+    float: right;
+    width: 260px;
+}
+
+/* test for input alignment */
+.verticalform form { display: table; }
+.verticalform p     { display: table-row;  }
+.verticalform label { display: table-cell; text-align: right;}
+.verticalform input { display: table-cell; margin-left: 10px;}

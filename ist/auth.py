@@ -61,7 +61,9 @@ class IsAuthenticationPolicy:
 
     def effective_principals(self, request):
         l.info('effective_principals')
-        return ['user']
+        if self.authenticated_userid(request):
+            return ['user']
+        return []
 
 
 class _SimpleSerializer(object):
@@ -87,8 +89,8 @@ class IsAuthorizationPolicy:
         """ Return ``True`` if any of the ``principals`` is allowed the
         ``permission`` in the current ``context``, else return ``False``
         """
-        l.info('permits()')
-        return True
+        l.info('permits(%r,%r,%r)'%(context, principals, permission))
+        return permission in principals
 
     def principals_allowed_by_permission(self, context, permission):
         """ Return a set of principal identifiers allowed by the

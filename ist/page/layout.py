@@ -6,7 +6,7 @@ from ist.util import l
 from ist.model.page import Page
 from ist.model.user import User, AuthToken
 
-@view_config(route_name='createpage', renderer='xhpy')
+@view_config(route_name='createpage', renderer='xhpy', permission='user')
 def create_page(request):
     return \
     <ui:layout user={request.user} >

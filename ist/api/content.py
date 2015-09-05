@@ -13,9 +13,8 @@ def content_view(request):
     image_ids = request.POST.getall('image_ids[]')
     if len(image_ids) > 12:
         return {'success': 0, 'error': 'Too many images'}
-    user = request.user
 
-    content = Content(user=user, content=content, images=','.join(map(str, image_ids)))
+    content = Content(user=request.user, content=content, images=','.join(map(str, image_ids)))
     content.save()
 
     return {'success': 1}
