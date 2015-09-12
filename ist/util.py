@@ -2,6 +2,9 @@ import os
 import base64
 import logging
 
+ROOT = os.path.normpath(os.path.dirname(os.path.dirname(__file__)))
+
+
 def random_string(length=32):
     bin_length = int(length * 3 / 4) + 1
     random_data = os.urandom(bin_length)

@@ -1,7 +1,18 @@
 from xhpy3.xhpy.pylib import *
 from ist.model.page import Page
 from ist.model.user import Content, User
+from ..react import render
 
+# helper
+class :x:jsx(:x:unsafe):
+
+  def __str__(self):
+    path = self._attr['path']
+    del self._attr['path']
+    return str(render(path, self._attr))
+
+
+# site elements
 class :ui:layout(:x:element):
   attribute object user
   category %block
