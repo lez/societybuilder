@@ -6,10 +6,13 @@
 #header {
     height: 70px;
     margin-top: 20px;
+    margin-bottom: 13px;
 }
 
 #user_header {
     float: right;
+    margin-right: 12px;
+    margin-top: 6px;
 }
 
 #sidebar {
@@ -26,7 +29,18 @@
     width: 260px;
 }
 
-/* test for input alignment */
+#logo {
+    float: left;
+    margin-left: 8px;
+}
+
+#jovilag {
+    float: left;
+    margin-top: 23px;
+    margin-left: 18px;
+}
+
+
 .verticalform form { display: table; }
 .verticalform p     { display: table-row;  }
 .verticalform label { display: table-cell; text-align: right;}

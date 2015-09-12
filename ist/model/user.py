@@ -1,10 +1,12 @@
 import hashlib
 import time
 import re
-from peewee import CharField, IntegerField, ForeignKeyField
+from peewee import CharField, IntegerField, ForeignKeyField, TextField
 from .base import Base, ValidationError
 from ..util import *
 
+class Content:
+    pass
 
 class User(Base):
     login = CharField(unique=True, max_length=50)
@@ -47,6 +49,11 @@ class User(Base):
     class AuthFailed(Exception):
         pass
 
+    def posts(self):
+        contents = Content.select().where(Content.user==self)
+
+        return contents
+
     @classmethod
     def get_by_token(cls, token):
         try:
@@ -80,3 +87,12 @@ class AuthToken(Base):
 
     class Meta:
         db_table = 'auth_tokens'
+
+class Content(Base):
+    created = IntegerField(default=time.time)
+    user = ForeignKeyField(User, on_delete='CASCADE')
+    content = TextField(null=True)
+    images = CharField()
+
+    class Meta:
+        db_table = 'contents'

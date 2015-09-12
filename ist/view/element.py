@@ -1,5 +1,6 @@
 from xhpy3.xhpy.pylib import *
 from ist.model.page import Page
+from ist.model.user import Content, User
 
 class :ui:layout(:x:element):
   attribute object user
@@ -38,6 +39,7 @@ class :ui:header(:x:element):
     return \
     <div id="header">
       <ui:logo/>
+      <div id="jovilag">jóvilág</div>
       <ui:user_header user={user}/>
     </div>
 
@@ -64,7 +66,7 @@ class :ui:usermenu(:x:element):
     user = self.getAttribute('user')
     return \
     <div id="usermenu">
-      Hello, {user.login}!
+      Hello, <a href={'/'+user.login+'/profile'}>{user.login}</a>!
       <ui:logoutbutton />
     </div>
 
@@ -102,7 +104,7 @@ class :ui:rightbar(:x:element):
 class :ui:logo(:x:element):
   category %block
   def render(self):
-    return <span id="logo"><a href="/"><img src="/static/img/logo.png" width="60" height="60"/></a></span>
+    return <span id="logo"><a href="/"><img src="/static/img/logo2.png" width="60" height="60"/></a></span>
 
 class :ui:signupbox(:x:element):
   category %block
@@ -193,3 +195,50 @@ class :ui:showpage(:x:element):
       <div class="title">{page.name}</div>
       <div class="description">{page.description}</div>
     </div>
+
+
+class :ui:posts(:x:element):
+  attribute object posts
+  category %block
+
+  def render(self):
+    posts = self.getAttribute('posts')
+
+    a = \
+    <div id="posts"/>
+
+    for post in posts:
+        a.appendChild(<ui:post post={post} />)
+
+    return a
+
+
+class :ui:user(:x:element):
+  attribute User user
+  category %block
+
+  def render(self):
+    user = self.getAttribute('user')
+
+    a = \
+    <span class="user">
+      {user.login}:
+    </span>
+    return a
+
+
+class :ui:post(:x:element):
+  attribute object post
+  category %block
+
+  def render(self):
+    post = self.getAttribute('post')
+
+    a = \
+    <div class="post">
+      <ui:user user={post.user} />
+      <div class="content">{post.content}</div>
+      <div class="when">@{post.created}</div>
+    </div>
+    return a
+

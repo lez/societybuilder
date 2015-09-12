@@ -1,5 +1,5 @@
 from pyramid.view import view_config
-from ist.model.content import Content
+from ist.model.user import Content
 
 @view_config(route_name='content', renderer='json', request_method='POST', permission='user')
 def content_view(request):

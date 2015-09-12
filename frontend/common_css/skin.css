@@ -1,0 +1,10 @@
+#header {
+    border-bottom: 1px solid #ddd;
+}
+
+.post {
+  margin: 5px;
+  border: 2px solid blueviolet;
+  width: 100%;
+  padding: 7px;
+}

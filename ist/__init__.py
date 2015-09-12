@@ -10,6 +10,7 @@ from .model.user import User, AuthToken
 from xhpy3.xhpy.init import register_xhpy_module
 register_xhpy_module('ist.view')
 register_xhpy_module('ist.page.layout')
+register_xhpy_module('ist.user.layout')
 
 def main(global_settings, **settings):
     config = Configurator(settings=settings, authentication_policy=IsAuthenticationPolicy(), root_factory=RootFactory, authorization_policy=IsAuthorizationPolicy())
@@ -23,10 +24,12 @@ def main(global_settings, **settings):
     config.add_route('upload', '/upload')
     config.add_route('hello', '/hello')
     config.add_route('test', '/test')
+    config.add_route('me', '/me')
     config.include(page_methods, '/page')
-    config.add_route('media', '/media/*subpath')
+    config.add_route('media', '/media/{subpath:.*}')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('favicon', '/favicon.ico')
+    config.add_route('user_profile', '/{login}/profile')
     config.add_notfound_view(notfound)
     config.include('pyramid_redis_sessions')
     config.scan(__name__)
