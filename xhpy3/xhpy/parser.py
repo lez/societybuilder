@@ -1479,4 +1479,4 @@ def parse(program, debug=False):
 if __name__ == '__main__':
   import sys
   debug = len(sys.argv) > 1 and sys.argv[1] == '-d'
-  print(parse(sys.stdin.read().decode(), debug))
+  print(parse(sys.stdin.read(), debug))
