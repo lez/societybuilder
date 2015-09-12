@@ -379,3 +379,19 @@ class :x:frag(:x:primitive):
     for child in self.getChildren():
       buf += :x:base.renderChild(child)
     return buf
+
+
+class :x:unsafe(:x:base):
+
+  def __init__(self, attr={}, children=[]):
+    self._children = children
+    self._attr = attr
+
+  def categoryOf(self, vmi):
+    # bypass validation
+    return True
+
+  def __str__(self):
+    if len(self._children) != 1:
+      raise XHPyInvalidChildrenException(self, "0")
+    return str(self._children[0])
