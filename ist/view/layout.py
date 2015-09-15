@@ -15,6 +15,14 @@ def home(request):
 
     return a
 
+@view_config(route_name='test', renderer='xhpy')
+def home(request):
+    return \
+    <ui:layout user={request.user} >
+        <react:test initialCount=3 />
+    </ui:layout>
+
+
 @view_config(route_name='me', renderer='xhpy', permission='user')
 def me(request):
 

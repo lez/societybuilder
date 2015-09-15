@@ -1,8 +1,14 @@
 Strings = require('../common_js/Strings');
 
 var internet_state = {
-  React: require('react'),
   Poster: require('./Poster.jsx'),
+  Test: require('./Test.jsx'),
+  Commenter: require('./Commenter.jsx'),
+
+  addAnyReactElement: function(react_class, element, attr) {
+    var React = require('react');
+    React.render(React.createElement(react_class, attr), element);
+  },
 
   addComposer: function(element, tube) {
     var React = require('react');

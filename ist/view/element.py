@@ -2,14 +2,40 @@ from xhpy3.xhpy.pylib import *
 from ist.model.page import Page
 from ist.model.user import Content, User
 from ..react import render
+import json
 
-# helper
+# helpers
 class :x:jsx(:x:unsafe):
 
   def __str__(self):
-    path = self._attr['path']
-    del self._attr['path']
-    return str(render(path, self._attr))
+    if not hasattr(self, '_react_path'):
+      raise AttributeError('_react_path is a mandatory member of :jsx:*')
+    self._react_classname = self._react_path.split('.')[0]
+    self._react_id = self._react_classname.lower()
+    render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
+      class_name=self._react_classname,
+      id_name=self._react_id,
+      attr=json.dumps(self._attr)
+    )
+    return '''
+    <div id="{id_name}">{rendered}</div>
+    <script type="text/javascript">
+      {render_client_side}
+    </script>
+    '''.format(
+      id_name=self._react_id,
+      rendered=str(render(self._react_path, self._attr)),
+      render_client_side=render_react_element
+    )
+
+class :react:commenter(:x:jsx):
+  _react_path = 'Commenter.jsx'
+
+class :react:creator(:x:jsx):
+  _react_path = 'Poster.jsx'
+
+class :react:test(:x:jsx):
+  _react_path = 'Test.jsx'
 
 
 # site elements
@@ -152,11 +178,11 @@ class :ui:logoutbutton(:x:element):
 
 class :ui:creator(:x:element):
   category %block
+
   def render(self):
     return \
     <div id="creatorbox">
-      <div id="creator"></div>
-      <script type="text/javascript">IS.addComposer(document.getElementById('creator'), 'asdf');</script>
+      <react:creator />
     </div>
 
 class :ui:createpage(:x:element):
