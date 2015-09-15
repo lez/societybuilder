@@ -17,7 +17,11 @@ def user(request):
     userid = authenticated_userid(request)
     if not userid:
         return None
-    return User.get(id=userid)
+    try:
+        user = User.get(id=userid)
+    except User.DoesNotExist:
+        return None
+    return user
 
 @implementer(IAuthenticationPolicy)
 class IsAuthenticationPolicy:
@@ -36,7 +40,13 @@ class IsAuthenticationPolicy:
     def authenticated_userid(self, request):
         if 'user' in request.session:
             l.info('user found in session')
-            return request.session['user']
+            userid = request.session['user']
+            try:
+                # make sure the user exists in the database
+                User.get(id=userid)
+            except User.DoesNotExist:
+                return
+            return userid
         token = request.cookies.get('me')
         if not token:
             l.info('token not found in cookie')
