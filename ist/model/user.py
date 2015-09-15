@@ -1,12 +1,13 @@
 import hashlib
 import time
 import re
-from peewee import CharField, IntegerField, ForeignKeyField, TextField
+import os
+import ist
+from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy
 from .base import Base, ValidationError
 from ..util import *
 
-class Content:
-    pass
+ImageProxy = Proxy()
 
 class User(Base):
     login = CharField(unique=True, max_length=50)
@@ -15,6 +16,7 @@ class User(Base):
     password_sha512 = CharField(max_length=132)
     salt = CharField(max_length=132)
     created_ts = IntegerField(null=False, default=time.time)
+    image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
 
     def check_password(self, password):
         hasher = hashlib.sha512()
@@ -101,3 +103,45 @@ class Content(Base):
 
     class Meta:
         db_table = 'contents'
+
+MEDIA_ROOT = ist.__path__[0]
+MEDIA_DIR = 'media'
+
+class Image(Base):
+    created = IntegerField(default=time.time)
+    user = ForeignKeyField(User, on_delete='CASCADE')
+    orig_filename = CharField()
+    mime = CharField(max_length=32)
+    size = IntegerField()
+    width = IntegerField()
+    height = IntegerField()
+    tmp = IntegerField(default=1)
+    path = CharField()  # dir1/dir2/<id>-<random>.<extension>
+
+    @property
+    def extension(self):
+        EXTS = {
+            'image/png': 'png',
+            'image/jpeg': 'jpg',
+            'image/gif': 'gif',
+        }
+        return EXTS[self.mime]
+
+    @property
+    def real_path(self):
+        return os.path.join(MEDIA_ROOT, MEDIA_DIR, self.path)
+
+    def uri(self, *, thumbnail=None):
+        if not thumbnail:
+            return os.path.join('/', MEDIA_DIR, self.path)
+        else:
+            dirname = os.path.dirname(self.path)
+            filename = os.path.basename(self.path)
+            base, ext = os.path.splitext(filename)
+            thumbnail_filename = base + '.' + thumbnail + ext
+            return os.path.join('/', MEDIA_DIR, dirname, thumbnail_filename)
+
+    class Meta:
+        db_table = 'images'
+
+ImageProxy.initialize(Image)
