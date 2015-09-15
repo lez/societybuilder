@@ -257,11 +257,10 @@ class :ui:user(:x:element):
   def render(self):
     user = self.getAttribute('user')
 
-    a = \
+    return \
     <span class="user">
       {user.login}:
     </span>
-    return a
 
 
 class :ui:post(:x:element):
@@ -271,11 +270,11 @@ class :ui:post(:x:element):
   def render(self):
     post = self.getAttribute('post')
 
-    a = \
+    return \
     <div class="post">
       <ui:user user={post.user} />
       <div class="content">{post.content}</div>
       <div class="when">@{post.created}</div>
     </div>
-    return a
+
 
