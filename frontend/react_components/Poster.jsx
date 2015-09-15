@@ -52,7 +52,7 @@ var Poster = React.createClass({
               </td>
               <td></td>
               <td>
-                <input type="submit" className="post-button ns2_btn1" name="post" value="Küldés" onClick={this.submit}></input>
+                <input type="submit" className="post-button ns2_btn1" name="post" value="Küldés" onClick={this.submit} />
               </td>
             </tr>
           </table>

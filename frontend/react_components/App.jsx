@@ -1,6 +1,9 @@
 Strings = require('../common_js/Strings');
 
 var internet_state = {
+  React: require('react'),
+  Poster: require('./Poster.jsx'),
+
   addComposer: function(element, tube) {
     var React = require('react');
     var Poster = require('./Poster.jsx');
