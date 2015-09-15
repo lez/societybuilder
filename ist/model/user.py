@@ -76,6 +76,11 @@ class User(Base):
         user.check_password(password)
         return user
 
+    def json(self):
+        return {
+            'login': self.login,
+            'id': self.get_id()
+        }
 
 def _token_expire():
     return int(time.time()) + 2 * 365 * 24 * 3600

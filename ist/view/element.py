@@ -1,6 +1,7 @@
 from xhpy3.xhpy.pylib import *
 from ist.model.page import Page
 from ist.model.user import Content, User
+from ist.model.base import ModelEncoder
 from ..react import render
 import json
 
@@ -15,7 +16,7 @@ class :x:jsx(:x:unsafe):
     render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
       class_name=self._react_classname,
       id_name=self._react_id,
-      attr=json.dumps(self._attr)
+      attr=ModelEncoder().encode(self._attr)
     )
     return '''
     <div id="{id_name}">{rendered}</div>
