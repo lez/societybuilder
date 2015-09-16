@@ -6,7 +6,14 @@ var AddProfileImage = React.createClass({
     },
 
     render: function() {
-        return <i className="demo-icon icon-user-add"></i>;
+        return <span className="fileinput-button">
+                    <i className="demo-icon icon-user-add"></i>
+                    <input type="file" name="selected-file" onChange={this.upload} ref="selectedfile" />
+               </span>;
+    },
+
+    upload: function() {
+        alert('upload');
     }
 });
 

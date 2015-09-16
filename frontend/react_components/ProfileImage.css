@@ -1,3 +1,39 @@
 .ProfileImage i {
     font-size: 120px;
 }
+
+.ProfileImage .fileinput-button {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f3f;
+    display: block;
+    height: 1.5em;
+    float: left;
+    opacity: 0.8;
+}
+
+.ProfileImage .fileinput-button:hover {
+    opacity: 1;
+    background: #f7f7f7;
+}
+
+.ProfileImage .fileinput-button input {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.3;
+    right: 0;
+    top: 0;
+    cursor: inherit;
+}
+
+.ProfileImage .fileinput-button img {
+    float: left;
+}
+
+.ProfileImage .fileinput-button span {
+    font-size: 0.8em;
+    line-height: 1.8em;
+    float: left;
+}
+
