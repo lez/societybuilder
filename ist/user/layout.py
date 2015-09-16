@@ -15,6 +15,5 @@ def show_profile(request):
 
     return \
     <ui:layout user={request.user}>
-        profilkép
-        <ui:profileimg user={user} />
+        <react:profileimage user={user} />
     </ui:layout>

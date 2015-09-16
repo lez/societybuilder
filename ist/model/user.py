@@ -78,10 +78,16 @@ class User(Base):
         user.check_password(password)
         return user
 
+    def thumbnail(self):
+        if self.image:
+            return self.image.uri(thumbnail='100x100')
+        return None
+
     def json(self):
         return {
             'login': self.login,
-            'id': self.get_id()
+            'id': self.get_id(),
+            'thumbnail': self.thumbnail()
         }
 
 def _token_expire():

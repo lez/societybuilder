@@ -38,6 +38,8 @@ class :react:creator(:x:jsx):
 class :react:test(:x:jsx):
   _react_path = 'Test.jsx'
 
+class :react:profileimage(:x:jsx):
+  _react_path = 'ProfileImage.jsx'
 
 # site elements
 class :ui:layout(:x:element):

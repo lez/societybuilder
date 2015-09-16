@@ -19,7 +19,7 @@ def home(request):
 def test(request):
     return \
     <ui:layout user={request.user} >
-        <react:test initialCount=3 />
+        <react:profileimage user={request.user} />
     </ui:layout>
 
 

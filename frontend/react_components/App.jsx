@@ -4,6 +4,7 @@ var internet_state = {
   Poster: require('./Poster.jsx'),
   Test: require('./Test.jsx'),
   Commenter: require('./Commenter.jsx'),
+  ProfileImage: require('./ProfileImage.jsx'),
 
   addAnyReactElement: function(react_class, element, attr) {
     var React = require('react');
