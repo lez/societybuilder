@@ -11,28 +11,6 @@ var internet_state = {
     React.render(React.createElement(react_class, attr), element);
   },
 
-  addComposer: function(element, tube) {
-    var React = require('react');
-    var Poster = require('./Poster.jsx');
-    React.render(<Poster tube={tube} />, element);
-  },
-
-/*  addCommenter: function(element, thumbnail, user_id, item_type, item_id, appendto){
-    var React = require('react');
-    var Commenter = require('./Commenter.jsx');
-
-    React.render(
-      <Commenter
-        thumbnail={thumbnail}
-        user_id={user_id}
-        item_type={item_type}
-        item_id={item_id}
-        appendto={appendto}
-      />,
-      element
-    );
-  },*/
-
 /*  addGallery: function(element, image, current_user){
     var React = require('react');
     var Gallery = require('./Gallery.jsx');
