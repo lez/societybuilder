@@ -18,16 +18,10 @@ class :x:jsx(:x:unsafe):
       id_name=self._react_id,
       attr=ModelEncoder().encode(self._attr)
     )
-    return '''
-    <div id="{id_name}">{rendered}</div>
-    <script type="text/javascript">
-      {render_client_side}
-    </script>
-    '''.format(
-      id_name=self._react_id,
-      rendered=str(render(self._react_path, self._attr)),
-      render_client_side=render_react_element
-    )
+    ret = '<div id="{id_name}">{rendered}</div>'.format(id_name=self._react_id, rendered=str(render(self._react_path, self._attr)))
+    if not hasattr(self, '_norender') or self._norender:
+      ret += '<script type="text/javascript">{render_client_side}</script>'.format(render_client_side=render_react_element)
+    return ret
 
 class :react:commenter(:x:jsx):
   _react_path = 'Commenter.jsx'
