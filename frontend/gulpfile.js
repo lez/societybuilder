@@ -60,6 +60,7 @@ gulp.task('watch_css', function () {
         return gulp.src(CSS_FILES)
             .on('error', gutil.log.bind(gutil, 'CSS error'))
             .pipe(concat(CSS_BUNDLE))
+            .pipe(browserSync.stream({match: "**/*.css"}))
             .pipe(gulp.dest(CSS_DEST_DIR));
     });
 });

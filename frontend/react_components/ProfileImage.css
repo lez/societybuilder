@@ -6,16 +6,16 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    background: #f3f;
     display: block;
-    height: 1.5em;
     float: left;
-    opacity: 0.8;
+    opacity: 1;
+    border: 1px solid #fff;
 }
 
 .ProfileImage .fileinput-button:hover {
-    opacity: 1;
+    opacity: 0.8;
     background: #f7f7f7;
+
 }
 
 .ProfileImage .fileinput-button input {
