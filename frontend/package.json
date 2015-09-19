@@ -9,6 +9,7 @@
     "react_components/App.jsx"
   ],
   "devDependencies": {
+    "browser-sync": "^2.9.3",
     "browserify": "^10.2.1",
     "gulp": "^3.8.11",
     "gulp-browserify": "^0.5.1",

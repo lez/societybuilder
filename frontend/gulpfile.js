@@ -7,6 +7,8 @@ var watchify = require('watchify');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
 var gutil = require('gulp-util');
+var browserSync = require('browser-sync').create();
+
 
 var JS_DEST_DIR = '../ist/static/js';
 var JS_BUNDLE = 'app.js';
@@ -63,4 +65,13 @@ gulp.task('watch_css', function () {
 });
 
 
-gulp.task('default', ['watch_js', 'watch_css']);
+gulp.task('serve_browsersync', function () {
+    // Proxy files, reload if js bundle changes
+    browserSync.init({
+        proxy: 'cb.dev'
+    });
+    gulp.watch(JS_DEST_DIR + '/' + JS_BUNDLE).on("change", browserSync.reload);
+});
+
+
+gulp.task('default', ['watch_js', 'watch_css', 'serve_browsersync']);
