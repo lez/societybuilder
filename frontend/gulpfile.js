@@ -6,6 +6,7 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
+var gutil = require('gulp-util');
 
 var JS_DEST_DIR = '../ist/static/js';
 var JS_BUNDLE = 'app.js';
@@ -29,31 +30,37 @@ gulp.task('prod', function(){
 });
 
 
-gulp.task('watch', function() {
-  var watcher  = watchify(browserify({
+gulp.task('watch_js', function() {
+  var watcher = watchify(browserify({
         entries: JS_ENTRYPOINTS,
-          transform: [reactify],
-          debug: true,
-          cache: {}, packageCache: {}, fullPaths: true
-      }));
+        transform: [reactify],
+        debug: false,
+        cache: {},
+        packageCache: {},
+        fullPaths: true
+  }));
 
-  watcher.on('update', function () {
+  watcher.on('log', gutil.log.bind(gutil, 'JS'));
+  watcher.on('update', function (event) {
       watcher.bundle()
+        .on('error', gutil.log.bind(gutil, 'Browserify error'))
         .pipe(source(JS_BUNDLE))
         .pipe(gulp.dest(JS_DEST_DIR));
-        console.log('Updated');
+      gutil.log('JS changed: ' + event);
   }).bundle()
     .pipe(source(JS_BUNDLE))
     .pipe(gulp.dest(JS_DEST_DIR));
 });
 
-gulp.task('css', function () {
-    gulp.watch(CSS_FILES, function () {
+gulp.task('watch_css', function () {
+    gulp.watch(CSS_FILES, function (event) {
+        gutil.log('CSS changed: ' + event.path);
         return gulp.src(CSS_FILES)
-        .pipe(concat(CSS_BUNDLE))
-        .pipe(gulp.dest(CSS_DEST_DIR));
+            .on('error', gutil.log.bind(gutil, 'CSS error'))
+            .pipe(concat(CSS_BUNDLE))
+            .pipe(gulp.dest(CSS_DEST_DIR));
     });
 });
 
 
-gulp.task('default', ['watch', 'css']);
+gulp.task('default', ['watch_js', 'watch_css']);
