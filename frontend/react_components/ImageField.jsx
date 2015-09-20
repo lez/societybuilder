@@ -28,7 +28,7 @@ var ImageField = React.createClass({
             x = <div><i className="demo-icon icon-user-add"></i><div className="kepalairas">Add Profile Photo</div></div>
         }
         return <div className="ImageField">
-                    <FileInputButton>
+                    <FileInputButton upload={this.upload}>
                         {x}
                     </FileInputButton>
                     <input type="hidden" name="image_id" value={this.field_value()}/>
@@ -39,6 +39,10 @@ var ImageField = React.createClass({
         if (this.state.image)
             return this.state.image.id;
         return '';
+    },
+
+    upload: function(file) {
+        this.setState({'file': file});
     },
 
     onUploadComplete: function(image, thumbnail, image_id) {

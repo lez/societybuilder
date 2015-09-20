@@ -87,7 +87,8 @@ class User(Base):
         return {
             'login': self.login,
             'id': self.get_id(),
-            'thumbnail': self.thumbnail()
+            'thumbnail': self.thumbnail(),
+            'image': self.image.json()
         }
 
 def _token_expire():
@@ -146,6 +147,12 @@ class Image(Base):
             base, ext = os.path.splitext(filename)
             thumbnail_filename = base + '.' + thumbnail + ext
             return os.path.join('/', MEDIA_DIR, dirname, thumbnail_filename)
+
+    def json(self):
+        return {
+            'id': self.id,
+            'thumbnail': self.uri(thumbnail='100x100')
+        }
 
     class Meta:
         db_table = 'images'

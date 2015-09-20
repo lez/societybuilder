@@ -15,5 +15,5 @@ def show_profile(request):
 
     return \
     <ui:layout user={request.user}>
-        <react:profileimage user={user} />
+        <react:imagefield image={request.user.image} />
     </ui:layout>

@@ -35,6 +35,9 @@ class :react:test(:x:jsx):
 class :react:profileimage(:x:jsx):
   _react_path = 'ProfileImage.jsx'
 
+class :react:imagefield(:x:jsx):
+  _react_path = 'ImageField.jsx'
+
 # site elements
 class :ui:layout(:x:element):
   attribute object user
