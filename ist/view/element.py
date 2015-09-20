@@ -3,6 +3,8 @@ from ist.model.page import Page
 from ist.model.user import Content, User
 from ist.model.base import ModelEncoder
 from ..react import render
+from ..util import *
+
 import json
 
 # helpers
@@ -261,9 +263,9 @@ class :ui:user(:x:element):
     user = self.getAttribute('user')
 
     return \
-    <span class="user">
-      {user.login}:
-    </span>
+    <div class="user">
+      <img src={user.thumbnail('60x60')} />
+    </div>
 
 
 class :ui:post(:x:element):
@@ -274,10 +276,13 @@ class :ui:post(:x:element):
     post = self.getAttribute('post')
 
     return \
-    <div class="post">
+    <div class="post clearfix">
       <ui:user user={post.user} />
-      <div class="content">{post.content}</div>
-      <div class="when">@{post.created}</div>
+      <div id="column">
+        <div class="login">{post.user.login}</div>
+        <span class="timestamp">{human_time(post.created)}</span>
+        <div class="content">{post.content}</div>
+      </div>
     </div>
 
 

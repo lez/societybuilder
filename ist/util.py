@@ -1,6 +1,7 @@
 import os
 import base64
 import logging
+import datetime
 
 ROOT = os.path.normpath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -26,4 +27,8 @@ EMAIL_REGEX = r'^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){
               r']{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?' \
               r':\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$'
 
-__all__ = ['l', 'random_string', 'EMAIL_REGEX']
+def human_time(timestamp):
+    d = datetime.datetime.fromtimestamp(timestamp)
+    return d.strftime('%Y-%m-%d %H:%M:%S')
+
+__all__ = ['l', 'random_string', 'EMAIL_REGEX', 'ROOT', 'human_time']

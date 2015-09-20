@@ -40,6 +40,20 @@
     margin-left: 18px;
 }
 
+.post {
+    width: 500px;
+}
+
+.user img {
+    float: left;
+}
+
+.post .column {
+    position: relative;
+    top: 2px;
+    left: 9px;
+}
+
 
 .verticalform form { display: table; }
 .verticalform p     { display: table-row;  }

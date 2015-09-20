@@ -78,9 +78,9 @@ class User(Base):
         user.check_password(password)
         return user
 
-    def thumbnail(self):
+    def thumbnail(self, thumbnail='100x100'):
         if self.image:
-            return self.image.uri(thumbnail='100x100')
+            return self.image.uri(thumbnail=thumbnail)
         return None
 
     def json(self):
