@@ -1,0 +1,35 @@
+.ImageField i {
+    font-size: 120px;
+}
+
+.ImageField .fileinput-button {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: block;
+    float: left;
+    opacity: 1;
+    background: #f3f;
+    border: 1px solid #fff;
+}
+
+.ImageField .fileinput-button:hover {
+    opacity: 0.8;
+    background: #f7f7f7;
+    border: 1px dotted #ccc;
+}
+
+.ImageField .fileinput-button input {
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.3;
+    right: 0;
+    top: 0;
+    cursor: inherit;
+}
+
+.ImageField .kepalairas {
+    text-align: center ;
+    padding-top: 9px;
+    padding-bottom: 26px;
+}

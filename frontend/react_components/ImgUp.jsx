@@ -10,14 +10,14 @@ var ImgUp = React.createClass({
 
   render: function() {
     if (this.props.file.thumbnail)
-      var thumb = <UploadedImg file={this.props.file} />
+      var thumb = <UploadedImg file={this.props.file.thumbnail} />
     else
       var thumb = <canvas width="60" height="60" ref="canvas" />
 
     return (
       <div className="ImgUp">
         <span className="percentage">{this.stateString()}</span>
-        <a href="#" onClick={this.del} className="delete_button"><i className="icon-cancel"></i></a>
+        {this.props.onImageDelete?<a href="#" onClick={this.del} className="delete_button"><i className="icon-cancel"></i></a>:null}
         <span id="preview" ref="preview" className="thumb">
           {thumb}
         </span>
@@ -59,6 +59,7 @@ var ImgUp = React.createClass({
   },
 
   showImage: function(image, image_id) {
+
     this.props.onUploadComplete(this.props.file, image, image_id);
   }
 });
