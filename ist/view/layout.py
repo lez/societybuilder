@@ -19,7 +19,7 @@ def home(request):
 def test(request):
     return \
     <ui:layout user={request.user} >
-        <react:profileimage user={request.user} />
+        x
     </ui:layout>
 
 

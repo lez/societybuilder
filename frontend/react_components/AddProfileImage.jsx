@@ -1,4 +1,6 @@
 var React = require('react');
+var ImageField = require('./ImageField.jsx');
+
 
 var AddProfileImage = React.createClass({
     getInitialState: function() {
@@ -6,14 +8,21 @@ var AddProfileImage = React.createClass({
     },
 
     render: function() {
-        return <span className="fileinput-button">
-                    <i className="demo-icon icon-user-add"></i>
-                    <input type="file" name="selected-file" onChange={this.upload} ref="selectedfile" />
-               </span>;
+        return <div className="AddProfileImage">
+                    <form data-url="/api/user" method="post" onSubmit={this.submit} ref="form">
+                        <ImageField image={this.props.user.image} onChange={this.onChange}/>
+                        {this.state.changed ? <input type="submit" value="Csere" /> : null}
+                    </form>
+               </div>;
     },
 
-    upload: function() {
-        alert('upload');
+    submit: function(event) {
+        var form = this.refs.form.getDOMNode();
+        IS.submit(event, form);
+    },
+
+    onChange: function() {
+        this.setState({'changed': true});
     }
 });
 

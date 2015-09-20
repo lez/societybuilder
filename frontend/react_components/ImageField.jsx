@@ -11,10 +11,10 @@ var ImageField = React.createClass({
     render: function() {
         var x, image;
 
-        if (this.props.image) {
-            image = this.props.image;
-        } else if (this.state.image) {
+        if (this.state.image) {
             image = this.state.image;
+        } else if (this.props.image) {
+            image = this.props.image;
         }
 
         if (this.state.file) {
@@ -48,6 +48,8 @@ var ImageField = React.createClass({
     onUploadComplete: function(image, thumbnail, image_id) {
         var img = {'thumbnail':thumbnail, 'id': image_id};
         this.setState({'image': img, 'file': null});
+        if (this.props.onChange)
+            this.props.onChange();
     },
 
 });

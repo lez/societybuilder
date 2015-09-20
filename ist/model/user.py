@@ -88,7 +88,7 @@ class User(Base):
             'login': self.login,
             'id': self.get_id(),
             'thumbnail': self.thumbnail(),
-            'image': self.image.json()
+            'image': self.image.json() if self.image else None
         }
 
 def _token_expire():
