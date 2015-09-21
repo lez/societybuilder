@@ -31,4 +31,31 @@ def human_time(timestamp):
     d = datetime.datetime.fromtimestamp(timestamp)
     return d.strftime('%Y-%m-%d %H:%M:%S')
 
-__all__ = ['l', 'random_string', 'EMAIL_REGEX', 'ROOT', 'human_time']
+def relative_time(old):
+    current = datetime.datetime.now()
+    delta = current - old
+    ts = delta.total_seconds()
+
+    def minute(secs):
+        return int(secs/60)
+    def hour(secs):
+        return int(secs/3600)
+    def day(secs):
+        return int(secs/86400)
+
+    l = [
+        (30, 'epp most', None),
+        (60, 'fel perce', None),
+        (120, 'epp egy perce', None),
+        (3600, 'perce', minute),
+        (86400, 'oraja', hour),
+        (586400, 'napja', day),
+    ]
+
+    for limit, text, lmbd in l:
+        if ts < limit:
+            ret = '%s '%lmbd(ts) if lmbd else ''
+            return ret + text
+    return current.strftime('%B %d.')
+
+__all__ = ['l', 'random_string', 'EMAIL_REGEX', 'ROOT', 'human_time', 'relative_time']

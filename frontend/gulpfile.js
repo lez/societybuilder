@@ -50,6 +50,7 @@ gulp.task('watch_js', function() {
         .pipe(gulp.dest(JS_DEST_DIR));
       gutil.log('JS changed: ' + event);
   }).bundle()
+    .on('error', gutil.log.bind(gutil, 'Browserify error 2'))
     .pipe(source(JS_BUNDLE))
     .pipe(gulp.dest(JS_DEST_DIR));
 });
@@ -64,7 +65,6 @@ gulp.task('watch_css', function () {
             .pipe(gulp.dest(CSS_DEST_DIR));
     });
 });
-
 
 gulp.task('serve_browsersync', function () {
     // Proxy files, reload if js bundle changes

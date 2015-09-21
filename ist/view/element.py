@@ -6,6 +6,7 @@ from ..react import render
 from ..util import *
 
 import json
+import datetime
 
 # helpers
 class :x:jsx(:x:unsafe):
@@ -280,7 +281,7 @@ class :ui:post(:x:element):
       <ui:user user={post.user} />
       <div id="column">
         <div class="login">{post.user.login}</div>
-        <span class="timestamp">{human_time(post.created)}</span>
+        <span class="timestamp">{relative_time(datetime.datetime.fromtimestamp(post.created))}</span>
         <div class="content">{post.content}</div>
       </div>
     </div>
