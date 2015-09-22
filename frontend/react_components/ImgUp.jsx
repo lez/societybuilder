@@ -10,7 +10,7 @@ var ImgUp = React.createClass({
 
   render: function() {
     if (this.props.file.thumbnail)
-      var thumb = <UploadedImg file={this.props.file.thumbnail} />
+      var thumb = <UploadedImg thumbnail={this.props.file.thumbnail} />
     else
       var thumb = <canvas width="60" height="60" ref="canvas" />
 

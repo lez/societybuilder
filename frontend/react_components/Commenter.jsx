@@ -1,11 +1,12 @@
 var randomString = require('random-string');
 var React = require('react');
 var ImgUp = require('./ImgUp.jsx');
+var FileInputButton = require('./FileInputButton.jsx');
 
 var Commenter = React.createClass({
   getInitialState: function() {
     return {
-      'img': null,
+      'image': null,
       'key': randomString(8),
       'submitting': false
     }
@@ -14,50 +15,45 @@ var Commenter = React.createClass({
   render: function() {
     var image_delete = this.onImageDelete;
     var upload_complete = this.onUploadComplete;
-    var image = this.state.img;
+    var image = this.state.image;
+    var file = this.state.file;
     var key = this.state.key;
 
     return (
-      <div className="Commenter" key={key}>
-        <img className="thumbnail" src={this.props.thumbnail}/>
-        <textarea
-          className="content"
-          ref="content"
-          onKeyDown={this.checkSubmit}
-          onChange={this.updateBoxHeight}
-          disabled={this.state.submitting}
-        />
-        {image ?
-          <ImgUp key={image.key} file={image} onImageDelete={image_delete} onUploadComplete={upload_complete} />
-         :<span className="fileinput-button">
-            <img src="/images/icons/photoupload.png" />
-            <input
-              type="file"
-              name="selected-files"
-              multiple="0"
-              onChange={this.upload}
-              ref="selectedfiles"
-            />
-          </span>
-        }
+      <div className="Commenter clearfix" key={key}>
+        <div>
+          <img className="thumbnail" src={this.props.user.thumbnail}/>
+          <textarea
+            className="content"
+            ref="content"
+            onKeyDown={this.checkSubmit}
+            onChange={this.updateBoxHeight}
+            disabled={this.state.submitting}
+          />
+          {!file ? <FileInputButton upload={this.upload}>x</FileInputButton> : null}
+        </div>
+        {file ? <ImgUp file={file} onImageDelete={image_delete} onUploadComplete={upload_complete} /> : null}
       </div>
     );
   },
 
-  upload: function() {
-    var f = this.refs.selectedfiles.getDOMNode().files[0];
-    f.key = randomString({length: 16});
-    this.setState({'img': f});
+  upload: function(file) {
+    f = file;
+    if (f) {
+      f.key = randomString({length: 16});
+      this.setState({'file': f});
+    }
   },
 
   onImageDelete: function(image){
-    this.setState({'img': null});
+    this.setState({'file': null, 'image': null});
   },
 
   onUploadComplete: function(image, thumbnail, image_id){
-    this.state.img.thumbnail = thumbnail;
-    this.state.img.image_id = image_id;
-    this.setState({'img': this.state.img});
+    var image = {'thumbnail':thumbnail, 'id': image_id};
+    var file = this.state.file;
+    file.thumbnail = thumbnail;
+    this.setState({'image': image, 'file': file});
   },
 
   checkSubmit: function(e) {
@@ -86,8 +82,8 @@ var Commenter = React.createClass({
       item_type: this.props.item_type,
       item_id: this.props.item_id
     };
-    if (this.state.img)
-      data.image_id = this.state.img.image_id;
+    if (this.state.image)
+      data.image_id = this.state.image.image_id;
 
     jQuery.ajax({
       url: '/req/rest/comment.php',

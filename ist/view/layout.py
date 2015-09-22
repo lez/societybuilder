@@ -30,7 +30,7 @@ def me(request):
 
     a = \
     <ui:layout user={request.user}>
-        <ui:posts posts={posts}/>
+        <ui:posts posts={posts} user={request.user} />
     </ui:layout>
 
     return a

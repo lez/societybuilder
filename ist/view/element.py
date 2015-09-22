@@ -15,7 +15,7 @@ class :x:jsx(:x:unsafe):
     if not hasattr(self, '_react_path'):
       raise AttributeError('_react_path is a mandatory member of :jsx:*')
     self._react_classname = self._react_path.split('.')[0]
-    self._react_id = self._react_classname.lower()
+    self._react_id = self._react_classname.lower() + '_' + random_string(10)
     render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
       class_name=self._react_classname,
       id_name=self._react_id,
@@ -241,17 +241,18 @@ class :ui:showpage(:x:element):
 
 
 class :ui:posts(:x:element):
-  attribute object posts
+  attribute object posts, object user
   category %block
 
   def render(self):
     posts = self.getAttribute('posts')
+    user = self.getAttribute('user')
 
     a = \
     <div id="posts"/>
 
     for post in posts:
-        a.appendChild(<ui:post post={post} />)
+        a.appendChild(<ui:post post={post} user={user}/>)
 
     return a
 
@@ -270,20 +271,24 @@ class :ui:user(:x:element):
 
 
 class :ui:post(:x:element):
-  attribute object post
+  attribute object post, object user
   category %block
 
   def render(self):
     post = self.getAttribute('post')
+    user = self.getAttribute('user')
 
     return \
-    <div class="post clearfix">
-      <ui:user user={post.user} />
-      <div id="column">
-        <div class="login">{post.user.login}</div>
-        <span class="timestamp">{relative_time(datetime.datetime.fromtimestamp(post.created))}</span>
-        <div class="content">{post.content}</div>
+    <div class="post">
+      <div class="header clearfix">
+        <ui:user user={post.user} />
+        <div class="post_data">
+          <div class="login">{post.user.login}</div>
+          <span class="timestamp">{relative_time(datetime.datetime.fromtimestamp(post.created))}</span>
+        </div>
       </div>
+      <div class="content">{post.content}</div>
+      <react:commenter user={user} />
     </div>
 
 

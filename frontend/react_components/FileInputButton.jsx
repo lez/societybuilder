@@ -13,9 +13,9 @@ var FileInputButton = React.createClass({
     },
 
     upload: function() {
-        var input = this.refs.selectedfile.getDOMNode();
-        var file = input.files[0];
-        this.props.upload(file);
+        var file = this.refs.selectedfile.getDOMNode().files[0];
+        if (file)
+            this.props.upload(file);
     },
 });
 
