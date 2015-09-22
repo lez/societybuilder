@@ -30,7 +30,7 @@ var Commenter = React.createClass({
             onChange={this.updateBoxHeight}
             disabled={this.state.submitting}
           />
-          {!file ? <FileInputButton upload={this.upload}>x</FileInputButton> : null}
+          {!file ? <FileInputButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileInputButton> : null}
         </div>
         {file ? <ImgUp file={file} onImageDelete={image_delete} onUploadComplete={upload_complete} /> : null}
       </div>
@@ -50,10 +50,10 @@ var Commenter = React.createClass({
   },
 
   onUploadComplete: function(image, thumbnail, image_id){
-    var image = {'thumbnail':thumbnail, 'id': image_id};
     var file = this.state.file;
     file.thumbnail = thumbnail;
-    this.setState({'image': image, 'file': file});
+    file.id = image_id;
+    this.setState({'file': file});
   },
 
   checkSubmit: function(e) {
@@ -77,20 +77,19 @@ var Commenter = React.createClass({
     if (this.state.submitting) return false;
     this.setState({'submitting': true});
     var data = {
-      user_id: this.props.user_id,
       comment: this.refs.content.getDOMNode().value,
-      item_type: this.props.item_type,
-      item_id: this.props.item_id
+      item_type: 'post',
+      item_id: this.props.post.id
     };
-    if (this.state.image)
-      data.image_id = this.state.image.image_id;
+    if (this.state.file && this.state.file.id)
+      data.image_id = this.state.file.id;
 
     jQuery.ajax({
-      url: '/req/rest/comment.php',
+      url: '/api/comment',
       type: 'POST',
       data: data,
       success: function(result){
-        var replydata = JSON.parse(result);
+        var replydata = result;
         if (!replydata.success) {
           alert(replydata.error);
           this.setState({'submitting': false});
@@ -107,6 +106,7 @@ var Commenter = React.createClass({
         }
       }.bind(this),
       error: function(result){
+        alert('error');
         this.setState({'submitting': false});
       }.bind(this)
     });

@@ -3,7 +3,7 @@ import time
 import re
 import os
 import ist
-from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy
+from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy, BooleanField
 from .base import Base, ValidationError
 from ..util import *
 
@@ -108,8 +108,34 @@ class Content(Base):
     content = TextField(null=True)
     images = CharField()
 
+    def json(self):
+        return {
+            'id': self.get_id(),
+        }
+
     class Meta:
         db_table = 'contents'
+
+class Comment(Base):
+    item_id = IntegerField(null=False)
+    item_type = CharField(null=False, max_length=8)
+    created = IntegerField(default=time.time)
+    user = ForeignKeyField(User, on_delete='CASCADE')
+    comment = TextField(null=True)
+    image = ForeignKeyField(ImageProxy, null=True)
+
+    def json(self):
+        return {
+            'id': self.get_id(),
+            'comment': self.comment,
+            'created': self.created,
+            'user': self.user.json(),
+            'image': self.image.json() if self.image else None
+        }
+
+    class Meta:
+        db_table = 'comments'
+
 
 MEDIA_ROOT = ist.__path__[0]
 MEDIA_DIR = 'media'
@@ -156,5 +182,16 @@ class Image(Base):
 
     class Meta:
         db_table = 'images'
+
+class Page(Base):
+    created = IntegerField(default=time.time)
+    user = ForeignKeyField(User, on_delete='CASCADE')  # TODO: owner
+    name = CharField(max_length=30)
+    description = CharField(max_length=250)
+    owner_public = BooleanField(default=False)
+
+    class Meta:
+        db_table = 'pages'
+
 
 ImageProxy.initialize(Image)

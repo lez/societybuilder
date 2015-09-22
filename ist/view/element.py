@@ -1,6 +1,5 @@
 from xhpy3.xhpy.pylib import *
-from ist.model.page import Page
-from ist.model.user import Content, User
+from ist.model.user import Content, User, Page
 from ist.model.base import ModelEncoder
 from ..react import render
 from ..util import *
@@ -288,7 +287,7 @@ class :ui:post(:x:element):
         </div>
       </div>
       <div class="content">{post.content}</div>
-      <react:commenter user={user} />
+      <react:commenter user={user} post={post}/>
     </div>
 
 
