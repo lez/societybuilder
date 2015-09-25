@@ -22,7 +22,7 @@ var Commenter = React.createClass({
     return (
       <div className="Commenter clearfix" key={key}>
         <div>
-          <img className="thumbnail" src={this.props.user.thumbnail}/>
+          <img className="thumbnail" src={this.props.user.image.thumbnail30}/>
           <textarea
             className="content"
             ref="content"
@@ -94,10 +94,11 @@ var Commenter = React.createClass({
           alert(replydata.error);
           this.setState({'submitting': false});
         } else {
-          if (this.props.appendto){
-            var element = jQuery('#' + this.props.appendto);
-            element.append(replydata.comment);
-            element.animate({'scrollTop': element[0].scrollHeight}, 200);
+          if (this.props.append){
+            var comment = replydata.comment;
+            comment.user = this.props.user;
+            this.props.append(comment);
+//            element.animate({'scrollTop': element[0].scrollHeight}, 200);
             this.replaceState(this.getInitialState());
             this.setState({'key': randomString(8)});
           } else {

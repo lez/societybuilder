@@ -4,6 +4,7 @@ from pyramid.response import FileResponse
 from pyramid.view import view_config
 from ist import images
 from ist.model.user import MEDIA_DIR
+from .util import *
 
 @view_config(route_name='media')
 def media_view(request):
@@ -17,7 +18,8 @@ def media_view(request):
         if len(parts) != 3:
             return HTTPNotFound('File not found: %s' % path)
         resolution = parts[1]
-        if resolution not in ['60x60', '100x100', '200x200', '300x300']:
+        if resolution not in ['30x30', '60x60', '100x100', '200x200', '300x300']:
+            l.info('nemjo felbontas')
             return HTTPNotFound('File not found: %s' % path)
         width, height = resolution.split('x')
         src = os.path.join(dirname, '{}.{}'.format(parts[0], parts[2]))

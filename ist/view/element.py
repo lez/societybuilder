@@ -1,5 +1,5 @@
 from xhpy3.xhpy.pylib import *
-from ist.model.user import Content, User, Page
+from ist.model.user import Post, User, Page
 from ist.model.base import ModelEncoder
 from ..react import render
 from ..util import *
@@ -27,6 +27,15 @@ class :x:jsx(:x:unsafe):
 
 class :react:commenter(:x:jsx):
   _react_path = 'Commenter.jsx'
+
+class :react:comment(:x:jsx):
+  _react_path = 'Comment.jsx'
+
+class :react:commentpanel(:x:jsx):
+  _react_path = 'CommentPanel.jsx'
+
+class :react:comments(:x:jsx):
+  _react_path = 'Comments.jsx'
 
 class :react:creator(:x:jsx):
   _react_path = 'Poster.jsx'
@@ -287,7 +296,7 @@ class :ui:post(:x:element):
         </div>
       </div>
       <div class="content">{post.content}</div>
-      <react:commenter user={user} post={post}/>
+      <react:commentpanel comments={post.get_comments()} user={user} post={post} />
     </div>
 
 

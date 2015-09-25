@@ -1,7 +1,7 @@
 from pyramid.view import view_config
 from xhpy3.xhpy.pylib import *
 from ist.view.element import *
-from ist.model.user import Content
+from ist.model.user import Post
 
 @view_config(route_name='home', renderer='xhpy')
 def home(request):

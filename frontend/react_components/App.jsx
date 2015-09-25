@@ -6,8 +6,9 @@ var internet_state = {
   Commenter: require('./Commenter.jsx'),
   AddProfileImage: require('./AddProfileImage.jsx'),
   ImageField: require('./ImageField.jsx'),
-
-
+  Comment: require('./Comment.jsx'),
+  Comments: require('./Comments.jsx'),
+  CommentPanel: require('./CommentPanel.jsx'),
 
   addAnyReactElement: function(react_class, element, attr) {
     var React = require('react');

@@ -1,0 +1,10 @@
+.Comment img {
+    float: left;
+}
+
+.Comment .comment_body {
+    float: left;
+    padding-left: 6px;
+}
+
+

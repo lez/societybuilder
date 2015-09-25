@@ -3,7 +3,7 @@ import time
 import re
 import os
 import ist
-from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy, BooleanField
+from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy, BooleanField, CompositeKey, PrimaryKeyField
 from .base import Base, ValidationError
 from ..util import *
 
@@ -52,7 +52,7 @@ class User(Base):
         pass
 
     def posts(self):
-        contents = Content.select().where(Content.user==self)
+        contents = Post.select().where(Post.user==self)
 
         return contents
 
@@ -87,7 +87,6 @@ class User(Base):
         return {
             'login': self.login,
             'id': self.get_id(),
-            'thumbnail': self.thumbnail(),
             'image': self.image.json() if self.image else None
         }
 
@@ -102,11 +101,16 @@ class AuthToken(Base):
     class Meta:
         db_table = 'auth_tokens'
 
-class Content(Base):
+class Post(Base):
     created = IntegerField(default=time.time)
     user = ForeignKeyField(User, on_delete='CASCADE')
     content = TextField(null=True)
     images = CharField()
+
+    item_type = 'post'
+
+    def get_comments(self):
+        return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
 
     def json(self):
         return {
@@ -135,7 +139,9 @@ class Comment(Base):
 
     class Meta:
         db_table = 'comments'
-
+        indexes = (
+            (('item_type', 'item_id', 'id'), True),
+        )
 
 MEDIA_ROOT = ist.__path__[0]
 MEDIA_DIR = 'media'
@@ -177,7 +183,8 @@ class Image(Base):
     def json(self):
         return {
             'id': self.id,
-            'thumbnail': self.uri(thumbnail='100x100')
+            'thumbnail': self.uri(thumbnail='100x100'),
+            'thumbnail30': self.uri(thumbnail='30x30')
         }
 
     class Meta:
