@@ -1,6 +1,6 @@
 var React = require('react');
 var ImgUp = require('./ImgUp.jsx');
-var FileInputButton = require('./FileInputButton.jsx');
+var FileUploadButton = require('./FileUploadButton.jsx');
 
 var ImageField = React.createClass({
     getInitialState: function() {
@@ -28,9 +28,9 @@ var ImageField = React.createClass({
             x = <div><i className="demo-icon icon-user-add"></i><div className="kepalairas">Add Profile Photo</div></div>
         }
         return <div className="ImageField">
-                    <FileInputButton upload={this.upload}>
+                    <FileUploadButton upload={this.upload}>
                         {x}
-                    </FileInputButton>
+                    </FileUploadButton>
                     <input type="hidden" name="image_id" value={this.field_value()}/>
                </div>;
     },

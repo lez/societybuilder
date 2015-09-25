@@ -30,6 +30,7 @@ def me(request):
 
     a = \
     <ui:layout user={request.user}>
+        <react:creator user={request.user} />
         <ui:posts posts={posts} user={request.user} />
     </ui:layout>
 

@@ -1,7 +1,7 @@
 var randomString = require('random-string');
 var React = require('react');
 var ImgUp = require('./ImgUp.jsx');
-var FileInputButton = require('./FileInputButton.jsx');
+var FileUploadButton = require('./FileUploadButton.jsx');
 
 var Commenter = React.createClass({
   getInitialState: function() {
@@ -30,7 +30,7 @@ var Commenter = React.createClass({
             onChange={this.updateBoxHeight}
             disabled={this.state.submitting}
           />
-          {!file ? <FileInputButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileInputButton> : null}
+          {!file ? <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton> : null}
         </div>
         {file ? <ImgUp file={file} onImageDelete={image_delete} onUploadComplete={upload_complete} /> : null}
       </div>
@@ -43,10 +43,12 @@ var Commenter = React.createClass({
       f.key = randomString({length: 16});
       this.setState({'file': f});
     }
+    this.refs.content.getDOMNode().focus();
   },
 
   onImageDelete: function(image){
     this.setState({'file': null, 'image': null});
+    this.refs.content.getDOMNode().focus();
   },
 
   onUploadComplete: function(image, thumbnail, image_id){
@@ -95,9 +97,8 @@ var Commenter = React.createClass({
           this.setState({'submitting': false});
         } else {
           if (this.props.append){
-            var comment = replydata.comment;
-            comment.user = this.props.user;
-            this.props.append(comment);
+            replydata.comment.user = this.props.user;
+            this.props.append(replydata.comment);
 //            element.animate({'scrollTop': element[0].scrollHeight}, 200);
             this.replaceState(this.getInitialState());
             this.setState({'key': randomString(8)});
