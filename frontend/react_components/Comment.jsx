@@ -11,14 +11,13 @@ var Commenter = React.createClass({
   render: function() {
     return (
       <div className="Comment clearfix">
-        <div className="clearfix">
-            <UserThumbnail user={this.props.comment.user} />
-            <div className="comment_body">
-                <UserName user={this.props.comment.user} />
-                {this.props.comment.comment}
-            </div>
+        <div className="float_left"><UserThumbnail user={this.props.comment.user} /></div>
+        <div className="comment_body float_left">
+            <UserName user={this.props.comment.user} />
+            {this.props.comment.comment}
+            <br/>
+            {this.props.comment.image ? <Thumbnail image={this.props.comment.image} /> : null}
         </div>
-        {this.props.comment.image ? <Thumbnail image={this.props.comment.image} /> : null}
       </div>
     );
   }

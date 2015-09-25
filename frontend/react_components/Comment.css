@@ -1,5 +1,6 @@
 .Comment {
     padding: 3px;
+    width: 450px;
 }
 
 .Comment img {
@@ -9,10 +10,11 @@
 .Comment .comment_body {
     float: left;
     padding-left: 5px;
+    width: 410px;
 }
 
 .Comment .Thumbnail {
-    margin-left: 35px;
+    margin-left: 0px;
     margin-top: 5px;
     padding-bottom: 5px;
 }
