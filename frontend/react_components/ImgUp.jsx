@@ -59,8 +59,9 @@ var ImgUp = React.createClass({
   },
 
   showImage: function(image, image_id) {
-
-    this.props.onUploadComplete(this.props.file, image, image_id);
+    if (this.props.onUploadComplete) {
+      this.props.onUploadComplete(this.props.file, image, image_id);
+    }
   }
 });
 

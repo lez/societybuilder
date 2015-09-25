@@ -21,18 +21,18 @@ var Commenter = React.createClass({
 
     return (
       <div className="Commenter clearfix" key={key}>
-        <div>
-          <img className="thumbnail" src={this.props.user.image.thumbnail30}/>
+        <img className="thumbnail" src={this.props.user.image.thumbnail30}/>
+        <div className="middle_column">
           <textarea
-            className="content"
+            className="inputtext"
             ref="content"
             onKeyDown={this.checkSubmit}
             onChange={this.updateBoxHeight}
             disabled={this.state.submitting}
           />
-          {!file ? <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton> : null}
+          {file ? <ImgUp file={file} onImageDelete={image_delete} onUploadComplete={upload_complete} /> : null}
         </div>
-        {file ? <ImgUp file={file} onImageDelete={image_delete} onUploadComplete={upload_complete} /> : null}
+        {!file ? <FileUploadButton className="float_left" upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton> : null}
       </div>
     );
   },

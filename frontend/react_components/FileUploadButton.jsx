@@ -6,7 +6,7 @@ var FileUploadButton = React.createClass({
     },
 
     render: function() {
-        return <div className="fileinput-button">
+        return <div className="FileUploadButton">
                     {this.props.children}
                     <input type="file" name="selected-file" onChange={this.upload} onBlur={this.upload} ref="selectedfile" />
                </div>;
