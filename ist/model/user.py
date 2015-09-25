@@ -112,9 +112,19 @@ class Post(Base):
     def get_comments(self):
         return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
 
+    def get_images(self):
+        if not self.images:
+            return []
+        ids = list(map(int, self.images.split(',')))
+        images = list(Image.select().where(Image.id << ids))
+        print(images)
+        return images
+
     def json(self):
         return {
             'id': self.get_id(),
+            'content': self.content,
+            'images': self.get_images()
         }
 
     class Meta:

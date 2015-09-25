@@ -43,6 +43,9 @@ class :react:creator(:x:jsx):
 class :react:test(:x:jsx):
   _react_path = 'Test.jsx'
 
+class :react:images(:x:jsx):
+  _react_path = 'Images.jsx'
+
 class :react:profileimage(:x:jsx):
   _react_path = 'ProfileImage.jsx'
 
@@ -296,6 +299,7 @@ class :ui:post(:x:element):
         </div>
       </div>
       <div class="content">{post.content}</div>
+      <react:images images={post.get_images()} />
       <react:commentpanel comments={post.get_comments()} user={user} post={post} />
     </div>
 
