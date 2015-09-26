@@ -1,6 +1,6 @@
 var React = require('react');
 var Comment = require('./Comment.jsx');
-randomstring = require('random-string');
+var randomstring = require('random-string');
 
 var Comments = React.createClass({
   getInitialState: function() {

@@ -2,6 +2,7 @@ Strings = require('../common_js/Strings');
 
 var internet_state = {
   Poster: require('./Poster.jsx'),
+  Post: require('./Post.jsx'),
   Test: require('./Test.jsx'),
   Commenter: require('./Commenter.jsx'),
   AddProfileImage: require('./AddProfileImage.jsx'),

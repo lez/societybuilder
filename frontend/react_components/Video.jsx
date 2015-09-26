@@ -1,6 +1,6 @@
 var React = require('react');
 
-var Images = React.createClass({
+var Video = React.createClass({
 
   render: function() {
     var remove_video = this.props.onRemoveVideo;
@@ -28,4 +28,4 @@ var Images = React.createClass({
 });
 
 
-module.exports = Images;
+module.exports = Video;

@@ -1,6 +1,6 @@
 var randomString = require('random-string');
 var React = require('react');
-var Images = require('./Images.jsx');
+var UploadImages = require('./UploadImages.jsx');
 var Video = require('./Video.jsx');
 var Strings = require('../common_js/Strings.js')
 
@@ -31,7 +31,7 @@ var Poster = React.createClass({
               onChange={this.updateTextArea}
             />
           </div>
-          <Images
+          <UploadImages
             images={this.state.imgs}
             onImageDelete={image_delete}
             onUploadComplete={upload_complete}

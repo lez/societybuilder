@@ -124,7 +124,11 @@ class Post(Base):
         return {
             'id': self.get_id(),
             'content': self.content,
-            'images': self.get_images()
+            'images': self.get_images(),
+            'comments': self.get_comments(),
+            'user': self.user,
+            'created': self.created,
+            'permalink': '/posts/' + str(self.id)
         }
 
     class Meta:

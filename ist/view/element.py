@@ -40,6 +40,9 @@ class :react:comments(:x:jsx):
 class :react:creator(:x:jsx):
   _react_path = 'Poster.jsx'
 
+class :react:post(:x:jsx):
+  _react_path = 'Post.jsx'
+
 class :react:test(:x:jsx):
   _react_path = 'Test.jsx'
 
@@ -263,7 +266,7 @@ class :ui:posts(:x:element):
     <div id="posts"/>
 
     for post in posts:
-        a.appendChild(<ui:post post={post} user={user}/>)
+        a.appendChild(<react:post post={post} user={user}/>)
 
     return a
 
@@ -279,28 +282,4 @@ class :ui:user(:x:element):
     <div class="user">
       <img src={user.thumbnail('60x60')} />
     </div>
-
-
-class :ui:post(:x:element):
-  attribute object post, object user
-  category %block
-
-  def render(self):
-    post = self.getAttribute('post')
-    user = self.getAttribute('user')
-
-    return \
-    <div class="post">
-      <div class="header clearfix">
-        <ui:user user={post.user} />
-        <div class="post_data">
-          <div class="login">{post.user.login}</div>
-          <span class="timestamp">{relative_time(datetime.datetime.fromtimestamp(post.created))}</span>
-        </div>
-      </div>
-      <div class="content">{post.content}</div>
-      <react:images images={post.get_images()} />
-      <react:commentpanel comments={post.get_comments()} user={user} post={post} />
-    </div>
-
 

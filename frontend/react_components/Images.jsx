@@ -1,25 +1,17 @@
 var React = require('react');
-var ImgUp = require('./ImgUp.jsx');
+var Thumbnail = require('./Thumbnail.jsx');
 
 var Images = React.createClass({
-
   render: function() {
-    var onImageDelete = this.props.onImageDelete;
-    var onUploadComplete = this.props.onUploadComplete;
     var images = this.props.images;
-    var computed_classname = '';
-    if (this.props.images.length > 4)
-      computed_classname = 'higher';
     return (
-      <div id="images" className={computed_classname}>
+      <div className="Images clearfix">
         {images.map(function(image){
-          return <ImgUp key={image.key} file={image} onImageDelete={onImageDelete} onUploadComplete={onUploadComplete} />;
+          return <Thumbnail key={image.id} image={image} />;
         })}
       </div>
     );
   }
-
 });
-
 
 module.exports = Images;
