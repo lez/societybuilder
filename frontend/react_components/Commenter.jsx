@@ -13,8 +13,6 @@ var Commenter = React.createClass({
   },
 
   render: function() {
-    var image_delete = this.onImageDelete;
-    var upload_complete = this.onUploadComplete;
     var image = this.state.image;
     var file = this.state.file;
     var key = this.state.key;
@@ -30,9 +28,9 @@ var Commenter = React.createClass({
             onChange={this.updateBoxHeight}
             disabled={this.state.submitting}
           />
-          {file ? <ImgUp file={file} onImageDelete={image_delete} onUploadComplete={upload_complete} /> : null}
+          {file ? <ImgUp file={file} onImageDelete={this.onImageDelete} onUploadComplete={this.onUploadComplete} /> : null}
         </div>
-        {!file ? <FileUploadButton className="float_left" upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton> : null}
+        {!file ? <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton> : null}
       </div>
     );
   },

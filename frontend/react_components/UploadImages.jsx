@@ -7,11 +7,11 @@ var UploadImages = React.createClass({
     var onImageDelete = this.props.onImageDelete;
     var onUploadComplete = this.props.onUploadComplete;
     var images = this.props.images;
-    var computed_classname = '';
-    if (this.props.images.length > 4)
-      computed_classname = 'higher';
+
+    var computed_classname = (this.props.images.length > 4) ? 'higher' : '';
+
     return (
-      <div id="images" className={computed_classname}>
+      <div className={"UploadImages " + computed_classname}>
         {images.map(function(image){
           return <ImgUp key={image.key} file={image} onImageDelete={onImageDelete} onUploadComplete={onUploadComplete} />;
         })}

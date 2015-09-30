@@ -2,7 +2,8 @@ var randomString = require('random-string');
 var React = require('react');
 var UploadImages = require('./UploadImages.jsx');
 var Video = require('./Video.jsx');
-var Strings = require('../common_js/Strings.js')
+var Strings = require('../common_js/Strings.js');
+var FileUploadButton = require('./FileUploadButton.jsx');
 
 var Poster = React.createClass({
   getInitialState: function() {
@@ -40,15 +41,9 @@ var Poster = React.createClass({
             <tr>
               <td>
                 {(this.state.imgs.length < max_imgs) ?
-                <span className="fileinput-button">
+                <FileUploadButton multiple="1" upload={this.upload}>
                   <i className="icon-camera"></i>
-                  <input
-                    type="file"
-                    name="selected-files"
-                    onChange={this.upload}
-                    ref="selectedfiles"
-                  />
-                </span> : null}
+                </FileUploadButton> : null}
               </td>
               <td></td>
               <td>
@@ -61,25 +56,24 @@ var Poster = React.createClass({
     );
   },
 
-  upload: function() {
-    var input = this.refs.selectedfiles.getDOMNode();
-    // input.files in itself is of FileList type
-    for (var i=0; i<input.files.length; i++){
-      if (this.state.imgs.length >= this.getMaxImgs()){
-        alert('Only '+this.getMaxImgs()+' images are allowed');
-        break;
-      }
-      var f = input.files[i];
+  upload: function(files) {
+    if (this.state.imgs.length + files.length > this.getMaxImgs()){
+      alert('Only '+this.getMaxImgs()+' images are allowed');
+      return;
+    }
+    // files is of FileList type
+    for (var i=0; i<files.length; i++){
+      var f = files[i];
       f.key = randomString({length: 16});
       this.state.imgs.push(f);
     }
     this.setState({'imgs': this.state.imgs});
-    jQuery('#images').animate({'scrollLeft': 1000}, 1000);
+//    jQuery('#images').animate({'scrollLeft': 1000}, 1000);
   },
 
   onImageDelete: function(image){
     var i = this.state.imgs.indexOf(image);
-    this.state.imgs.splice(i,1);
+    this.state.imgs.splice(i, 1);
     this.setState({'imgs': this.state.imgs});
   },
 
