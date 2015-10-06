@@ -99,7 +99,7 @@ var Poster = React.createClass({
       content: this.refs.content.getDOMNode().value,
     };
     jQuery.ajax({
-      url: '/api/content',
+      url: '/api/post',
       type: 'POST',
       data: data,
       success: function(result){

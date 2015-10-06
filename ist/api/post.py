@@ -1,7 +1,7 @@
 from pyramid.view import view_config
 from ist.model.user import Post
 
-@view_config(route_name='content', renderer='json', request_method='POST', permission='user')
+@view_config(route_name='post', renderer='json', request_method='POST', permission='user')
 def content_view(request):
     try:
         content = request.POST['content']
@@ -14,7 +14,8 @@ def content_view(request):
     if len(image_ids) > 12:
         return {'success': 0, 'error': 'Too many images'}
 
-    content = Post(user=request.user, content=content, images=','.join(map(str, image_ids)))
-    content.save()
+    post = Post(user=request.user, content=content, images=','.join(map(str, image_ids)))
+    post.save()
 
     return {'success': 1}
+
