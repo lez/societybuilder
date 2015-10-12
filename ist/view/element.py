@@ -1,5 +1,5 @@
 from xhpy3.xhpy.pylib import *
-from ist.model.user import Post, User, Page
+from ist.model.type import Post, User, Page
 from ist.model.base import ModelEncoder
 from ..react import render
 from ..util import *

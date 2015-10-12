@@ -1,5 +1,5 @@
 from pyramid.view import view_config
-from ist.model.user import Post
+from ist.model.type import Post
 from pyramid.httpexceptions import HTTPNotFound
 from ist.util import *
 

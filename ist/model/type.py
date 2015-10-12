@@ -52,9 +52,7 @@ class User(Base):
         pass
 
     def posts(self):
-        contents = Post.select().where(Post.user==self)
-
-        return contents
+        return Post.select().where(Post.user==self)
 
     @classmethod
     def get_by_token(cls, token):
@@ -87,7 +85,7 @@ class User(Base):
         return {
             'login': self.login,
             'id': self.get_id(),
-            'image': self.image.json() if self.image else None
+            'image': self.image.json() if self.image else Image.nobody
         }
 
 def _token_expire():
@@ -131,7 +129,7 @@ class Post(Base):
         }
 
     class Meta:
-        db_table = 'contents'
+        db_table = 'posts'
 
 class Comment(Base):
     item_id = IntegerField(null=False)
@@ -199,6 +197,10 @@ class Image(Base):
             'thumbnail': self.uri(thumbnail='100x100'),
             'thumbnail30': self.uri(thumbnail='30x30')
         }
+
+    nobody = {
+        'thumbnail': 'icon-user'
+    }
 
     class Meta:
         db_table = 'images'

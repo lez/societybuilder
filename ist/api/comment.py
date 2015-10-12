@@ -1,5 +1,5 @@
 from pyramid.view import view_config
-from ist.model.user import Comment
+from ist.model.type import Comment
 
 @view_config(route_name='comment', renderer='json', request_method='POST', permission='user')
 def content_view(request):

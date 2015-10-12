@@ -3,7 +3,7 @@ from pyramid.httpexceptions import HTTPNotFound
 from pyramid.response import FileResponse
 from pyramid.view import view_config
 from ist import images
-from ist.model.user import MEDIA_DIR
+from ist.model.type import MEDIA_DIR
 from .util import *
 
 @view_config(route_name='media')

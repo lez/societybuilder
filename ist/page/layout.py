@@ -3,7 +3,7 @@ from pyramid.view import view_config
 from pyramid.exceptions import HTTPNotFound
 from ist.view.element import *
 from ist.util import l
-from ist.model.user import Page, User, AuthToken
+from ist.model.type import Page, User, AuthToken
 
 @view_config(route_name='createpage', renderer='xhpy', permission='user')
 def create_page(request):

@@ -5,7 +5,7 @@ from pyramid.view import view_config
 from .auth import remember_user
 from .model.base import ValidationError
 
-from .model.user import User
+from .model.type import User
 from .util import *
 
 

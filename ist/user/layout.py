@@ -2,7 +2,7 @@ from pyramid.view import view_config
 from pyramid.exceptions import HTTPNotFound
 from ist.view.element import *
 from xhpy3.xhpy.pylib import  *
-from ist.model.user import User
+from ist.model.type import User
 
 @view_config(route_name='user_profile', renderer='xhpy')
 def show_profile(request):

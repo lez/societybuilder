@@ -4,7 +4,7 @@ from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy, IRen
 from pyramid.security import remember, authenticated_userid
 from webob.cookies import CookieProfile
 from zope.interface import implementer
-from .model.user import User, AuthToken
+from .model.type import User, AuthToken
 from .util import *
 
 def remember_user(user, request):

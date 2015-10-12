@@ -5,7 +5,7 @@ from .api import api_methods
 from .page import page_methods
 from .view import notfound
 from pyramid.security import remember, authenticated_userid
-from .model.user import User, AuthToken
+from .model.type import User, AuthToken
 
 from xhpy3.xhpy.init import register_xhpy_module
 register_xhpy_module('ist.view')
