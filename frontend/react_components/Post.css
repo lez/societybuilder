@@ -14,6 +14,7 @@
     position: relative;
     top: 2px;
     left: 9px;
+    float: left;
 }
 
 .Post .content {
@@ -22,6 +23,15 @@
 
 .Post .header .Thumbnail {
     float: left;
+}
+
+.Post .header .DeletePostButton {
+    float: right;
+    display: none;
+}
+
+.Post:hover .header .DeletePostButton {
+    display: block;
 }
 
 .Post .TimeStamp a {

@@ -17,7 +17,7 @@ var ImgUp = React.createClass({
     return (
       <div className="ImgUp">
         <span className="percentage">{this.stateString()}</span>
-        {this.props.onImageDelete?<a href="#" onClick={this.del} className="delete_button"><i className="icon-cancel"></i></a>:null}
+        {this.props.onImageDelete?<a href="#" onClick={this.delete} className="delete_button"><i className="icon-cancel"></i></a>:null}
         <span id="preview" ref="preview" className="thumb">
           {thumb}
         </span>
@@ -35,7 +35,7 @@ var ImgUp = React.createClass({
     return '';
   },
 
-  del: function(e) {
+  delete: function(e) {
     this.up.abort();
     this.props.onImageDelete(this.props.file);
     e.preventDefault();

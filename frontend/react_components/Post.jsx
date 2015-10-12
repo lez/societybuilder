@@ -24,13 +24,35 @@ var Post = React.createClass({
                         <span className="TimeStamp"><a href={post.permalink}>{Time.human(post.created)}</a></span>
                     </div>
                 </div>
+                <div className="DeletePostButton">
+                    <a href="#" onClick={this.delete}><i className="icon-cancel"></i></a>
+                </div>
             </div>
             <div className="content">{post.content}</div>
             <Images images={post.images} />
             <CommentPanel comments={post.comments} user={this.props.user} post={post} />
         </div>
         );
+    },
 
+    delete: function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to delete this post?')){
+            jQuery.ajax({
+                url: '/api/post/' + this.props.post.id,
+                type: 'DELETE',
+                success: function(result){
+                    if (!result.success) {
+                        alert(result.error ? result.error : Strings.general_error);
+                    } else {
+                        document.location.reload();
+                    }
+                },
+                error: function(result){
+                   alert(Strings.general_error);
+                }
+            });
+        }
     }
 });
 

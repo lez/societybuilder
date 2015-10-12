@@ -117,7 +117,6 @@ class Post(Base):
             return []
         ids = list(map(int, self.images.split(',')))
         images = list(Image.select().where(Image.id << ids))
-        print(images)
         return images
 
     def json(self):
@@ -128,7 +127,7 @@ class Post(Base):
             'comments': self.get_comments(),
             'user': self.user,
             'created': self.created,
-            'permalink': '/posts/' + str(self.id)
+            'permalink': '/post/' + str(self.get_id())
         }
 
     class Meta:
