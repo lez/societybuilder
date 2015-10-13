@@ -1,0 +1,15 @@
+.FileUploadButton {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: block;
+}
+
+.FileUploadButton input {
+    position: absolute;
+    font-size: 200px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+    cursor: inherit;
+}

@@ -30,15 +30,11 @@
 }
 
 .Commenter .FileUploadButton {
-    position: relative;
     top: 1px;
-    left: -35px;
-    overflow: hidden;
-    cursor: pointer;
+    left: -29px;
     background: #fff;
     opacity: 0.8;
     float: left;
-    display: inline-block;
     padding: 6px;
 }
 
@@ -46,15 +42,6 @@
     opacity: 1;
     background: #333;
     color: #ccc;
-}
-
-.Commenter .FileUploadButton input {
-    position: absolute;
-    font-size: 200px;
-    opacity: 0.3;
-    left: 0;
-    top: 0;
-    cursor: inherit;
 }
 
 .Commenter .ImgUp {
