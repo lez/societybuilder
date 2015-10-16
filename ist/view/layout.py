@@ -11,7 +11,7 @@ def home(request):
     </ui:layout>
 
     if request.user:
-        a.appendChild(<ui:creator />)
+        a.appendChild(<ui:poster />)
 
     return a
 
@@ -30,7 +30,7 @@ def me(request):
 
     a = \
     <ui:layout user={request.user}>
-        <react:creator user={request.user} />
+        <react:poster user={request.user} />
         <ui:posts posts={posts} user={request.user} />
     </ui:layout>
 

@@ -2,6 +2,7 @@ var React = require('react');
 var Thumbnail = require('./Thumbnail.jsx');
 var UserName = require('./UserName.jsx');
 var Images = require('./Images.jsx');
+var Poster = require('./Poster.jsx');
 var CommentPanel = require('./CommentPanel.jsx');
 var Time = require('../common_js/Time.js');
 
@@ -24,11 +25,19 @@ var Post = React.createClass({
                         <span className="TimeStamp"><a href={post.permalink}>{Time.human(post.created)}</a></span>
                     </div>
                 </div>
+                {(!this.state.editing) ?<div>
                 <div className="DeletePostButton">
-                    <a href="#" onClick={this.delete}><i className="icon-cancel"></i></a>
-                </div>
+                        <a href="#" onClick={this.delete}><i className="icon-cancel"></i></a>
+                    </div>
+                    <div className="EditPostButton">
+                        <a href="#" onClick={this.edit}><i className="icon-edit"></i></a>
+                    </div></div>
+                 : null
+                 }
             </div>
-            <div className="content">{post.content}</div>
+            {this.state.editing ? <Poster user={this.props.user} editpost={post} />
+                : <div className="content">{post.content}</div>
+            }
             <Images images={post.images} />
             <CommentPanel comments={post.comments} user={this.props.user} post={post} />
         </div>
@@ -53,6 +62,10 @@ var Post = React.createClass({
                 }
             });
         }
+    },
+    edit: function(e) {
+        e.preventDefault();
+        this.setState({'editing': 1});
     }
 });
 

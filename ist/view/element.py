@@ -37,7 +37,7 @@ class :react:commentpanel(:x:jsx):
 class :react:comments(:x:jsx):
   _react_path = 'Comments.jsx'
 
-class :react:creator(:x:jsx):
+class :react:poster(:x:jsx):
   _react_path = 'Poster.jsx'
 
 class :react:post(:x:jsx):
@@ -196,13 +196,13 @@ class :ui:logoutbutton(:x:element):
   def render(self):
     return <a href="/logout">logout</a>
 
-class :ui:creator(:x:element):
+class :ui:poster(:x:element):
   category %block
 
   def render(self):
     return \
-    <div id="creatorbox">
-      <react:creator />
+    <div id="posterbox">
+      <react:poster />
     </div>
 
 class :ui:createpage(:x:element):

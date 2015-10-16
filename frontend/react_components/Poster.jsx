@@ -8,7 +8,9 @@ var FileUploadButton = require('./FileUploadButton.jsx');
 var Poster = React.createClass({
   getInitialState: function() {
     return {
-      'imgs': []
+      'imgs': [],
+      'content': this.props.editpost.content,
+      'changed': 0
     }
   },
 
@@ -26,11 +28,20 @@ var Poster = React.createClass({
       <div className="Poster">
         <div className="wrapper">
           <div>
-            <textarea
-              className="content"
-              ref="content"
-              onChange={this.updateTextArea}
-            />
+            {this.state.changed?
+              <textarea
+                className="content"
+                ref="content"
+                onChange={this.updateTextArea}
+              />
+              :
+              <textarea
+                className="content"
+                ref="content"
+                onChange={this.updateTextArea}
+                value={this.state.content}
+              />
+            }
           </div>
           <UploadImages
             images={this.state.imgs}
@@ -91,6 +102,7 @@ var Poster = React.createClass({
       if (new_height > 500) new_height = 500;
       content.style.height =  new_height + "px";
     }
+    this.setState({'content': content.value, 'changed': 1});
   },
 
   submit: function() {
@@ -98,7 +110,7 @@ var Poster = React.createClass({
       image_ids: this.state.imgs.map(function (img){return img['image_id']}),
       content: this.refs.content.getDOMNode().value,
     };
-    jQuery.ajax({
+    var args = {
       url: '/api/post',
       type: 'POST',
       data: data,
@@ -108,11 +120,17 @@ var Poster = React.createClass({
         } else {
           document.location.reload();
         }
-      }.bind(this),
+      },
       error: function(result){
         alert(Strings.general_error);
-      }.bind(this)
-    });
+      }
+    }
+    if (this.props.editpost) {
+    alert('editing');
+      args.url += '/' + this.props.editpost.id;
+      args.type = 'PUT';
+    }
+    jQuery.ajax(args);
   }
 });
 

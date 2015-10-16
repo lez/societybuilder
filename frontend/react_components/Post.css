@@ -25,6 +25,15 @@
     float: left;
 }
 
+.Post .header .EditPostButton {
+    float: right;
+    display: none;
+}
+
+.Post:hover .header .EditPostButton {
+    display: block;
+}
+
 .Post .header .DeletePostButton {
     float: right;
     display: none;

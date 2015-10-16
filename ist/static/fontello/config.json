@@ -4,7 +4,7 @@
   "css_use_suffix": false,
   "hinting": true,
   "units_per_em": 1000,
-  "ascent": 850,
+  "ascent": 1000,
   "glyphs": [
     {
       "uid": "dc3f1d5b1d006f7f7b3b6295eccab9da",
@@ -52,6 +52,12 @@
       "uid": "6274e0601f2feef7eced89146e708de0",
       "css": "user-add",
       "code": 59397,
+      "src": "entypo"
+    },
+    {
+      "uid": "c77fd2fd065b5fe16d6f2b41e190b266",
+      "css": "edit",
+      "code": 59399,
       "src": "entypo"
     },
     {
