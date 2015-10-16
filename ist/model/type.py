@@ -117,6 +117,9 @@ class Post(Base):
         images = list(Image.select().where(Image.id << ids))
         return images
 
+    def get_image_ids(self):
+        return self.images.split(',')
+
     def json(self):
         return {
             'id': self.get_id(),
