@@ -44,9 +44,7 @@ def logout_view(request):
 
 @view_config(route_name='signup')
 def signup_view(request):
-    if request.method == 'GET':
-        return Response(signup_form)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         login = request.POST.get('login')
         passwd = request.POST.get('passwd')
         email = request.POST.get('email')
