@@ -70,7 +70,7 @@ class :ui:layout(:x:element):
       <html>
         <head>
           <script type="text/javascript" src="/static/js/jquery.min.js"></script>
-          <script type="text/javascript" src="/static/js/app.js"></script>
+          <script type="text/javascript" src="/static/js/compiled/app.js"></script>
           <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
           <title>Title</title>
         </head>
@@ -213,7 +213,7 @@ class :ui:createpage(:x:element):
     <form data-url="/api/page" id="createpage" method="post" onsubmit="IS.submit(event, this);">
       <input type="text" name="name" placeholder="Name" />
       <input type="text" name="description" placeholder="Short description" />
-      <input type="checkbox" name="owner_public" checked="checked" />
+      <input type="checkbox" name="is_owner_public" checked="checked" />
       <input type="submit" name="submit" value="Create Page" />
       <ui:inputimage name="image" />
     </form>
@@ -238,11 +238,10 @@ class :ui:showpage(:x:element):
     page = self.getAttribute('page')
     user = self.getAttribute('user')
 
-    if page.user == user:
+    if page.owner == user:
       info = "This page is YOURS"
-    elif page.owner_public:
-      owner = page.user
-      info = "Owner: %s" % owner.login
+    elif page.is_owner_public:
+      info = "Owner: %s" % page.owner.login
     else:
       info = "Whose page is this?"
 

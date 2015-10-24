@@ -27,7 +27,6 @@ var Poster = React.createClass({
   },
 
   render: function() {
-    var remove_video = this.onRemoveVideo;
     var max_imgs = this.getMaxImgs();
 
     return (
@@ -58,7 +57,7 @@ var Poster = React.createClass({
             <tr>
               <td>
                 {(this.state.imgs.length < max_imgs) ?
-                <FileUploadButton multiple="1" upload={this.upload}>
+                <FileUploadButton multiple="1" upload={this.handleUploadStart}>
                   <i className="icon-camera"></i>
                 </FileUploadButton> : null}
               </td>
@@ -73,7 +72,7 @@ var Poster = React.createClass({
     );
   },
 
-  upload: function(files) {
+  handleUploadStart: function(files) {
     if (this.state.imgs.length + files.length > this.getMaxImgs()){
       alert('Only '+this.getMaxImgs()+' images are allowed');
       return;

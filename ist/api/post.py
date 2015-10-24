@@ -1,3 +1,4 @@
+import datetime
 from pyramid.response import Response
 from pyramid.view import view_config
 from ist.model.type import Post, Comment, Image
@@ -19,7 +20,7 @@ def post_view(request):
         return {'success': 0, 'error': 'Too many images'}
 
     # TODO check if the images exist
-    post = Post(user=request.user, content=content, images=','.join(map(str, image_ids)))
+    post = Post(author=request.user, content=content, images=','.join(map(str, image_ids)))
     post.save()
 
     return {'success': 1}
@@ -72,6 +73,6 @@ def post_one_view(request):
                 setattr(post, field, request.POST.getone(field))
 
         post.save()
+        post.modified = datetime.time()
 
-        # TODO renderer = model-json
         return Response(ModelEncoder().encode({'success': 1, 'post': post.json()}), content_type='text/json')

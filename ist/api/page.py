@@ -3,18 +3,18 @@ from ist.model.type import Page
 
 @view_config(route_name='page', renderer='json', request_method='POST', permission='user')
 def content_view(request):
-    keys = ('name', 'description', 'owner_public')
+    keys = ('name', 'description', 'is_owner_public')
     for k in keys:
         if k not in request.POST:
             return {'success': 0, 'error': 'invalid request'}
 
     name = request.POST['name']
     description = request.POST['description']
-    owner_public = request.POST['owner_public']
-    if owner_public == 'true':
-        owner_public = True
+    is_owner_public = request.POST['is_owner_public']
+    if is_owner_public == 'true':
+        is_owner_public = True
     else:
-        owner_public = False
+        is_owner_public = False
 
     if len(name) > 30:
         return {'success': 0, 'error': 'Name is too long'}
@@ -22,9 +22,9 @@ def content_view(request):
     if len(description) > 250:
         return {'success': 0, 'error': 'Too long description'}
 
-    user = request.user
+    owner = request.user
 
-    page = Page(user=user, name=name, description=description, owner_public=owner_public)
+    page = Page(owner=owner, name=name, description=description, is_owner_public=is_owner_public)
     page.save()
 
     return {'success': 1}

@@ -10,7 +10,7 @@ var gutil = require('gulp-util');
 var browserSync = require('browser-sync').create();
 
 
-var JS_DEST_DIR = '../ist/static/js';
+var JS_DEST_DIR = '../ist/static/js/compiled';
 var JS_BUNDLE = 'app.js';
 var JS_ENTRYPOINTS = ['react_components/App.jsx'];
 

@@ -52,7 +52,10 @@ class User(Base):
         pass
 
     def posts(self):
-        return Post.select().where(Post.user==self).order_by(-Post.id)
+        return Post.select().where(Post.author==self).order_by(-Post.id)
+
+    def pages(self):
+        return Page.select().where(Page.owner==self).order_by(-Page.id)
 
     @classmethod
     def get_by_token(cls, token):
@@ -101,10 +104,12 @@ class AuthToken(Base):
 
 class Post(Base):
     created = IntegerField(default=time.time)
-    # modified = IntegerField(default=time.time)
-    user = ForeignKeyField(User, on_delete='CASCADE')
+    modified = IntegerField(default=time.time)
+    author = ForeignKeyField(User, on_delete='CASCADE')
+    wall = CharField(max_length=20)
     content = TextField(null=True)
     images = CharField()
+    privacy = IntegerField(default=0)
 
     item_type = 'post'
     rest_fields = ['content', 'images']
@@ -207,10 +212,11 @@ class Image(Base):
 
 class Page(Base):
     created = IntegerField(default=time.time)
-    user = ForeignKeyField(User, on_delete='CASCADE')  # TODO: owner
+    owner = ForeignKeyField(User, on_delete='CASCADE')
     name = CharField(max_length=30)
     description = CharField(max_length=250)
-    owner_public = BooleanField(default=False)
+    is_owner_public = BooleanField(default=False)
+    is_public = BooleanField(default=True)
 
     class Meta:
         db_table = 'pages'

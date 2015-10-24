@@ -41,7 +41,7 @@ def show_all_pages(request):
 
 @view_config(route_name='showmypages', renderer='xhpy', permission='user')
 def show_my_pages(request):
-    pages = Page.select().where(Page.user==request.user)
+    pages = request.user.pages()
 
     a = <ul/>
     for page in pages:
