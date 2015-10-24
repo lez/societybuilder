@@ -10,9 +10,9 @@ var ImgUp = React.createClass({
 
   render: function() {
     if (this.props.file.thumbnail)
-      var thumb = <UploadedImg thumbnail={this.props.file.thumbnail} />
+      var thumb = <UploadedImg thumbnail={this.props.file.thumbnail} />;
     else
-      var thumb = <canvas width="60" height="60" ref="canvas" />
+      var thumb = <canvas width="60" height="60" ref="canvas" />;
 
     return (
       <div className="ImgUp">
@@ -26,30 +26,35 @@ var ImgUp = React.createClass({
   },
 
   componentDidMount: function() {
-    this.startUpload();
+    if (!this.props.file.id) {
+      this.startUpload();
+    }
   },
 
   stateString: function() {
-    if (!this.state.finished)
+    if (!this.state.finished && !this.props.file.id)
       return '' + Math.round(this.state.percent) + "%";
     return '';
   },
 
   delete: function(e) {
-    this.up.abort();
+    if (this.upload) {
+      this.upload.abort();
+    }
     this.props.onImageDelete(this.props.file);
     e.preventDefault();
   },
 
   startUpload: function (){
-    this.up = new Upload(this.props.file);
-    this.up.to('/upload');
-    this.up.on('progress', function(progress){this.setState({'percent': progress.percent})}.bind(this));
-    this.up.on('error', function(a,b){alert('hiba a képek feltöltésénél!');});
-    this.up.on('end', function(a,b){
+    this.upload = new Upload(this.props.file);
+    this.upload.to('/upload');
+    this.upload.on('progress', function(progress){this.setState({'percent': progress.percent})}.bind(this));
+    this.upload.on('error', function(a,b){alert('hiba a képek feltöltésénél!');});
+    this.upload.on('end', function(a,b){
       this.setState({'percent': 100, 'finished': true});
       var resp = JSON.parse(a.responseText);
       if (!resp.success){
+        // TODO generalze API handling
         alert(resp.error);
         return;
       }

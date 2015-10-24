@@ -1,22 +1,23 @@
 var React = require('react');
 var ImgUp = require('./ImgUp.jsx');
+var randomString = require('random-string');
 
 var UploadImages = React.createClass({
 
   render: function() {
-    var onImageDelete = this.props.onImageDelete;
-    var onUploadComplete = this.props.onUploadComplete;
-    var images = this.props.images;
 
     var computed_classname = (this.props.images.length > 4) ? 'higher' : '';
 
-    return (
-      <div className={"UploadImages " + computed_classname}>
-        {images.map(function(image){
-          return <ImgUp key={image.key} file={image} onImageDelete={onImageDelete} onUploadComplete={onUploadComplete} />;
-        })}
-      </div>
-    );
+    var imgups = [];
+    for(var i=0; i<this.props.images.length; i++) {
+      var image = this.props.images[i];
+      if (!image.key) image.key = randomString(16);
+      imgups.push(<ImgUp key={image.key} file={image} onImageDelete={this.props.onImageDelete} onUploadComplete={this.props.onUploadComplete} />);
+    }
+
+    return <div className={"UploadImages " + computed_classname}>
+      {imgups}
+    </div>;
   }
 
 });

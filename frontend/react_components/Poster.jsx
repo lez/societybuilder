@@ -27,8 +27,6 @@ var Poster = React.createClass({
   },
 
   render: function() {
-    var image_delete = this.onImageDelete;
-    var upload_complete = this.onUploadComplete;
     var remove_video = this.onRemoveVideo;
     var max_imgs = this.getMaxImgs();
 
@@ -53,8 +51,8 @@ var Poster = React.createClass({
           </div>
           <UploadImages
             images={this.state.imgs}
-            onImageDelete={image_delete}
-            onUploadComplete={upload_complete}
+            onImageDelete={this.handleImageDelete}
+            onUploadComplete={this.handleUploadComplete}
           />
           <table className="composer_footer">
             <tr>
@@ -90,13 +88,13 @@ var Poster = React.createClass({
 //    jQuery('#images').animate({'scrollLeft': 1000}, 1000);
   },
 
-  onImageDelete: function(image){
+  handleImageDelete: function(image){
     var i = this.state.imgs.indexOf(image);
     this.state.imgs.splice(i, 1);
     this.setState({'imgs': this.state.imgs});
   },
 
-  onUploadComplete: function(image, thumbnail, image_id){
+  handleUploadComplete: function(image, thumbnail, image_id){
     var i = this.state.imgs.indexOf(image);
     this.state.imgs[i].thumbnail = thumbnail;
     this.state.imgs[i].image_id = image_id;
@@ -114,7 +112,8 @@ var Poster = React.createClass({
   },
 
   submit: function() {
-    var image_ids = this.state.imgs.map(function (img){return img['image_id']});
+    var image_ids = this.state.imgs.map(function (img){if (img['image_id']) return img['image_id']; else return img['id'];});
+    // TODO valoszinuleg kulon kellene szedni az ImgUp feltoltesi viselkedeset, es a torolheto thumbnail viselkedest
     var data = {
       images: image_ids.join(','),
       content: this.refs.content.getDOMNode().value
