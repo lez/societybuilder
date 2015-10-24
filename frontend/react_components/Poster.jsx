@@ -114,8 +114,9 @@ var Poster = React.createClass({
   },
 
   submit: function() {
+    var image_ids = this.state.imgs.map(function (img){return img['image_id']});
     var data = {
-      image_ids: this.state.imgs.map(function (img){return img['image_id']}),
+      images: image_ids.join(','),
       content: this.refs.content.getDOMNode().value
     };
     var args = {

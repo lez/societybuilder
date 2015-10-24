@@ -14,10 +14,11 @@ def post_view(request):
 
     if len(content) > 5000:
         return {'success': 0, 'error': 'Post is too long'}
-    image_ids = request.POST.getall('image_ids[]')
+    image_ids = request.POST.getone('images').split(',')
     if len(image_ids) > 12:
         return {'success': 0, 'error': 'Too many images'}
 
+    # TODO check if the images exist
     post = Post(user=request.user, content=content, images=','.join(map(str, image_ids)))
     post.save()
 

@@ -52,7 +52,7 @@ class User(Base):
         pass
 
     def posts(self):
-        return Post.select().where(Post.user==self)
+        return Post.select().where(Post.user==self).order_by(-Post.id)
 
     @classmethod
     def get_by_token(cls, token):
