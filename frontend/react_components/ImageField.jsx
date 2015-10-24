@@ -4,8 +4,7 @@ var FileUploadButton = require('./FileUploadButton.jsx');
 
 var ImageField = React.createClass({
     getInitialState: function() {
-        return {
-        };
+        return {};
     },
 
     render: function() {
@@ -28,11 +27,11 @@ var ImageField = React.createClass({
             x = <div><i className="demo-icon icon-user-add"></i><div className="kepalairas">Add Profile Photo</div></div>
         }
         return <div className="ImageField">
-                    <FileUploadButton upload={this.upload}>
-                        {x}
-                    </FileUploadButton>
-                    <input type="hidden" name="image_id" value={this.field_value()}/>
-               </div>;
+            <FileUploadButton upload={this.upload}>
+                {x}
+            </FileUploadButton>
+            <input type="hidden" name="image_id" value={this.field_value()}/>
+        </div>;
     },
 
     field_value: function () {
@@ -50,8 +49,7 @@ var ImageField = React.createClass({
         this.setState({'image': img, 'file': null});
         if (this.props.onChange)
             this.props.onChange();
-    },
-
+    }
 });
 
 module.exports = ImageField;

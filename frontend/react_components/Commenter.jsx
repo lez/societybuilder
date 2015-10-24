@@ -1,7 +1,9 @@
 var randomString = require('random-string');
 var React = require('react');
 var ImgUp = require('./ImgUp.jsx');
+var UserThumbnail = require('./UserThumbnail.jsx');
 var FileUploadButton = require('./FileUploadButton.jsx');
+
 
 var Commenter = React.createClass({
   getInitialState: function() {
@@ -19,7 +21,7 @@ var Commenter = React.createClass({
 
     return (
       <div className="Commenter clearfix" key={key}>
-        <img className="thumbnail" src={this.props.user.image.thumbnail30}/>
+        <UserThumbnail user={this.props.user} />
         <div className="middle_column">
           <textarea
             className="inputtext"

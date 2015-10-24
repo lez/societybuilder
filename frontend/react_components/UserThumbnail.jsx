@@ -1,4 +1,5 @@
 var React = require('react');
+var Thumbnail = require('./Thumbnail.jsx');
 
 var UserThumbnail = React.createClass({
   getInitialState: function() {
@@ -6,10 +7,14 @@ var UserThumbnail = React.createClass({
   },
 
   render: function() {
-    if (this.props.user)
-      return <img src={this.props.user.image.thumbnail30} />;
-    else
-      return <span>{this.props.user.id}</span>;
+    var size = this.props.size ? this.props.size : 'small';
+
+    if (this.props.user.image) {
+      return <Thumbnail image={this.props.user.image.thumbnail} size={size} />;
+    }
+    else {
+      return <Thumbnail image="icon-user" size={size} />;
+    }
   }
 });
 

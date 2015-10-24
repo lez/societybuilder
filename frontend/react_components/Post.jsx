@@ -1,5 +1,5 @@
 var React = require('react');
-var Thumbnail = require('./Thumbnail.jsx');
+var UserThumbnail = require('./UserThumbnail.jsx');
 var UserName = require('./UserName.jsx');
 var Images = require('./Images.jsx');
 var Poster = require('./Poster.jsx');
@@ -16,7 +16,7 @@ var Post = React.createClass({
         return (
         <div className="Post">
             <div className="header clearfix">
-                <Thumbnail image={post.user.image} />
+                <UserThumbnail user={post.user} size="medium"/>
                 <div className="post_data">
                     <div>
                         <UserName user={post.user} />

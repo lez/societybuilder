@@ -1,22 +1,34 @@
 var React = require('react');
+var Util = require('../common_js/util.js');
 
-var UserThumbnail = React.createClass({
+var dimensions = {
+  small: '30x30',
+  medium: '60x60',
+  large: '100x100'
+};
+
+var Thumbnail = React.createClass({
   getInitialState: function() {
     return {}
   },
 
   render: function() {
-    if (this.props.image) {
-      if (this.props.image.thumbnail.startsWith('icon-')) {
-        return <div className="Thumbnail"><i className={this.props.image.thumbnail}></i></div>;
-      } else {
-        return <div className="Thumbnail"><img src={this.props.image.thumbnail} /></div>;
-      }
+    var content;
+    var size = this.props.size ? this.props.size : 'small';
+    var dimension = dimensions[size];
+
+    if (this.props.image.startsWith('icon-')) {
+      // fontello icon
+      content = <i className={this.props.image} />;
+    } else {
+      var thumbnail = Util.get_thumbnail(this.props.image, dimension);
+      content = <img src={thumbnail}/>;
     }
-    else {
-      return <span>semmi</span>;
-    }
+
+    return <div className={"Thumbnail " + size}>
+      {content}
+    </div>
   }
 });
 
-module.exports = UserThumbnail;
+module.exports = Thumbnail;

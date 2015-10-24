@@ -85,7 +85,7 @@ class User(Base):
         return {
             'login': self.login,
             'id': self.id,
-            'image': self.image.json() if self.image else Image.nobody
+            'image': self.image.json() if self.image else None
         }
 
 def _token_expire():
@@ -199,13 +199,8 @@ class Image(Base):
     def json(self):
         return {
             'id': self.id,
-            'thumbnail': self.uri(thumbnail='100x100'),
-            'thumbnail30': self.uri(thumbnail='30x30')
+            'thumbnail': self.uri()
         }
-
-    nobody = {
-        'thumbnail': 'icon-user'
-    }
 
     class Meta:
         db_table = 'images'

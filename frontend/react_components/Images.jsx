@@ -7,7 +7,7 @@ var Images = React.createClass({
     return (
       <div className="Images clearfix">
         {images.map(function(image){
-          return <Thumbnail key={image.id} image={image} />;
+          return <Thumbnail key={image.id} image={image.thumbnail} size="large" />;
         })}
       </div>
     );
