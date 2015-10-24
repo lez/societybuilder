@@ -1,6 +1,7 @@
+from pyramid.response import Response
 from pyramid.view import view_config
 from ist.model.type import Post, Comment, Image
-from ist.model.base import db
+from ist.model.base import db, ModelEncoder
 from pyramid.httpexceptions import HTTPNotFound
 from ist.util import *
 
@@ -29,7 +30,7 @@ def post_one_view(request):
     if request.method == 'DELETE':
         l.info('delete post %s' % id)
         with db.transaction():
-            post = Post.get(Post.id == id)
+            post = Post.get(id=id)
             for c in Comment.select().where(Comment.item_type=='post').where(Comment.item_id==id):
                 if c.image:
                     Image.delete().where(Image.id==c.image).execute()
@@ -39,9 +40,7 @@ def post_one_view(request):
             post.delete_instance()
             l.info('deleted post '+id)
 
-
         return {'success': 1}
-        # TODO: delete comments + images
 
     if request.method == 'GET':
         try:
@@ -56,4 +55,22 @@ def post_one_view(request):
             raise HTTPNotFound()
 
     if request.method == 'PUT':
-        raise NotImplementedError('TO BE IMPLEMENTED')
+        try:
+            id = int(id)
+        except TypeError:
+            raise HTTPNotFound()
+
+        try:
+            post = Post.get(id=id)
+        except Post.DoesNotExist:
+            raise HTTPNotFound()
+
+        for field in Post.rest_fields:
+            if field in request.POST:
+                l.info('setting post '+field)
+                setattr(post, field, request.POST.getone(field))
+
+        post.save()
+
+        # TODO renderer = model-json
+        return Response(ModelEncoder().encode({'success': 1, 'post': post.json()}), content_type='text/json')

@@ -7,10 +7,18 @@ var FileUploadButton = require('./FileUploadButton.jsx');
 
 var Poster = React.createClass({
   getInitialState: function() {
-    return {
-      'imgs': [],
-      'content': this.props.editpost.content,
-      'changed': 0
+    if (this.props.editpost){
+      return {
+        'imgs': this.props.editpost.images,
+        'content': this.props.editpost.content,
+        'changed': 0
+      }
+    } else {
+      return {
+        'imgs': [],
+        'content': '',
+        'changed': 0
+      }
     }
   },
 
@@ -108,7 +116,7 @@ var Poster = React.createClass({
   submit: function() {
     var data = {
       image_ids: this.state.imgs.map(function (img){return img['image_id']}),
-      content: this.refs.content.getDOMNode().value,
+      content: this.refs.content.getDOMNode().value
     };
     var args = {
       url: '/api/post',
@@ -124,9 +132,8 @@ var Poster = React.createClass({
       error: function(result){
         alert(Strings.general_error);
       }
-    }
+    };
     if (this.props.editpost) {
-    alert('editing');
       args.url += '/' + this.props.editpost.id;
       args.type = 'PUT';
     }

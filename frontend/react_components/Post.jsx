@@ -36,9 +36,12 @@ var Post = React.createClass({
                  }
             </div>
             {this.state.editing ? <Poster user={this.props.user} editpost={post} />
-                : <div className="content">{post.content}</div>
+                : <div>
+                    <div className="content">{post.content}</div>
+                    <Images images={post.images} />
+                  </div>
             }
-            <Images images={post.images} />
+
             <CommentPanel comments={post.comments} user={this.props.user} post={post} />
         </div>
         );

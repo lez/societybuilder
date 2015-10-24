@@ -1,5 +1,8 @@
 from peewee import PostgresqlDatabase, Model
 import json
+
+from ist.util import *
+
 db = PostgresqlDatabase('is', user='is', password='is', host='localhost', port=5432)
 
 # uncomment to debug SQL queries:
@@ -15,6 +18,7 @@ class ModelEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Base) and hasattr(obj, 'json'):
             return obj.json()
+        l.debug('cannot encode object %r' % obj)
         return json.JSONEncoder.default(self, obj)
 
 class ValidationError(Exception):

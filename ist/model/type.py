@@ -84,7 +84,7 @@ class User(Base):
     def json(self):
         return {
             'login': self.login,
-            'id': self.get_id(),
+            'id': self.id,
             'image': self.image.json() if self.image else Image.nobody
         }
 
@@ -101,11 +101,13 @@ class AuthToken(Base):
 
 class Post(Base):
     created = IntegerField(default=time.time)
+    # modified = IntegerField(default=time.time)
     user = ForeignKeyField(User, on_delete='CASCADE')
     content = TextField(null=True)
     images = CharField()
 
     item_type = 'post'
+    rest_fields = ['content', 'images']
 
     def get_comments(self):
         return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
