@@ -14,13 +14,13 @@ class :x:jsx(:x:unsafe):
     if not hasattr(self, '_react_path'):
       raise AttributeError('_react_path is a mandatory member of :jsx:*')
     self._react_classname = self._react_path.split('.')[0]
-    self._react_id = self._react_classname.lower() + '_' + random_string(10)
+    self._react_id = random_string(10)
     render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
       class_name=self._react_classname,
       id_name=self._react_id,
       attr=ModelEncoder().encode(self._attr)
     )
-    ret = '<div id="{id_name}">{rendered}</div>'.format(id_name=self._react_id, rendered=str(render(self._react_path, self._attr)))
+    ret = '<div id="{id_name}" class="{class_name}">{rendered}</div>'.format(class_name=self._react_classname.lower(), id_name=self._react_id, rendered=str(render(self._react_path, self._attr)))
     if not hasattr(self, '_norender') or self._norender:
       ret += '<script type="text/javascript">{render_client_side}</script>'.format(render_client_side=render_react_element)
     return ret
