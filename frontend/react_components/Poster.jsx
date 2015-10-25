@@ -117,6 +117,10 @@ var Poster = React.createClass({
       images: image_ids.join(','),
       content: this.refs.content.getDOMNode().value
     };
+    if (this.props.wall) {
+      data.wall = this.props.wall; // wall and role are not required when editing a post
+      data.role = this.props.role;
+    }
     var args = {
       url: '/api/post',
       type: 'POST',

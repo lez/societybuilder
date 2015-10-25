@@ -1,4 +1,4 @@
-import datetime
+import time
 from pyramid.response import Response
 from pyramid.view import view_config
 from ist.model.type import Post, Comment, Image
@@ -8,10 +8,14 @@ from ist.util import *
 
 @view_config(route_name='post', renderer='json', request_method='POST', permission='user')
 def post_view(request):
-    try:
-        content = request.POST['content']
-    except KeyError:
-        return {'success': 0, 'error': 'invalid request'}
+    keys = ('content', 'images', 'wall', 'role')
+    for k in keys:
+        if k not in request.POST:
+            return {'success': 0, 'error': 'invalid request'}
+
+    content = request.POST['content']
+    wall = request.POST['wall']  #TODO validate wall id
+    role = request.POST['role']  #TODO validate
 
     if len(content) > 5000:
         return {'success': 0, 'error': 'Post is too long'}
@@ -20,7 +24,7 @@ def post_view(request):
         return {'success': 0, 'error': 'Too many images'}
 
     # TODO check if the images exist
-    post = Post(author=request.user, content=content, images=','.join(map(str, image_ids)))
+    post = Post(author=request.user, content=content, images=','.join(map(str, image_ids)), wall=wall, role=role)
     post.save()
 
     return {'success': 1}
@@ -52,7 +56,7 @@ def post_one_view(request):
 
         try:
             post = Post.select().where(Post.id == id).get()
-            return {'post': post.json()}
+            return Response(ModelEncoder().encode({'post': post.json()}), content_type='text/json')
         except Post.DoesNotExist:
             raise HTTPNotFound()
 
@@ -67,12 +71,11 @@ def post_one_view(request):
         except Post.DoesNotExist:
             raise HTTPNotFound()
 
-        for field in Post.rest_fields:
+        for field in Post.rest_editable_fields:
             if field in request.POST:
-                l.info('setting post '+field)
                 setattr(post, field, request.POST.getone(field))
 
+        post.modified = int(time.time())
         post.save()
-        post.modified = datetime.time()
 
         return Response(ModelEncoder().encode({'success': 1, 'post': post.json()}), content_type='text/json')

@@ -1,6 +1,5 @@
-from peewee import PostgresqlDatabase, Model
 import json
-
+from peewee import PostgresqlDatabase, Model
 from ist.util import *
 
 db = PostgresqlDatabase('is', user='is', password='is', host='localhost', port=5432)

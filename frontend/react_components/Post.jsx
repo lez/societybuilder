@@ -1,5 +1,5 @@
 var React = require('react');
-var UserThumbnail = require('./UserThumbnail.jsx');
+var RoleThumbnail = require('./RoleThumbnail.jsx');
 var UserName = require('./UserName.jsx');
 var Images = require('./Images.jsx');
 var Poster = require('./Poster.jsx');
@@ -13,24 +13,23 @@ var Post = React.createClass({
 
     render: function() {
         var post = this.props.post;
-        return (
-        <div className="Post">
+        return <div className="Post">
             <div className="header clearfix">
-                <UserThumbnail user={post.user} size="medium"/>
+                <RoleThumbnail role={post.role} size="medium"/>
                 <div className="post_data">
                     <div>
-                        <UserName user={post.user} />
+                        {post.role.user ? <UserName user={post.role.user} /> : <span className="UserName"><a href={'/' + post.role.page.name}>{post.role.page.name}</a></span>}
                     </div>
                     <div>
                         <span className="TimeStamp"><a href={post.permalink}>{Time.human(post.created)}</a></span>
                     </div>
                 </div>
-                {(!this.state.editing) ?<div>
+                {(!this.state.editing) ? <div>
                 <div className="DeletePostButton">
-                        <a href="#" onClick={this.delete}><i className="icon-cancel"></i></a>
+                        <a href="#" onClick={this.handleDelete}><i className="icon-cancel"></i></a>
                     </div>
                     <div className="EditPostButton">
-                        <a href="#" onClick={this.edit}><i className="icon-edit"></i></a>
+                        <a href="#" onClick={this.handleEdit}><i className="icon-edit"></i></a>
                     </div></div>
                  : null
                  }
@@ -43,11 +42,10 @@ var Post = React.createClass({
             }
 
             <CommentPanel comments={post.comments} user={this.props.user} post={post} />
-        </div>
-        );
+        </div>;
     },
 
-    delete: function(e) {
+    handleDelete: function(e) {
         e.preventDefault();
         if (confirm('Are you sure you want to delete this post?')){
             jQuery.ajax({
@@ -66,7 +64,8 @@ var Post = React.createClass({
             });
         }
     },
-    edit: function(e) {
+
+    handleEdit: function(e) {
         e.preventDefault();
         this.setState({'editing': 1});
     }

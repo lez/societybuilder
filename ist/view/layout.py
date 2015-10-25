@@ -1,7 +1,6 @@
 from pyramid.view import view_config
 from xhpy3.xhpy.pylib import *
 from ist.view.element import *
-from ist.model.type import Post
 
 @view_config(route_name='home', renderer='xhpy')
 def home(request):
@@ -18,7 +17,7 @@ def home(request):
 @view_config(route_name='test', renderer='xhpy')
 def test(request):
     return \
-    <ui:layout user={request.user} >
+    <ui:layout user={request.user}>
         x
     </ui:layout>
 
@@ -30,7 +29,7 @@ def me(request):
 
     a = \
     <ui:layout user={request.user}>
-        <react:poster user={request.user} />
+        <react:poster user={request.user} wall={request.user.wall_id} role={request.user.role_id} />
         <ui:posts posts={posts} user={request.user} />
     </ui:layout>
 

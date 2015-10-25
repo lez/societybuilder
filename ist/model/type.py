@@ -4,6 +4,7 @@ import re
 import os
 import ist
 from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy, BooleanField, CompositeKey, PrimaryKeyField
+
 from .base import Base, ValidationError
 from ..util import *
 
@@ -51,8 +52,16 @@ class User(Base):
     class AuthFailed(Exception):
         pass
 
+    @property
+    def wall_id(self):
+        return "user:%d" % self.id
+
+    @property
+    def role_id(self):
+        return "user:%d" % self.id
+
     def posts(self):
-        return Post.select().where(Post.author==self).order_by(-Post.id)
+        return Post.select().where(Post.wall==self.wall_id).order_by(-Post.id)
 
     def pages(self):
         return Page.select().where(Page.owner==self).order_by(-Page.id)
@@ -105,14 +114,15 @@ class AuthToken(Base):
 class Post(Base):
     created = IntegerField(default=time.time)
     modified = IntegerField(default=time.time)
-    author = ForeignKeyField(User, on_delete='CASCADE')
-    wall = CharField(max_length=20)
+    author = ForeignKeyField(User, on_delete='CASCADE')  # the user who is logged in when the post is sent
+    wall = CharField(max_length=20)  # 'wall' is where posts are created.
+    role = CharField(max_length=20)  # posts are created on behalf of a virtual personality, a so called 'role'. Currently it can be a user or a page.
     content = TextField(null=True)
     images = CharField()
     privacy = IntegerField(default=0)
 
     item_type = 'post'
-    rest_fields = ['content', 'images']
+    rest_editable_fields = ['content', 'images']
 
     def get_comments(self):
         return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
@@ -127,15 +137,22 @@ class Post(Base):
     def get_image_ids(self):
         return self.images.split(',')
 
+    def get_wall(self):
+        return get_wall(self.wall)
+
+    def get_role(self):
+        return get_role(self.role)
+
     def json(self):
         return {
             'id': self.get_id(),
             'content': self.content,
             'images': self.get_images(),
             'comments': self.get_comments(),
-            'user': self.user,
             'created': self.created,
-            'permalink': '/post/' + str(self.get_id())
+            'modified': self.modified,
+            'wall': self.get_wall(),
+            'role': self.get_role(),
         }
 
     class Meta:
@@ -221,5 +238,47 @@ class Page(Base):
     class Meta:
         db_table = 'pages'
 
+    @property
+    def wall_id(self):
+        return 'page:%d' % self.id
+
+    @property
+    def role_id(self):
+        return 'page:%d' % self.id
+
+    def posts(self):
+        return Post.select().where(Post.wall==self.wall_id).order_by(-Post.id)
+
+    def json(self):
+        return {
+            'id': self.id,
+            # thumbnail...
+            'name': self.name,
+        }
 
 ImageProxy.initialize(Image)
+
+
+# some model related helpers at the end
+
+def get_wall(wall_id):
+    type, id_ = wall_id.split(':')
+    if type == 'page':
+        wall = {'page': Page.get(id=id_)}
+    elif type == 'user':
+        wall = {'user': User.get(id=id_)}
+    else:
+        raise Exception('unknown wall type: %s' % type)
+    return wall
+
+
+def get_role(role_id):
+    type, id_ = role_id.split(':')
+    if type == 'page':
+        role = {'page': Page.get(id=id_)}
+    elif type == 'user':
+        role = {'user': User.get(id=id_)}
+    else:
+        raise Exception('unknown role type: %s' % type)
+    return role
+

@@ -22,11 +22,19 @@ def show_page(request):
     try:
         page = Page.get(id=id_)
     except Page.DoesNotExist:
-        raise HTTPNotFound('nosuchpage')
+        raise HTTPNotFound('no such page')
+
+    posts = page.posts()
+    if page.owner == request.user:
+        role = page.role_id
+    else:
+        role = request.user.role_id
 
     return \
-    <ui:layout user={request.user} >
+    <ui:layout user={request.user}>
         <ui:showpage page={page} user={request.user} />
+        <react:poster user={request.user} wall={page.wall_id} role={role} />
+        <ui:posts posts={posts} user={request.user} />
     </ui:layout>
 
 @view_config(route_name='showallpages', renderer='xhpy')
