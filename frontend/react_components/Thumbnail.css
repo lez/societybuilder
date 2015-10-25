@@ -1,9 +1,14 @@
 .Thumbnail.large {
     font-size: 100px;
+    height: 100px;
 }
+
 .Thumbnail.medium {
     font-size: 60px;
+    height: 60px;
 }
+
 .Thumbnail.small {
     font-size: 30px;
+    height: 30px;
 }

@@ -1,5 +1,5 @@
 from xhpy3.xhpy.pylib import *
-from ist.model.type import Post, User, Page
+from ist.model.type import User, Page
 from ist.model.base import ModelEncoder
 from ..react import render
 from ..util import *
@@ -57,6 +57,12 @@ class :react:addprofileimage(:x:jsx):
 
 class :react:imagefield(:x:jsx):
   _react_path = 'ImageField.jsx'
+
+class :react:thumbnail(:x:jsx):
+  _react_path = 'Thumbnail.jsx'
+
+class :react:userthumbnail(:x:jsx):
+  _react_path = 'UserThumbnail.jsx'
 
 # site elements
 class :ui:layout(:x:element):
@@ -123,9 +129,35 @@ class :ui:usermenu(:x:element):
     user = self.getAttribute('user')
     return \
     <div id="usermenu">
-      Hello, <a href={'/'+user.login+'/profile'}>{user.login}</a>!
       <ui:logoutbutton />
+      <ui:profilemenu user={user}/>
     </div>
+
+class :ui:logoutbutton(:x:element):
+  category %block
+  def render(self):
+    return <span class="logoutbutton"><a href="/logout">logout</a></span>
+
+class :ui:userlink(:x:element):
+  category %block
+  attribute User user @required
+  def render(self):
+    user = self.getAttribute('user')
+    return \
+    <span class="userlink"><a href={'/'+user.login+'/profile'}>{user.login}</a></span>
+
+class :ui:profilemenu(:x:element):
+  category %block
+  attribute User user @required
+  def render(self):
+    user = self.getAttribute('user')
+    return \
+    <a href={'/'+user.login+'/profile'}>
+      <div id="profilemenu">
+        <span class="userlink">{user.login}</span>
+        <react:userthumbnail user={user} />
+      </div>
+    </a>
 
 class :ui:sidebar(:x:element):
   attribute object user
@@ -190,11 +222,6 @@ class :ui:loginbox(:x:element):
         <input name="submit" type="submit" value="Log in" />
       </form>
     </div>
-
-class :ui:logoutbutton(:x:element):
-  category %block
-  def render(self):
-    return <a href="/logout">logout</a>
 
 class :ui:poster(:x:element):
   category %block

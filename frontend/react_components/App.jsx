@@ -10,26 +10,14 @@ var internet_state = {
   Comment: require('./Comment.jsx'),
   Comments: require('./Comments.jsx'),
   CommentPanel: require('./CommentPanel.jsx'),
+  Thumbnail: require('./Thumbnail.jsx'),
+  UserThumbnail: require('./UserThumbnail.jsx'),
+  RoleThumbnail: require('./RoleThumbnail.jsx'),
 
   addAnyReactElement: function(react_class, element, attr) {
     var React = require('react');
     React.render(React.createElement(react_class, attr), element);
   },
-
-/*  addGallery: function(element, image, current_user){
-    var React = require('react');
-    var Gallery = require('./Gallery.jsx');
-
-    React.render(
-      <Gallery image={image} current_user={current_user}/>,
-      element
-    );
-    jQuery('#user_header').load("/fragments/user_header.php?user_id=" + image.user_id);
-    jQuery('#comments').load("/fragments/image.php?img=" + image.image_id + '-' + image.serial);
-  },*/
-
-
-
 
   submit: function(event, element) {
     event.preventDefault();
@@ -57,16 +45,7 @@ var internet_state = {
         }.bind(this)
       });
     console.log(data);
-  },
-
-
-
-
-
+  }
 };
-
-
-
-
 
 IS = internet_state;

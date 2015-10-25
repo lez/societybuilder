@@ -1,6 +1,6 @@
 #main {
     width: 960px;
-    margin: 0px auto;
+    margin: 0 auto;
 }
 
 #header {
@@ -11,8 +11,46 @@
 
 #user_header {
     float: right;
-    margin-right: 12px;
+    margin-right: 8px;
     margin-top: 6px;
+}
+
+#usermenu {
+    width: auto;
+}
+
+#usermenu a {
+    float: right;
+}
+
+#usermenu .logoutbutton a {
+    font-size: 13px;
+    text-decoration: none;
+    margin-left: 17px;
+    margin-top: 10px;
+}
+
+#usermenu #profilemenu {
+    float: right;
+    border: 1px solid #eaeaea;
+    border-radius: 2px;
+    padding: 3px 10px 3px 3px;
+}
+
+#usermenu #profilemenu:hover {
+    background: #e0e0e0;
+    border: 1px solid #ccc;
+}
+
+#profilemenu .userthumbnail {
+    float: right;
+    margin-right: 10px;
+}
+
+#profilemenu .userlink {
+    font-size: 20px;
+    line-height: 30px;
+    float: right;
 }
 
 #sidebar {
