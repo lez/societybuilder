@@ -108,16 +108,11 @@ class LayoutRenderer:
             content = value
             rightbar = <ui:rightbar user={user} />
 
-        frag = \
-        <x:frag>
+        layout = <ui:layout user={user}>
             <div id="content">
                 {content}
             </div>
             {rightbar}
-        </x:frag>
-
-        layout = <ui:layout user={user}>
-            {frag}
         </ui:layout>
 
         return str(layout)
