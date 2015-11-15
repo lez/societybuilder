@@ -6,6 +6,8 @@ from webob.cookies import CookieProfile
 from zope.interface import implementer
 from .model.type import User, AuthToken
 from .util import *
+from xhpy3.xhpy.pylib import *
+from ist.view.element import *
 
 def remember_user(user, request):
     request.session['user'] = user.id
@@ -91,6 +93,34 @@ class XHPyRenderer:
 
     def __call__(self, value, system):
         return str(value)
+
+@implementer(IRendererFactory)
+class LayoutRenderer:
+    def __init__(self, info):
+        self.info = info
+
+    def __call__(self, value, system):
+        user = system['request'].user
+
+        if isinstance(value, tuple) and len(value) == 2:
+            content, rightbar = value
+        else:
+            content = value
+            rightbar = <ui:rightbar user={user} />
+
+        frag = \
+        <x:frag>
+            <div id="content">
+                {content}
+            </div>
+            {rightbar}
+        </x:frag>
+
+        layout = <ui:layout user={user}>
+            {frag}
+        </ui:layout>
+
+        return str(layout)
 
 @implementer(IAuthorizationPolicy)
 class IsAuthorizationPolicy:

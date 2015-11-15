@@ -5,14 +5,11 @@ from ist.view.element import *
 from ist.util import l
 from ist.model.type import Page, User, AuthToken
 
-@view_config(route_name='createpage', renderer='xhpy', permission='user')
+@view_config(route_name='createpage', renderer='layout', permission='user')
 def create_page(request):
-    return \
-    <ui:layout user={request.user} >
-        <ui:createpage />
-    </ui:layout>
+    return <ui:createpage />
 
-@view_config(route_name='showpage', renderer='xhpy')
+@view_config(route_name='showpage', renderer='layout')
 def show_page(request):
     id_ = request.matchdict['id']
     try:
@@ -30,14 +27,19 @@ def show_page(request):
     else:
         role = request.user.role_id
 
-    return \
-    <ui:layout user={request.user}>
+    content = <x:frag>
         <ui:showpage page={page} user={request.user} />
         <react:poster user={request.user} wall={page.wall_id} role={role} />
         <ui:posts posts={posts} user={request.user} />
-    </ui:layout>
+    </x:frag>
 
-@view_config(route_name='showallpages', renderer='xhpy')
+    rightbar = <ui:rightbar user={request.user}>
+        {page.description}
+    </ui:rightbar>
+
+    return content, rightbar
+
+@view_config(route_name='showallpages', renderer='layout')
 def show_all_pages(request):
     pages = Page.select()
 
@@ -45,9 +47,9 @@ def show_all_pages(request):
     for page in pages:
         a.appendChild(<li><a href={"/page/show/%d"%page.id}>{page.name}</a></li>)
     
-    return <ui:layout user={request.user}>{a}</ui:layout>
+    return a
 
-@view_config(route_name='showmypages', renderer='xhpy', permission='user')
+@view_config(route_name='showmypages', renderer='layout', permission='user')
 def show_my_pages(request):
     pages = request.user.pages()
 
@@ -55,4 +57,4 @@ def show_my_pages(request):
     for page in pages:
         a.appendChild(<li><a href={"/page/show/%d" % page.id}>{page.name}</a></li>)
 
-    return <ui:layout user={request.user}>{a}</ui:layout>
+    return a

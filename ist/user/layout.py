@@ -4,7 +4,7 @@ from ist.view.element import *
 from xhpy3.xhpy.pylib import  *
 from ist.model.type import User
 
-@view_config(route_name='user_profile', renderer='xhpy')
+@view_config(route_name='user_profile', renderer='layout')
 def show_profile(request):
     try:
         user = User.select().where(
@@ -13,7 +13,4 @@ def show_profile(request):
     except User.DoesNotExist:
         raise HTTPNotFound()
 
-    return \
-    <ui:layout user={request.user}>
-        <react:addprofileimage user={request.user} />
-    </ui:layout>
+    return <react:addprofileimage user={request.user} />

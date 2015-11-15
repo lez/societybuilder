@@ -84,10 +84,7 @@ class :ui:layout(:x:element):
           <div id="main">
             <ui:header user={user} />
             <ui:sidebar user={user} />
-            <div id="content">
-              {self.getChildren()}
-            </div>
-            <ui:rightbar user={user} />
+            {self.getChildren()}
           </div>
         </body>
       </html>
@@ -182,12 +179,10 @@ class :ui:rightbar(:x:element):
 
   def render(self):
     user = self.getAttribute('user')
-
     x = <div id="rightbar" />
-
     if not user:
       x.appendChild(<ui:signupbox />)
-
+    x.appendChild(self.getChildren())
     return x
 
 class :ui:logo(:x:element):
@@ -265,18 +260,9 @@ class :ui:showpage(:x:element):
     page = self.getAttribute('page')
     user = self.getAttribute('user')
 
-    if page.owner == user:
-      info = "This page is YOURS"
-    elif page.is_owner_public:
-      info = "Owner: %s" % page.owner.login
-    else:
-      info = "Whose page is this?"
-
     return \
     <div id="showpage">
-      <div class="info">{info}</div>
       <div class="title">{page.name}</div>
-      <div class="description">{page.description}</div>
     </div>
 
 
