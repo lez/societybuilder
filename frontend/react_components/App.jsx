@@ -14,6 +14,11 @@ var internet_state = {
   UserThumbnail: require('./UserThumbnail.jsx'),
   RoleThumbnail: require('./RoleThumbnail.jsx'),
 
+  reducer: function(state, action){
+    //console.log('event: ' + action.type);
+    return action.active;
+  },
+
   addAnyReactElement: function(react_class, element, attr) {
     var React = require('react');
     React.render(React.createElement(react_class, attr), element);
@@ -49,3 +54,7 @@ var internet_state = {
 };
 
 IS = internet_state;
+
+var redux = require('redux');
+IS.store = redux.createStore(IS.reducer);
+IS.store.subscribe(function () {console.log(IS.store.getState());});
