@@ -9,11 +9,11 @@ var AddProfileImage = React.createClass({
 
     render: function() {
         return <div className="AddProfileImage">
-                    <form data-url="/api/user" method="post" onSubmit={this.submit} ref="form">
-                        <ImageField image={this.props.user.image} onChange={this.onChange}/>
-                        {this.state.changed ? <input type="submit" value="Csere" /> : null}
-                    </form>
-               </div>;
+            <form data-url="/api/user" method="post" onSubmit={this.submit} ref="form">
+                <ImageField image={this.props.user.image} onChange={this.onChange}/>
+                {this.state.changed ? <input type="submit" value="Csere" /> : null}
+            </form>
+        </div>;
     },
 
     submit: function(event) {

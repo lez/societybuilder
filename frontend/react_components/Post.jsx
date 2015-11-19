@@ -34,7 +34,7 @@ var Post = React.createClass({
                  : null
                  }
             </div>
-            {this.state.editing ? <Poster user={this.props.user} editpost={post} />
+            {this.state.editing ? <Poster user={this.props.user} editpost={post} role={this.props.post.role} />
                 : <div>
                     <div className="content">{post.content}</div>
                     <Images images={post.images} />

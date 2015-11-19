@@ -15,6 +15,6 @@ def me(request):
     posts = request.user.posts()
     return \
     <x:frag>
-        <react:poster user={request.user} wall={request.user.wall_id} role={request.user.role_id} />
+        <react:poster user={request.user} wall={request.user.wall_id} role={request.user.role} />
         <ui:posts posts={posts} user={request.user} />
     </x:frag>

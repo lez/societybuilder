@@ -66,6 +66,17 @@ class User(Base):
     def pages(self):
         return Page.select().where(Page.owner==self).order_by(-Page.id)
 
+    @property
+    def role(self):
+        return get_role(self.role_id)
+
+    @property
+    def roles(self):
+        roles = [{'user': self, 'id': self.id, 'name': self.login}]
+        for page in self.pages():
+            roles.append({'page': page, 'id': page.id, 'name': page.name})
+        return roles
+
     @classmethod
     def get_by_token(cls, token):
         try:
@@ -234,6 +245,7 @@ class Page(Base):
     description = CharField(max_length=250)
     is_owner_public = BooleanField(default=False)
     is_public = BooleanField(default=True)
+    image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
 
     class Meta:
         db_table = 'pages'
@@ -245,6 +257,10 @@ class Page(Base):
     @property
     def role_id(self):
         return 'page:%d' % self.id
+
+    @property
+    def role(self):
+        return get_role(self.role_id)
 
     def posts(self):
         return Post.select().where(Post.wall==self.wall_id).order_by(-Post.id)
@@ -275,9 +291,11 @@ def get_wall(wall_id):
 def get_role(role_id):
     type, id_ = role_id.split(':')
     if type == 'page':
-        role = {'page': Page.get(id=id_)}
+        page = Page.get(id=id_)
+        role = {'id': role_id, 'name': page.name, 'image': page.image, 'page': page}
     elif type == 'user':
-        role = {'user': User.get(id=id_)}
+        user = User.get(id=id_)
+        role = {'id': role_id, 'name': user.login, 'image': user.image, 'user': user}
     else:
         raise Exception('unknown role type: %s' % type)
     return role

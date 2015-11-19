@@ -1,6 +1,5 @@
 .Poster {
     display: block;
-    width: 445px;
 }
 
 .Poster h3 {
@@ -58,6 +57,8 @@
 
 .Poster .wrapper {
     display: block;
+    float: left;
+    width: 495px;
 }
 
 .Poster .UploadImages {
@@ -107,4 +108,8 @@
 .Poster .composer_footer {
     width: 100%;
     border-collapse: collapse;
+}
+
+.Poster .Roles {
+    float: left;
 }

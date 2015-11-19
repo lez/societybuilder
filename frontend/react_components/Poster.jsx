@@ -2,6 +2,7 @@ var randomString = require('random-string');
 var React = require('react');
 var UploadImages = require('./UploadImages.jsx');
 var Video = require('./Video.jsx');
+var Roles = require('./Roles.jsx');
 var Strings = require('../common_js/Strings.js');
 var FileUploadButton = require('./FileUploadButton.jsx');
 
@@ -30,7 +31,8 @@ var Poster = React.createClass({
     var max_imgs = this.getMaxImgs();
 
     return (
-      <div className="Poster">
+      <div className="Poster clearfix">
+        <Roles roles={this.props.roles} role={this.props.role} />
         <div className="wrapper">
           <div>
             {this.state.changed?
@@ -119,7 +121,7 @@ var Poster = React.createClass({
     };
     if (this.props.wall) {
       data.wall = this.props.wall; // wall and role are not required when editing a post
-      data.role = this.props.role;
+      data.role = this.props.role.id;
     }
     var args = {
       url: '/api/post',

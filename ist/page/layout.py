@@ -23,9 +23,9 @@ def show_page(request):
 
     posts = page.posts()
     if page.owner == request.user:
-        poster = <react:poster user={request.user} wall={page.wall_id} role={page.role_id} />
+        poster = <react:poster user={request.user} wall={page.wall_id} role={page.role} roles={request.user.roles}/>
     elif request.user:
-        poster = <react:poster user={request.user} wall={page.wall_id} role={request.user.role_id} />
+        poster = <react:poster user={request.user} wall={page.wall_id} role={request.user.role} />
     else:
         poster = None
 
