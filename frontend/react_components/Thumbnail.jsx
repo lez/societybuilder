@@ -2,6 +2,7 @@ var React = require('react');
 var Util = require('../common_js/util.js');
 
 var dimensions = {
+  micro: '15x15',
   small: '30x30',
   medium: '60x60',
   large: '100x100'

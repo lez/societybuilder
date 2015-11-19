@@ -72,9 +72,9 @@ class User(Base):
 
     @property
     def roles(self):
-        roles = [{'user': self, 'id': self.id, 'name': self.login}]
+        roles = [{'user': self, 'id': 'user:%d' % self.id, 'name': self.login}]
         for page in self.pages():
-            roles.append({'page': page, 'id': page.id, 'name': page.name})
+            roles.append({'page': page, 'id': 'page:%d' % page.id, 'name': page.name})
         return roles
 
     @classmethod

@@ -1,0 +1,21 @@
+.RoleDropdown {
+    position: relative;
+}
+
+.RoleMenu {
+    position: absolute;
+    z-index: 1;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.RoleMenuItem {
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+}
+
+.RoleMenuItem:hover {
+    background: #ccc;
+    cursor: pointer;
+}

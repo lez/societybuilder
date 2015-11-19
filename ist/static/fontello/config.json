@@ -49,6 +49,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "2d6150442079cbda7df64522dc24f482",
+      "css": "down",
+      "code": 59403,
+      "src": "fontawesome"
+    },
+    {
       "uid": "bbd66ef66bb8fa9edde54d9a90b89150",
       "css": "user",
       "code": 59398,
@@ -71,6 +77,12 @@
       "css": "email",
       "code": 59394,
       "src": "zocial"
+    },
+    {
+      "uid": "7b16b22168e762c88333f465da862098",
+      "css": "ok",
+      "code": 59402,
+      "src": "websymbols"
     }
   ]
 }

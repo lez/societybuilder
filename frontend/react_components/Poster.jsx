@@ -10,15 +10,16 @@ var Poster = React.createClass({
   getInitialState: function() {
     if (this.props.editpost){
       return {
-        'imgs': this.props.editpost.images,
-        'content': this.props.editpost.content,
-        'changed': 0
+        imgs: this.props.editpost.images,
+        content: this.props.editpost.content,
+        changed: 0
       }
     } else {
       return {
-        'imgs': [],
-        'content': '',
-        'changed': 0
+        imgs: [],
+        content: '',
+        changed: 0,
+        role: this.props.role.id
       }
     }
   },
@@ -27,12 +28,16 @@ var Poster = React.createClass({
     return 12;
   },
 
+  handleChangeRole: function(role) {
+    this.setState({role: role});
+  },
+
   render: function() {
     var max_imgs = this.getMaxImgs();
 
     return (
       <div className="Poster clearfix">
-        <Roles roles={this.props.roles} role={this.props.role} />
+        <Roles roles={this.props.roles} current={this.state.role} onChangeRole={this.handleChangeRole} />
         <div className="wrapper">
           <div>
             {this.state.changed?
@@ -121,7 +126,7 @@ var Poster = React.createClass({
     };
     if (this.props.wall) {
       data.wall = this.props.wall; // wall and role are not required when editing a post
-      data.role = this.props.role.id;
+      data.role = this.state.role;
     }
     var args = {
       url: '/api/post',
