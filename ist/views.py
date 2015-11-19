@@ -38,9 +38,7 @@ def login_view(request):
 def logout_view(request):
     if 'user' in request.session:
         del request.session['user']
-    headers = forget(request)
-    return_to = request.referer or '/'
-    return HTTPFound(location=return_to, headers=headers)
+    return HTTPFound(location='/', headers=forget(request))
 
 @view_config(route_name='signup')
 def signup_view(request):
