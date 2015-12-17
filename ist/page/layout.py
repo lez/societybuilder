@@ -37,9 +37,28 @@ def show_page(request):
 
     rightbar = <ui:rightbar user={request.user}>
         {page.description}
+        <br/><a href={'/page/%d/edit' % page.id}>edit</a>
     </ui:rightbar>
 
     return content, rightbar
+
+@view_config(route_name='editpage', renderer='layout')
+def edit_page(request):
+    id_ = request.matchdict['id']
+    try:
+        id_ = int(id_)
+    except TypeError:
+        raise HTTPNotFound('invalid_id')
+    try:
+        page = Page.get(id=id_)
+    except Page.DoesNotExist:
+        raise HTTPNotFound('no such page')
+
+    content = <x:frag>
+
+    </x:frag>
+
+    return content
 
 @view_config(route_name='showallpages', renderer='layout')
 def show_all_pages(request):
@@ -47,7 +66,7 @@ def show_all_pages(request):
 
     a = <ul/>
     for page in pages:
-        a.appendChild(<li><a href={"/page/show/%d"%page.id}>{page.name}</a></li>)
+        a.appendChild(<li><a href={"/page/%d/show"%page.id}>{page.name}</a></li>)
     
     return a
 
@@ -57,6 +76,6 @@ def show_my_pages(request):
 
     a = <ul/>
     for page in pages:
-        a.appendChild(<li><a href={"/page/show/%d" % page.id}>{page.name}</a></li>)
+        a.appendChild(<li><a href={"/page/%d/show" % page.id}>{page.name}</a></li>)
 
     return a

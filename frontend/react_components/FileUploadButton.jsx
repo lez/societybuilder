@@ -14,7 +14,7 @@ var FileUploadButton = React.createClass({
 
     reset: function(e) {
         var elem = jQuery(e);
-        elem.wrap('<form>').closest('form').get(0).reset();
+        elem.wrap('<form>').closest('form').get(0).reset(); // FIXME there's no more form
         elem.unwrap();
     },
 

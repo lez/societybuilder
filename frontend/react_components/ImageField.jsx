@@ -37,6 +37,8 @@ var ImageField = React.createClass({
     field_value: function () {
         if (this.state.image)
             return this.state.image.id;
+        if (this.props.image)
+            return this.props.image.id;
         return '';
     },
 

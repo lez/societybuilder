@@ -5,7 +5,6 @@ var internet_state = {
   Post: require('./Post.jsx'),
   Test: require('./Test.jsx'),
   Commenter: require('./Commenter.jsx'),
-  AddProfileImage: require('./AddProfileImage.jsx'),
   ImageField: require('./ImageField.jsx'),
   Comment: require('./Comment.jsx'),
   Comments: require('./Comments.jsx'),
@@ -21,6 +20,7 @@ var internet_state = {
 
   addAnyReactElement: function(react_class, element, attr) {
     var React = require('react');
+    console.log('add' + react_class);
     React.render(React.createElement(react_class, attr), element);
   },
 
@@ -50,11 +50,30 @@ var internet_state = {
         }.bind(this)
       });
     console.log(data);
+  },
+
+  submitRest: function(url, data) {
+    console.log(data);
+    jQuery.ajax({
+      url: url,
+      type: 'POST',
+      data: data,
+      success: function(result){
+        if (!result.success) {
+          alert(result.error ? result.error : Strings.general_error);
+        } else {
+          document.location.reload();
+        }
+      }.bind(this),
+      error: function(result){
+          alert(Strings.general_error);
+        }.bind(this)
+      });
   }
 };
 
 IS = internet_state;
 
-var redux = require('redux');
-IS.store = redux.createStore(IS.reducer);
-IS.store.subscribe(function () {console.log(IS.store.getState());});
+//var redux = require('redux');
+//IS.store = redux.createStore(IS.reducer);
+//IS.store.subscribe(function () {console.log(IS.store.getState());});

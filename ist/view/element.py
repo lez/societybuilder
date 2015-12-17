@@ -52,8 +52,8 @@ class :react:images(:x:jsx):
 class :react:profileimage(:x:jsx):
   _react_path = 'ProfileImage.jsx'
 
-class :react:addprofileimage(:x:jsx):
-  _react_path = 'AddProfileImage.jsx'
+class :react:editprofileimage(:x:jsx):
+  _react_path = 'EditProfileImage.jsx'
 
 class :react:imagefield(:x:jsx):
   _react_path = 'ImageField.jsx'

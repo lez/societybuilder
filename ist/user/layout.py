@@ -13,4 +13,4 @@ def show_profile(request):
     except User.DoesNotExist:
         raise HTTPNotFound()
 
-    return <react:addprofileimage user={request.user} />
+    return <react:editprofileimage image={request.user.image} url="/api/user" />
