@@ -1,3 +1,5 @@
+#coding: pyxl
+from pyxl import html
 from pyramid.compat import native_, bytes_
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy, IRendererInfo, IRendererFactory
@@ -6,7 +8,6 @@ from webob.cookies import CookieProfile
 from zope.interface import implementer
 from .model.type import User, AuthToken
 from .util import *
-from xhpy3.xhpy.pylib import *
 from ist.view.element import *
 
 def remember_user(user, request):
@@ -87,7 +88,7 @@ class _SimpleSerializer(object):
 
 
 @implementer(IRendererFactory)
-class XHPyRenderer:
+class PyxlRenderer:
     def __init__(self, info):
         pass
 
@@ -106,14 +107,14 @@ class LayoutRenderer:
             content, rightbar = value
         else:
             content = value
-            rightbar = <ui:rightbar user={user} />
+            rightbar = <rightbar user="{user}" />
 
-        layout = <ui:layout user={user}>
+        layout = <layout user="{user}">
             <div id="content">
                 {content}
             </div>
             {rightbar}
-        </ui:layout>
+        </layout>
 
         return str(layout)
 

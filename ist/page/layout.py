@@ -1,4 +1,4 @@
-from xhpy3.xhpy.pylib import  *
+#coding: pyxl
 from pyramid.view import view_config
 from pyramid.exceptions import HTTPNotFound
 from ist.view.element import *
@@ -7,7 +7,7 @@ from ist.model.type import Page, User, AuthToken
 
 @view_config(route_name='createpage', renderer='layout', permission='user')
 def create_page(request):
-    return <ui:createpage />
+    return <createpage />
 
 @view_config(route_name='showpage', renderer='layout')
 def show_page(request):
@@ -23,22 +23,22 @@ def show_page(request):
 
     posts = page.posts()
     if page.owner == request.user:
-        poster = <react:poster user={request.user} wall={page.wall_id} role={page.role} roles={request.user.roles}/>
+        poster = <react_poster user="{request.user}" wall="{page.wall_id}" role="{page.role}" roles="{request.user.roles}" />
     elif request.user:
-        poster = <react:poster user={request.user} wall={page.wall_id} role={request.user.role} />
+        poster = <react_poster user="{request.user}" wall="{page.wall_id}" role="{request.user.role}" />
     else:
         poster = None
 
-    content = <x:frag>
-        <ui:showpage page={page} user={request.user} />
+    content = <frag>
+        <showpage page="{page}" user="{request.user}" />
         {poster}
-        <ui:posts posts={posts} user={request.user} />
-    </x:frag>
+        <posts posts="{posts}" user="{request.user}" />
+    </frag>
 
-    rightbar = <ui:rightbar user={request.user}>
+    rightbar = <rightbar user="{request.user}">
         {page.description}
-        <br/><a href={'/page/%d/edit' % page.id}>edit</a>
-    </ui:rightbar>
+        <br/><a href="/page/{page.id}/edit">edit</a>
+    </rightbar>
 
     return content, rightbar
 
@@ -54,9 +54,7 @@ def edit_page(request):
     except Page.DoesNotExist:
         raise HTTPNotFound('no such page')
 
-    content = <x:frag>
-
-    </x:frag>
+    content = "wip"
 
     return content
 
@@ -66,7 +64,7 @@ def show_all_pages(request):
 
     a = <ul/>
     for page in pages:
-        a.appendChild(<li><a href={"/page/%d/show"%page.id}>{page.name}</a></li>)
+        a.append_children([<li><a href="/page/{page.id}/show">{page.name}</a></li>])
     
     return a
 
@@ -76,6 +74,6 @@ def show_my_pages(request):
 
     a = <ul/>
     for page in pages:
-        a.appendChild(<li><a href={"/page/%d/show" % page.id}>{page.name}</a></li>)
+        a.append_children([<li><a href="/page/{page.id}/show">{page.name}</a></li>])
 
     return a

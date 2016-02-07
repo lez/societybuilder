@@ -1,9 +1,3 @@
-from xhpy3.xhpy.init import register_xhpy_module
-register_xhpy_module('ist.view')
-register_xhpy_module('ist.auth')
-register_xhpy_module('ist.page.layout')
-register_xhpy_module('ist.user.layout')
-
 from pyramid.config import Configurator
 from pyramid.tests.pkgs.staticpermapp import RootFactory
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
@@ -16,7 +10,7 @@ from .model.type import User, AuthToken
 
 def main(global_settings, **settings):
     config = Configurator(settings=settings, authentication_policy=IsAuthenticationPolicy(), root_factory=RootFactory, authorization_policy=IsAuthorizationPolicy())
-    config.add_renderer(name='xhpy', factory='ist.auth.XHPyRenderer')
+    config.add_renderer(name='pyxl', factory='ist.auth.PyxlRenderer')
     config.add_renderer(name='layout', factory='ist.auth.LayoutRenderer')
     config.add_request_method(user, reify=True)
     config.add_route('home', '/')

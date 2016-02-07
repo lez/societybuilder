@@ -20,7 +20,7 @@ var internet_state = {
 
   addAnyReactElement: function(react_class, element, attr) {
     var React = require('react');
-    console.log('add' + react_class);
+    //console.log('add' + react_class);
     React.render(React.createElement(react_class, attr), element);
   },
 

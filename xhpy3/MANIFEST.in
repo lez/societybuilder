@@ -1,4 +1,0 @@
-include LICENSE
-include README.rst
-recursive-include xhpy/tests *.py *.py.in run_tests setup_tests
-recursive-exclude xhpy/tests/precompiled *.py

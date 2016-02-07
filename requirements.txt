@@ -1,0 +1,5 @@
+peewee==2.6.0
+behave==1.2.5
+pyramid==1.5.7
+pyramid-redis-sessions==1.0.1
+git+ssh://git@github.com/lez/pyxl3

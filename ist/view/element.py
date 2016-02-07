@@ -1,297 +1,222 @@
-from xhpy3.xhpy.pylib import *
+#coding: pyxl
 from ist.model.type import User, Page
 from ist.model.base import ModelEncoder
 from ..react import render
 from ..util import *
 
+from pyxl.element import x_element
+from pyxl import html
+
 import json
 import datetime
 
 # helpers
-class :x:jsx(:x:unsafe):
+class x_jsx(x_element):
 
-  def __str__(self):
-    if not hasattr(self, '_react_path'):
-      raise AttributeError('_react_path is a mandatory member of :jsx:*')
-    self._react_classname = self._react_path.split('.')[0]
-    self._react_id = random_string(10)
-    render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
-      class_name=self._react_classname,
-      id_name=self._react_id,
-      attr=ModelEncoder().encode(self._attr)
-    )
-    ret = '<div id="{id_name}" class="{class_name}">{rendered}</div>'.format(class_name=self._react_classname.lower(), id_name=self._react_id, rendered=str(render(self._react_path, self._attr)))
-    if not hasattr(self, '_norender') or self._norender:
-      ret += '<script type="text/javascript">{render_client_side}</script>'.format(render_client_side=render_react_element)
-    return ret
+    __validate_attrs__ = False
 
-class :react:commenter(:x:jsx):
-  _react_path = 'Commenter.jsx'
+    def render(self):
+        if not hasattr(self, '_react_path'):
+            raise AttributeError('_react_path is a mandatory member of x_jsx*')  # TODO fix this antipattern
+        self._react_classname = self._react_path.split('.')[0]
+        self._react_id = random_string(10)
+        render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
+            class_name=self._react_classname,
+            id_name=self._react_id,
+            attr=ModelEncoder().encode(self.__attributes__)
+        )
+        return <frag>
+            <div id="{self._react_id}" class="{'wrap_'+self._react_classname.lower()}">{html.rawhtml(render(self._react_path, self._attr))}</div>
+            <script type="text/javascript">{html.rawhtml(render_react_element)}</script>
+        </frag>
 
-class :react:comment(:x:jsx):
-  _react_path = 'Comment.jsx'
+class x_react_commenter(x_jsx):
+    _react_path = 'Commenter.jsx'
 
-class :react:commentpanel(:x:jsx):
-  _react_path = 'CommentPanel.jsx'
+class x_react_comment(x_jsx):
+    _react_path = 'Comment.jsx'
 
-class :react:comments(:x:jsx):
-  _react_path = 'Comments.jsx'
+class x_react_commentpanel(x_jsx):
+    _react_path = 'CommentPanel.jsx'
 
-class :react:poster(:x:jsx):
-  _react_path = 'Poster.jsx'
+class x_react_comments(x_jsx):
+    _react_path = 'Comments.jsx'
 
-class :react:post(:x:jsx):
-  _react_path = 'Post.jsx'
+class x_react_poster(x_jsx):
+    _react_path = 'Poster.jsx'
 
-class :react:test(:x:jsx):
-  _react_path = 'Test.jsx'
+class x_react_post(x_jsx):
+    _react_path = 'Post.jsx'
 
-class :react:images(:x:jsx):
-  _react_path = 'Images.jsx'
+class x_react_test(x_jsx):
+    _react_path = 'Test.jsx'
 
-class :react:profileimage(:x:jsx):
-  _react_path = 'ProfileImage.jsx'
+class x_react_images(x_jsx):
+    _react_path = 'Images.jsx'
 
-class :react:editprofileimage(:x:jsx):
-  _react_path = 'EditProfileImage.jsx'
+class x_react_profileimage(x_jsx):
+    _react_path = 'ProfileImage.jsx'
 
-class :react:imagefield(:x:jsx):
-  _react_path = 'ImageField.jsx'
+class x_react_editprofileimage(x_jsx):
+    _react_path = 'EditProfileImage.jsx'
 
-class :react:thumbnail(:x:jsx):
-  _react_path = 'Thumbnail.jsx'
+class x_react_imagefield(x_jsx):
+    _react_path = 'ImageField.jsx'
 
-class :react:userthumbnail(:x:jsx):
-  _react_path = 'UserThumbnail.jsx'
+class x_react_thumbnail(x_jsx):
+    _react_path = 'Thumbnail.jsx'
+
+class x_react_userthumbnail(x_jsx):
+    _react_path = 'UserThumbnail.jsx'
 
 # site elements
-class :ui:layout(:x:element):
-  attribute object user
-  category %block
+class x_layout(x_element):
 
-  def render(self):
-    user = self.getAttribute('user')
-    return \
-    <x:doctype>
-      <html>
-        <head>
-          <script type="text/javascript" src="/static/js/jquery.min.js"></script>
-          <script type="text/javascript" src="/static/js/compiled/app.js"></script>
-          <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
-          <title>Title</title>
-        </head>
-        <body>
-          <div id="main">
-            <ui:header user={user} />
-            <ui:sidebar user={user} />
-            {self.getChildren()}
-          </div>
-        </body>
-      </html>
-    </x:doctype>
+    # FIXME: <doctype>
+    def render(self, user):
+        return <html>
+            <head>
+                <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+                <script type="text/javascript" src="/static/js/compiled/app.js"></script>
+                <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
+                <title>Title</title>
+            </head>
+            <body>
+                <div id="main">
+                    <site_header user="{user}" />
+                    <sidebar user="{user}" />
+                    {self.children()}
+                </div>
+            </body>
+        </html>
 
-class :ui:header(:x:element):
-  attribute object user
-  category %flow
+class x_site_header(x_element):
+    def render(self, user):
+        return <div id="header">
+            <logo/>
+            <div id="jovilag">jóvilág</div>
+            <user_header user="{user}" />
+        </div>
 
-  def render(self):
-    user = self.getAttribute('user')
-    return \
-    <div id="header">
-      <ui:logo/>
-      <div id="jovilag">jóvilág</div>
-      <ui:user_header user={user}/>
-    </div>
+class x_user_header(x_element):
+    def render(self, user):
+        a = <div id="user_header"/>
+        if user:
+            user_parts = [<usermenu user="{user}" />]
+        else:
+            user_parts = [<loginbox />]
+        a.append_children(user_parts)
+        return a
 
-class :ui:user_header(:x:element):
-  attribute object user
-  category %flow
+class x_usermenu(x_element):
+    def render(self, user):
+        return <div id="usermenu">
+            <logoutbutton />
+            <profilemenu user="{user}" />
+        </div>
 
-  def render(self):
-    user = self.getAttribute('user')
-    a = <div id="user_header"/>
-    if user:
-      user_parts = [<ui:usermenu user={user} />]
-    else:
-      user_parts = [<ui:loginbox />]
-    for part in user_parts:
-      a.appendChild(part)
-    return a
+class x_logoutbutton(x_element):
+    def render(self):
+        return <span class="logoutbutton"><a href="/logout">logout</a></span>
 
-class :ui:usermenu(:x:element):
-  attribute object user
-  category %block
+class x_userlink(x_element):
+    def render(self, user: User):  # FIXME @required
+        return <span class="userlink"><a href="/{user.login}/profile">{user.login}</a></span>
 
-  def render(self):
-    user = self.getAttribute('user')
-    return \
-    <div id="usermenu">
-      <ui:logoutbutton />
-      <ui:profilemenu user={user}/>
-    </div>
+class x_profilemenu(x_element):
+  # XXX @required
+    def render(self, user: User):
+        return <a href="/{user.login}/profile">
+            <div id="profilemenu">
+                <span class="userlink">{user.login}</span>
+                <react_userthumbnail user="{user}" />
+            </div>
+        </a>
 
-class :ui:logoutbutton(:x:element):
-  category %block
-  def render(self):
-    return <span class="logoutbutton"><a href="/logout">logout</a></span>
+class x_sidebar(x_element):
+    def render(self, user: User):
+        return <div id="sidebar">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/page/all">All pages</a></li>
+                {<li><a href="/page/my">My pages</a></li> if user else None}
+                {<li><a href="/me">Me</a></li> if user else None}
+                {<li><a href="/page/create">Create page</a></li> if user else None}
+            </ul>
+        </div>
 
-class :ui:userlink(:x:element):
-  category %block
-  attribute User user @required
-  def render(self):
-    user = self.getAttribute('user')
-    return \
-    <span class="userlink"><a href={'/'+user.login+'/profile'}>{user.login}</a></span>
+class x_rightbar(x_element):
+    def render(self, user):
+        x = <div id="rightbar" />
+        if not user:
+            x.append_children([<signupbox />])
+        x.append_children(self.children())
+        return x
 
-class :ui:profilemenu(:x:element):
-  category %block
-  attribute User user @required
-  def render(self):
-    user = self.getAttribute('user')
-    return \
-    <a href={'/'+user.login+'/profile'}>
-      <div id="profilemenu">
-        <span class="userlink">{user.login}</span>
-        <react:userthumbnail user={user} />
-      </div>
-    </a>
+class x_logo(x_element):
+    def render(self):
+        return <span id="logo"><a href="/"><img src="/static/img/logo2.png" width="60" height="60"/></a></span>
 
-class :ui:sidebar(:x:element):
-  attribute object user
-  category %block
+class x_signupbox(x_element):
+    def render(self):
+        return <div id="signupbox">
+            <p>Sign up for this site.</p>
+            <form action="/signup" method="post" class="verticalform">
+                  <p><label for="login">Name:</label><input id="login" name="login" type="text" placeholder="login" /></p>
+                  <p><label for="passwd">Password:</label><input id="passwd" name="passwd" type="password" placeholder="password" /></p>
+                  <p><label for="email">Email:</label><input id="email" name="email" type="text" placeholder="email address" /></p>
+                  <p><input name="submit" type="submit" value="Sign up" /></p>
+            </form>
+        </div>
 
-  def render(self):
-    user = self.getAttribute('user')
-    return \
-    <div id="sidebar">
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/page/all">All pages</a></li>
-        {<li><a href="/page/my">My pages</a></li> if user else None}
-        {<li><a href="/me">Me</a></li> if user else None}
-        {<li><a href="/page/create">Create page</a></li> if user else None}
-      </ul>
-    </div>
+class x_loginbox(x_element):
+    def render(self):
+        return <div id="loginbox">
+            <form action="/login" method="post">
+                <input name="login" type="text" placeholder="login" />
+                <input name="passwd" type="password" placeholder="password" />
+                <input name="submit" type="submit" value="Log in" />
+            </form>
+        </div>
 
-class :ui:rightbar(:x:element):
-  attribute object user
-  category %block
+class x_poster(x_element):
+    def render(self):
+        return <div id="posterbox">
+            <react_poster />
+        </div>
 
-  def render(self):
-    user = self.getAttribute('user')
-    x = <div id="rightbar" />
-    if not user:
-      x.appendChild(<ui:signupbox />)
-    x.appendChild(self.getChildren())
-    return x
+class x_createpage(x_element):
+    def render(self):
+        return <form data-url="/api/page" id="createpage" method="post" onsubmit="IS.submit(event, this);">
+            <input type="text" name="name" placeholder="Name" />
+            <input type="text" name="description" placeholder="Short description" />
+            <input type="checkbox" name="is_owner_public" checked="checked" />
+            <input type="submit" name="submit" value="Create Page" />
+            <inputimage name="image" />
+        </form>
 
-class :ui:logo(:x:element):
-  category %block
-  def render(self):
-    return <span id="logo"><a href="/"><img src="/static/img/logo2.png" width="60" height="60"/></a></span>
+class x_inputimage(x_element):
+    # @required
+    def render(self, name):
+        return <input type="hidden" name="{name}" />
 
-class :ui:signupbox(:x:element):
-  category %block
+class x_showpage(x_element):
+    def render(self, user: User, page: Page):
+        return <div id="showpage">
+            <div class="title">{page.name}</div>
+        </div>
 
-  def render(self):
-    return \
-    <div id="signupbox">
-      <p>Sign up for this site.</p>
-      <form action="/signup" method="post" class="verticalform">
-        <p><label for="login">Name:</label><input id="login" name="login" type="text" placeholder="login" /></p>
-        <p><label for="passwd">Password:</label><input id="passwd" name="passwd" type="password" placeholder="password" /></p>
-        <p><label for="email">Email:</label><input id="email" name="email" type="text" placeholder="email address" /></p>
-        <p><input name="submit" type="submit" value="Sign up" /></p>
-      </form>
-    </div>
+class x_posts(x_element):
+    def render(self, posts, user):
+        a = <div id="posts" />
 
-class :ui:loginbox(:x:element):
-  category %block
+        for post in posts:
+            a.append_children([<react_post post="{post}" user="{user}" />])
+        return a
 
-  def render(self):
-    return \
-    <div id="loginbox">
-      <form action="/login" method="post">
-        <input name="login" type="text" placeholder="login" />
-        <input name="passwd" type="password" placeholder="password" />
-        <input name="submit" type="submit" value="Log in" />
-      </form>
-    </div>
-
-class :ui:poster(:x:element):
-  category %block
-
-  def render(self):
-    return \
-    <div id="posterbox">
-      <react:poster />
-    </div>
-
-class :ui:createpage(:x:element):
-  category %block
-
-  def render(self):
-    return \
-    <form data-url="/api/page" id="createpage" method="post" onsubmit="IS.submit(event, this);">
-      <input type="text" name="name" placeholder="Name" />
-      <input type="text" name="description" placeholder="Short description" />
-      <input type="checkbox" name="is_owner_public" checked="checked" />
-      <input type="submit" name="submit" value="Create Page" />
-      <ui:inputimage name="image" />
-    </form>
-
-class :ui:inputimage(:x:element):
-  category %block
-  attribute string name @required
-
-  def render(self):
-    name = self.getAttribute('name')
-
-    return \
-    <input type="hidden" name={name}/>
-
-
-class :ui:showpage(:x:element):
-  attribute Page page,
-            object user
-  category %block
-
-  def render(self):
-    page = self.getAttribute('page')
-    user = self.getAttribute('user')
-
-    return \
-    <div id="showpage">
-      <div class="title">{page.name}</div>
-    </div>
-
-
-class :ui:posts(:x:element):
-  attribute object posts, object user
-  category %block
-
-  def render(self):
-    posts = self.getAttribute('posts')
-    user = self.getAttribute('user')
-
-    a = \
-    <div id="posts"/>
-
-    for post in posts:
-        a.appendChild(<react:post post={post} user={user}/>)
-
-    return a
-
-
-class :ui:user(:x:element):
-  attribute User user
-  category %block
-
-  def render(self):
-    user = self.getAttribute('user')
-
-    return \
-    <div class="user">
-      <img src={user.thumbnail('60x60')} />
-    </div>
+class x_user(x_element):
+    def render(self, user: User):
+        return <div class="user">
+            <img src="{user.thumbnail('60x60')}" />
+        </div>
 

@@ -1,6 +1,0 @@
-*.swp
-*.pyc
-MANIFEST
-dist/
-xhpy/tests/precompiled/xhpy_precompiled
-xhpy/tests/precompiled/*.py
