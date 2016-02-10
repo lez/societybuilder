@@ -247,6 +247,9 @@ class Page(Base):
     is_public = BooleanField(default=True)
     image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
 
+    rest_editable_fields = ['name', 'description', 'is_owner_public', 'is_public', 'image']
+    rest_required_fields = ['name', 'description']
+
     class Meta:
         db_table = 'pages'
 

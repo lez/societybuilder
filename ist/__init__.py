@@ -29,6 +29,7 @@ def main(global_settings, **settings):
     config.add_route('user_profile', '/{login}/profile')
     config.add_notfound_view(notfound)
     config.include('pyramid_redis_sessions')
+    config.include('cornice')
     config.scan(__name__)
     return config.make_wsgi_app()
 

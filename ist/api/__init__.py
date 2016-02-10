@@ -8,6 +8,5 @@
 def api_methods(config):
     config.add_route('post', '/post')
     config.add_route('post_one', '/post/{id}')
-    config.add_route('page', '/page')
     config.add_route('user', '/user')
     config.add_route('comment', '/comment')

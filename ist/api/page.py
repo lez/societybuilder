@@ -1,30 +1,77 @@
 from pyramid.view import view_config
 from ist.model.type import Page
 
-@view_config(route_name='page', renderer='json', request_method='POST', permission='user')
-def content_view(request):
-    keys = ('name', 'description', 'is_owner_public')
-    for k in keys:
-        if k not in request.POST:
-            return {'success': 0, 'error': 'invalid request'}
+from cornice.resource import resource, view
 
-    name = request.POST['name']
-    description = request.POST['description']
-    is_owner_public = request.POST['is_owner_public']
-    if is_owner_public == 'true':
-        is_owner_public = True
-    else:
-        is_owner_public = False
+# TODO:
+# base class + page class
+# json legyen elfogadva POSTban, put-ban
+# model encoder
+# validate kulon legyen
 
-    if len(name) > 30:
-        return {'success': 0, 'error': 'Name is too long'}
 
-    if len(description) > 250:
-        return {'success': 0, 'error': 'Too long description'}
+@resource(collection_path='/api/page', path='/api/page/{id}')
+class PageRest:
+    def __init__(self, request):
+        self.request = request
 
-    owner = request.user
+    # get all instances
+    def collection_get(self):
+        pages = [p.json() for p in Page.select()]
+        return {'pages': pages}
 
-    page = Page(owner=owner, name=name, description=description, is_owner_public=is_owner_public)
-    page.save()
+    @view(accept='text/json', permission='user')
+    def collection_post(self):
+        for key in Page.rest_required_fields:
+            if key not in self.request.POST:
+                return {'success': 0, 'error': 'missing field: %s' % key}
+    
+        name = self.request.POST['name']
+        description = self.request.POST['description']
+        is_owner_public = self.request.POST.get('is_owner_public', 'true')
+        if is_owner_public == 'true':
+            is_owner_public = True
+        else:
+            is_owner_public = False
+    
+        if len(name) > 30:
+            return {'success': 0, 'error': 'Name is too long'}
+    
+        if len(description) > 250:
+            return {'success': 0, 'error': 'Too long description'}
+    
+        owner = self.request.user
+    
+        page = Page(owner=owner, name=name, description=description, is_owner_public=is_owner_public)
+        page.save()
+    
+        return {'success': 1, 'page': page.json()}
 
-    return {'success': 1}
+    def get(self):
+        id = self.request.matchdict['id']
+        page = Page.get(id=id)
+        return page.json()
+
+    # modify existing instance
+    def put(self):
+        id = self.request.matchdict['id']
+        page = Page.get(id=id)
+
+        modified = False
+        for key in Page.rest_editable_fields:
+            if key in self.request.POST:
+                modified = True
+                setattr(page, key, self.request.POST[key])
+
+        if modified:
+            page.save()
+
+        return {'success': 1, 'page': page.json()}
+
+    def delete(self):
+        id = self.request.matchdict['id']
+        page = Page.get(id=id)
+
+        page.delete_instance()
+
+        return {'success': 1}
