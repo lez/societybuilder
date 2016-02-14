@@ -139,9 +139,11 @@ class x_sidebar(x_element):
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/page/all">All pages</a></li>
-                {<li><a href="/page/my">My pages</a></li> if user else None}
-                {<li><a href="/me">Me</a></li> if user else None}
-                {<li><a href="/page/create">Create page</a></li> if user else None}
+                <if cond="{user}">
+                    <li><a href="/page/my">My pages</a></li>
+                    <li><a href="/me">Me</a></li>
+                    <li><a href="/page/create">Create page</a></li>
+                </if>
             </ul>
         </div>
 
