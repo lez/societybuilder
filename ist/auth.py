@@ -6,17 +6,17 @@ from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy, IRen
 from pyramid.security import remember, authenticated_userid
 from webob.cookies import CookieProfile
 from zope.interface import implementer
-from .model.type import User, AuthToken
 from .util import *
-from ist.view.element import *
 
 def remember_user(user, request):
+    from .model.type import AuthToken
     request.session['user'] = user.id
     token = AuthToken(token=random_string(100), user=user)
     token.save()
     return remember(request, token.token)
 
 def user(request):
+    from .model.type import User
     userid = authenticated_userid(request)
     if not userid:
         return None
@@ -41,6 +41,7 @@ class IsAuthenticationPolicy:
         return profile.get_headers(token, domains=self._cookie_domains(request))
 
     def authenticated_userid(self, request):
+        from .model.type import User
         if 'user' in request.session:
             l.info('user found in session')
             userid = request.session['user']
@@ -86,37 +87,6 @@ class _SimpleSerializer(object):
     def dumps(self, appstruct):
         return bytes_(appstruct)
 
-
-@implementer(IRendererFactory)
-class PyxlRenderer:
-    def __init__(self, info):
-        pass
-
-    def __call__(self, value, system):
-        return str(value)
-
-@implementer(IRendererFactory)
-class LayoutRenderer:
-    def __init__(self, info):
-        self.info = info
-
-    def __call__(self, value, system):
-        user = system['request'].user
-
-        if isinstance(value, tuple) and len(value) == 2:
-            content, rightbar = value
-        else:
-            content = value
-            rightbar = <rightbar user="{user}" />
-
-        layout = <layout user="{user}">
-            <div id="content">
-                {content}
-            </div>
-            {rightbar}
-        </layout>
-
-        return str(layout)
 
 @implementer(IAuthorizationPolicy)
 class IsAuthorizationPolicy:

@@ -1,13 +1,8 @@
 import json
-from peewee import PostgresqlDatabase, Model
+from peewee import Model
 from ist.util import *
 
-db = PostgresqlDatabase('is', user='is', password='is', host='localhost', port=5432)
-
-# uncomment to debug SQL queries:
-import logging
-pwlogger = logging.getLogger('peewee')
-pwlogger.setLevel(logging.DEBUG)
+from .dbconfig import db
 
 class Base(Model):
     class Meta:

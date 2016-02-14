@@ -1,5 +1,8 @@
 #!/bin/sh
-psql -U is << _EOF
+
+DBNAME=is
+
+psql -U $DBNAME << _EOF
 drop schema public cascade;
 create schema public;
 _EOF

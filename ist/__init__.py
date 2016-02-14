@@ -1,18 +1,33 @@
 from pyramid.config import Configurator
+from pyramid.security import remember, authenticated_userid
 from pyramid.tests.pkgs.staticpermapp import RootFactory
-from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
+
 from .api import api_methods
 from .page import page_methods
 from .view import notfound
-from pyramid.security import remember, authenticated_userid
-from .model.type import User, AuthToken
+# from .model.base import Base
 
+from .util import l
 
 def main(global_settings, **settings):
+
+    settings['debug.peewee'] = settings.get('debug.peewee', False)
+
+    if settings['debug.peewee']:
+        import logging
+        pwlogger = logging.getLogger('peewee')
+        pwlogger.setLevel(logging.DEBUG)
+
+    from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
+
     config = Configurator(settings=settings, authentication_policy=IsAuthenticationPolicy(), root_factory=RootFactory, authorization_policy=IsAuthorizationPolicy())
-    config.add_renderer(name='pyxl', factory='ist.auth.PyxlRenderer')
-    config.add_renderer(name='layout', factory='ist.auth.LayoutRenderer')
+
+    config.include('ist.model.dbconfig')
+
+    config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
+    config.add_renderer(name='layout', factory='ist.renderer.LayoutRenderer')
     config.add_request_method(user, reify=True)
+
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
