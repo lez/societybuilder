@@ -1,11 +1,11 @@
 from pyramid.config import Configurator
-from pyramid.security import remember, authenticated_userid
 from pyramid.tests.pkgs.staticpermapp import RootFactory
+import logging
 
 from .api import api_methods
 from .page import page_methods
 from .view import notfound
-# from .model.base import Base
+from .requestfactory import MyRequest
 
 from .util import l
 
@@ -14,15 +14,14 @@ def main(global_settings, **settings):
     settings['debug.peewee'] = settings.get('debug.peewee', False)
 
     if settings['debug.peewee']:
-        import logging
         pwlogger = logging.getLogger('peewee')
         pwlogger.setLevel(logging.DEBUG)
 
     from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
-    config = Configurator(settings=settings, authentication_policy=IsAuthenticationPolicy(), root_factory=RootFactory, authorization_policy=IsAuthorizationPolicy())
+    config = Configurator(settings=settings, authentication_policy=IsAuthenticationPolicy(), root_factory=RootFactory, authorization_policy=IsAuthorizationPolicy(), request_factory=MyRequest)
 
-    config.include('ist.model.dbconfig')
+    config.include('ist.model.base')
 
     config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
     config.add_renderer(name='layout', factory='ist.renderer.LayoutRenderer')

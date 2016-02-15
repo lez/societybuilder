@@ -1,22 +1,20 @@
 #coding: pyxl
 from pyxl import html
 from pyramid.compat import native_, bytes_
-from pyramid.httpexceptions import HTTPForbidden
-from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy, IRendererInfo, IRendererFactory
+from pyramid.interfaces import IAuthenticationPolicy, IAuthorizationPolicy
 from pyramid.security import remember, authenticated_userid
 from webob.cookies import CookieProfile
 from zope.interface import implementer
 from .util import *
+from .model.type import User, AuthToken
 
 def remember_user(user, request):
-    from .model.type import AuthToken
     request.session['user'] = user.id
     token = AuthToken(token=random_string(100), user=user)
     token.save()
     return remember(request, token.token)
 
 def user(request):
-    from .model.type import User
     userid = authenticated_userid(request)
     if not userid:
         return None
@@ -41,7 +39,6 @@ class IsAuthenticationPolicy:
         return profile.get_headers(token, domains=self._cookie_domains(request))
 
     def authenticated_userid(self, request):
-        from .model.type import User
         if 'user' in request.session:
             l.info('user found in session')
             userid = request.session['user']
