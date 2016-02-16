@@ -1,22 +1,38 @@
 import json
-from peewee import Model, PostgresqlDatabase
-from ist.util import *
 import logging
+from peewee import Model, PostgresqlDatabase
+from pyramid.request import Request
+from ist.util import *
 
 db = PostgresqlDatabase(None)
 
+class MyRequest(Request):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        db.connect()
+        self.add_finished_callback(self.finish)
+
+    def finish(self, request):
+        if not db.is_closed():
+            db.close()
+
 def includeme(config):
-    global db
+
     settings = config.get_settings()
 
-    if settings['debug.peewee']:
+    if settings['peewee.debug']:
         pwlogger = logging.getLogger('peewee')
         pwlogger.setLevel(logging.DEBUG)
 
-    db.init(settings['db.database'], user=settings['db.username'], password=settings['db.password'], host=settings['db.host'], port=settings['db.port'])
+    db.init(settings['peewee.database'], user=settings['peewee.username'], password=settings['peewee.password'], host=settings['peewee.host'], port=settings['peewee.port'])
+
+    config.add_request_method(lambda x: db, 'db', property=True)
+    config.set_request_factory(MyRequest)
 
 
 class Base(Model):
+
     class Meta:
         database = db
 

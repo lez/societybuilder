@@ -5,7 +5,6 @@ import logging
 from .api import api_methods
 from .page import page_methods
 from .view import notfound
-from .requestfactory import MyRequest
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
 from .util import l
@@ -27,8 +26,7 @@ def main(global_settings, **settings):
     config = Configurator(settings=settings,
                           authentication_policy=IsAuthenticationPolicy(),
                           root_factory=RootFactory,
-                          authorization_policy=IsAuthorizationPolicy(),
-                          request_factory=MyRequest)
+                          authorization_policy=IsAuthorizationPolicy())
 
     config.include('ist.model.base')
     config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
