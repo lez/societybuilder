@@ -1,13 +1,19 @@
 import json
 from peewee import Model, PostgresqlDatabase
 from ist.util import *
+import logging
 
 db = PostgresqlDatabase(None)
 
 def includeme(config):
     global db
     settings = config.get_settings()
-    db.init(settings['database.db'], user=settings['database.username'], password=settings['database.password'], host=settings['database.host'], port=settings['database.port'])
+
+    if settings['debug.peewee']:
+        pwlogger = logging.getLogger('peewee')
+        pwlogger.setLevel(logging.DEBUG)
+
+    db.init(settings['db.database'], user=settings['db.username'], password=settings['db.password'], host=settings['db.host'], port=settings['db.port'])
 
 
 class Base(Model):

@@ -6,27 +6,34 @@ from .api import api_methods
 from .page import page_methods
 from .view import notfound
 from .requestfactory import MyRequest
+from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
 from .util import l
 
+default_settings = {
+    'peewee.debug': False,
+    'peewee.database': 'is',
+    'peewee.username': 'is',
+    'peewee.password': 'is',
+    'peewee.host': '127.0.0.1',
+    'peewee.port': 5432,
+}
+
 def main(global_settings, **settings):
 
-    settings['debug.peewee'] = settings.get('debug.peewee', False)
+    for key in default_settings:
+        settings[key] = settings.get(key, default_settings[key])
 
-    if settings['debug.peewee']:
-        pwlogger = logging.getLogger('peewee')
-        pwlogger.setLevel(logging.DEBUG)
-
-    from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
-
-    config = Configurator(settings=settings, authentication_policy=IsAuthenticationPolicy(), root_factory=RootFactory, authorization_policy=IsAuthorizationPolicy(), request_factory=MyRequest)
+    config = Configurator(settings=settings,
+                          authentication_policy=IsAuthenticationPolicy(),
+                          root_factory=RootFactory,
+                          authorization_policy=IsAuthorizationPolicy(),
+                          request_factory=MyRequest)
 
     config.include('ist.model.base')
-
     config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
     config.add_renderer(name='layout', factory='ist.renderer.LayoutRenderer')
     config.add_request_method(user, reify=True)
-
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
