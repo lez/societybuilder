@@ -1,6 +1,7 @@
 #coding: pyxl
 from pyramid.view import view_config
 from ist.view.element import *
+from pyxl.html import *
 
 @view_config(route_name='home', renderer='layout')
 def home(request):

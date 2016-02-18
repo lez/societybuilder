@@ -18,17 +18,21 @@ class x_jsx(x_element):
     def render(self):
         if not hasattr(self, '_react_path'):
             raise AttributeError('_react_path is a mandatory member of x_jsx*')  # TODO fix this antipattern
+
         self._react_classname = self._react_path.split('.')[0]
         self._react_id = random_string(10)
+
         render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
             class_name=self._react_classname,
             id_name=self._react_id,
             attr=ModelEncoder().encode(self.__attributes__)
         )
+
         return <frag>
             <div id="{self._react_id}" class="{'wrap_'+self._react_classname.lower()}">{html.rawhtml(render(self._react_path, self._attr))}</div>
             <script type="text/javascript">{html.rawhtml(render_react_element)}</script>
         </frag>
+
 
 class x_react_commenter(x_jsx):
     _react_path = 'Commenter.jsx'
