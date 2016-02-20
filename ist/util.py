@@ -3,7 +3,6 @@ import base64
 import logging
 import datetime
 
-ROOT = os.path.normpath(os.path.dirname(os.path.dirname(__file__)))
 
 
 def random_string(length=32):
@@ -58,4 +57,4 @@ def relative_time(old):
             return ret + text
     return current.strftime('%B %d.')
 
-__all__ = ['l', 'random_string', 'EMAIL_REGEX', 'ROOT', 'human_time', 'relative_time']
+__all__ = ['l', 'random_string', 'EMAIL_REGEX', 'human_time', 'relative_time']

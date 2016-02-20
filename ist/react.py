@@ -1,10 +1,11 @@
 from react.render import render_component
 from react.conf import settings
-from .util import ROOT
+from ist import ROOT
 import os
 from json import JSONDecoder
 from ist.model.base import ModelEncoder
 
+# TODO: control from .ini files
 settings.configure(RENDER=False) # in production: True
 
 def render(jsx_path, props):

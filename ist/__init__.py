@@ -1,6 +1,6 @@
+import os
 from pyramid.config import Configurator
 from pyramid.tests.pkgs.staticpermapp import RootFactory
-import logging
 
 from .api import api_methods
 from .page import page_methods
@@ -8,6 +8,8 @@ from .view import notfound
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
 from .util import l
+
+ROOT = os.path.dirname(__path__[0])
 
 default_settings = {
     'peewee.debug': False,
