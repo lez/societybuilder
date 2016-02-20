@@ -1,9 +1,10 @@
 import sys
-import os
 from subprocess import PIPE, Popen
+import time
 import atexit
 from pyramid.paster import bootstrap as pyramid_bootstrap
 
+from ist import ROOT
 from ist.model.type import *
 
 def bootstrap():
@@ -20,7 +21,8 @@ def bootstrap():
     registry = env['registry']
     settings = registry.settings
 
-    atexit.register(lambda: env['closer'])
+    atexit.register(env['closer'])
+
     return env, registry, settings
 
 
@@ -43,3 +45,29 @@ def reset_db(settings):
     print('Page table created')
     Comment.create_table()
     print('Comment table created') 
+
+def start_test_server():
+
+    print("Starting test server in the background")
+    status = Popen(['pserve', 'testing.ini', '--daemon', '--pid-file=testing.pid']).wait()
+
+    if status == 2:
+        print('*** pserve deamon is already running, using it for testing ***')
+    else:
+        time.sleep(1)  # FIXME
+
+
+def stop_test_server():
+    print("Stopping test server")
+    Popen(['pserve', 'testing.ini', '--stop-daemon', '--pid-file=%s' % os.path.join(ROOT, 'testing.pid')]).wait()
+
+def run_behave():
+    os.chdir(os.path.join(ROOT, 'test/behave'))
+    Popen(['behave']).wait()
+
+def run_test(settings):
+    reset_db(settings)
+    start_test_server()
+    run_behave()
+    stop_test_server()
+

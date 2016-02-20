@@ -273,6 +273,7 @@ class Page(Base):
             'id': self.id,
             # thumbnail...
             'name': self.name,
+            'description': self.description,
         }
 
 ImageProxy.initialize(Image)
