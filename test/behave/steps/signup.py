@@ -50,16 +50,16 @@ def step_impl(c, name, desc):
     create = c.client.post('api/page', data={'name': name, 'description': desc})
     t.assertEqual(200, create.status_code)
     response = json.loads(create.text)
-    c.page_id = response['page']['id']
+    c.page_id = response['id']
 
 
 @given('There is a page called "{name}" with description "{desc}"')
 def step_impl(c, name, desc):
-    # TODO: direct DB query
+    # FIXME: direct DB create
     create = c.client.post('api/page', data={'name': name, 'description': desc})
     t.assertEqual(200, create.status_code)
     response = json.loads(create.text)
-    c.page_id = response['page']['id']
+    c.page_id = response['id']
 
 
 @when('I modify the page description to "{new_desc}"')
@@ -67,8 +67,7 @@ def step_impl(c, new_desc):
     r = c.client.put('api/page/%d' % c.page_id, data={'description': new_desc})
     t.assertEqual(200, r.status_code)
     resp = json.loads(r.text)
-    t.assertEqual(1, resp['success'])
-
+    t.assertEqual(new_desc, resp['description'])
 
 @when('I delete the page')
 def step_impl(c):

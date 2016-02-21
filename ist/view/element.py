@@ -1,6 +1,6 @@
 #coding: pyxl
 from ist.model.type import User, Page
-from ist.model.base import ModelEncoder
+from ist.model.base import ApiEncoder
 from ..react import render
 from ..util import *
 
@@ -25,7 +25,7 @@ class x_jsx(x_element):
         render_react_element = '''IS.addAnyReactElement(IS.{class_name}, document.getElementById("{id_name}"), {attr});'''.format(
             class_name=self._react_classname,
             id_name=self._react_id,
-            attr=ModelEncoder().encode(self.__attributes__)
+            attr=ApiEncoder().encode(self.__attributes__)
         )
 
         return <frag>

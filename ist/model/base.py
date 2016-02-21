@@ -37,12 +37,22 @@ class Base(Model):
         database = db
 
 
-class ModelEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Base) and hasattr(obj, 'json'):
-            return obj.json()
-        l.debug('cannot encode object %r' % obj)
-        return json.JSONEncoder.default(self, obj)
+class ApiEncoder(json.JSONEncoder):
+    def default(self, o):
+        # our model class should be easy to encode
+        if isinstance(o, Base) and hasattr(o, 'json'):
+            return o.json()
+
+        # encode iterables for cleaner api code
+        try:
+            iterable = iter(o)
+        except TypeError:
+            pass
+        else:
+            return list(iterable)
+
+        l.debug('cannot encode object %r' % o)
+        return json.JSONEncoder.default(self, o)
 
 
 class ValidationError(Exception):

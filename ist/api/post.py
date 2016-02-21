@@ -2,7 +2,7 @@ import time
 from pyramid.response import Response
 from pyramid.view import view_config
 from ist.model.type import Post, Comment, Image
-from ist.model.base import db, ModelEncoder
+from ist.model.base import db, ApiEncoder
 from pyramid.httpexceptions import HTTPNotFound
 from ist.util import *
 
@@ -56,7 +56,7 @@ def post_one_view(request):
 
         try:
             post = Post.select().where(Post.id == id).get()
-            return Response(ModelEncoder().encode({'post': post.json()}), content_type='text/json')
+            return Response(ApiEncoder().encode({'post': post.json()}), content_type='text/json')
         except Post.DoesNotExist:
             raise HTTPNotFound()
 
@@ -78,4 +78,4 @@ def post_one_view(request):
         post.modified = int(time.time())
         post.save()
 
-        return Response(ModelEncoder().encode({'success': 1, 'post': post.json()}), content_type='text/json')
+        return Response(ApiEncoder().encode({'success': 1, 'post': post.json()}), content_type='text/json')

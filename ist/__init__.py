@@ -32,6 +32,7 @@ def main(global_settings, **settings):
 
     config.include('ist.model.base')
     config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
+    config.add_renderer(name='api', factory='ist.renderer.ApiRenderer')
     config.add_renderer(name='layout', factory='ist.renderer.LayoutRenderer')
     config.add_request_method(user, reify=True)
     config.add_route('home', '/')

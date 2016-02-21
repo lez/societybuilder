@@ -1,29 +1,29 @@
 from pyramid.httpexceptions import HTTPNotFound
-from pyramid.response import Response
-from pyramid.view import view_config
 
 from ist.model.type import Page
 
 from cornice.resource import resource, view
 
 # TODO:
-# json legyen elfogadva POSTban, put-ban
-# model encoder?
 # validate kulon legyen
 # base class + page class
+# authorization
+# ----------
+# pagination
+# json legyen elfogadva POSTban, PUTban
 
 
-@resource(collection_path='/api/page', path='/api/page/{id}')
+@resource(collection_path='/api/page', path='/api/page/{id}', renderer='api')
 class PageRest:
     def __init__(self, request):
         self.request = request
 
     # get all instances
     def collection_get(self):
-        pages = [p.json() for p in Page.select()]
-        return {'pages': pages}
+        return {'pages': Page.select()}
 
-    @view(accept='text/json', permission='user')
+    # new instance
+    @view(permission='user')
     def collection_post(self):
         for key in Page.rest_required_fields:
             if key not in self.request.POST:
@@ -48,8 +48,9 @@ class PageRest:
         page = Page(owner=owner, name=name, description=description, is_owner_public=is_owner_public)
         page.save()
     
-        return {'success': 1, 'page': page.json()}
+        return page
 
+    # get one instance by id
     def get(self):
         id = self.request.matchdict['id']
         try:
@@ -86,7 +87,7 @@ class PageRest:
         if modified:
             page.save()
 
-        return {'success': 1, 'page': page.json()}
+        return page
 
     @view(permission='user')
     def delete(self):

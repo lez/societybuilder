@@ -15,6 +15,15 @@ class PyxlRenderer:
         return str(value)
 
 
+@implementer(IRendererFactory)
+class ApiRenderer:
+    def __init__(self, info):
+        pass
+
+    def __call__(self, value, system):
+        return ApiEncoder().encode(value)
+
+
 
 @implementer(IRendererFactory)
 class LayoutRenderer:
