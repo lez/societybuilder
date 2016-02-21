@@ -276,6 +276,16 @@ class Page(Base):
             'description': self.description,
         }
 
+    def validate(self):
+        if len(self.name) > 30:
+            yield {'field': 'name', 'error': 'Name is too long'}
+
+        if len(self.description) > 250:
+            yield {'field': 'description', 'error': 'description is too long'}
+
+    # FIXME: ValidationError
+
+
 ImageProxy.initialize(Image)
 
 

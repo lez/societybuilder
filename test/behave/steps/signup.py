@@ -16,7 +16,6 @@ def step_impl(c):
     r = c.client.post('signup', data={'login': 'testuser', 'passwd': 'jelszo', 'email': 'test@jovilag.hu'})
     t.assertEqual(200, r.status_code)
 
-
 @then('the testuser is able to log in')
 def step_impl(c):
     r = c.client.login('testuser', 'jelszo')
@@ -32,11 +31,9 @@ def step_impl(c):
     t.assertEqual(200, r.status_code)
     t.assertFalse(c.client.logged_in())
 
-
 @given('I am signed in')
 def step_impl(c):
     c.client.login('testuser', 'jelszo')
-
 
 @given('{cls} records are cleaned from the database')
 def step_impl(c, cls):
@@ -44,14 +41,14 @@ def step_impl(c, cls):
     model = getattr(types, cls)
     model.delete().execute()
 
-
 @when('I create a page called "{name}" with description "{desc}"')
 def step_impl(c, name, desc):
-    create = c.client.post('api/page', data={'name': name, 'description': desc})
-    t.assertEqual(200, create.status_code)
-    response = json.loads(create.text)
-    c.page_id = response['id']
-
+    c.r = c.client.post('api/page', data={'name': name, 'description': desc})
+    response = json.loads(c.r.text)
+    if 'id' in response:
+        c.page_id = response['id']
+    if 'errors' in response:
+        c.errors = response['errors']
 
 @given('There is a page called "{name}" with description "{desc}"')
 def step_impl(c, name, desc):
@@ -60,7 +57,6 @@ def step_impl(c, name, desc):
     t.assertEqual(200, create.status_code)
     response = json.loads(create.text)
     c.page_id = response['id']
-
 
 @when('I modify the page description to "{new_desc}"')
 def step_impl(c, new_desc):
@@ -71,11 +67,7 @@ def step_impl(c, new_desc):
 
 @when('I delete the page')
 def step_impl(c):
-    r = c.client.delete('api/page/%d' % c.page_id)
-    t.assertEqual(200, r.status_code)
-    resp = json.loads(r.text)
-    t.assertEqual(1, resp['success'])
-
+    c.r = c.client.delete('api/page/%d' % c.page_id)
 
 @then('I can view the page called "{name}" with description "{desc}"')
 def step_impl(c, name, desc):
@@ -114,6 +106,16 @@ def step_impl(c):
 def step_impl(c):
     c.r = c.client.delete('api/page/12345')
 
-@then('I get a 404 error')
+@then('I get a {code} error')
+def step_impl(c, code):
+    t.assertEqual(int(code), c.r.status_code)
+
+@then('I get a 200 OK')
 def step_impl(c):
-    t.assertEqual(404, c.r.status_code)
+    t.assertEqual(200, c.r.status_code)
+
+@then('Value of "{field}" is invalid because "{msg}"')
+def step_impl(c, field, msg):
+    t.assertEqual(field, c.errors[0]['field'])
+    t.assertEqual(msg, c.errors[0]['error'])
+

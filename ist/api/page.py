@@ -1,22 +1,22 @@
-from pyramid.httpexceptions import HTTPNotFound
+import json
+
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
 
 from ist.model.type import Page
 
 from cornice.resource import resource, view
 
 # TODO:
-# validate kulon legyen
-# base class + page class
 # authorization
 # ----------
 # pagination
 # json legyen elfogadva POSTban, PUTban
 
-
-@resource(collection_path='/api/page', path='/api/page/{id}', renderer='api')
-class PageRest:
-    def __init__(self, request):
+class BaseRest:
+    def __init__(self, request, cls, plural):
         self.request = request
+        self.cls = cls
+        self.plural = plural
 
     def _item(self):
         id = self.request.matchdict['id']
@@ -26,67 +26,74 @@ class PageRest:
             raise HTTPNotFound()
 
         try:
-            page = Page.get(id=id)
+            item = self.cls.get(id=id)
         except Page.DoesNotExist:
             raise HTTPNotFound()
 
-        return page
-
-    # get all instances
-    def collection_get(self):
-        return {'pages': Page.select()}
+        return item
 
     # new instance
     @view(permission='user')
     def collection_post(self):
+
         for key in Page.rest_required_fields:
             if key not in self.request.POST:
-                return {'success': 0, 'error': 'missing field: %s' % key}
-    
-        name = self.request.POST['name']
-        description = self.request.POST['description']
-        is_owner_public = self.request.POST.get('is_owner_public', 'true')
-        if is_owner_public == 'true':
-            is_owner_public = True
-        else:
-            is_owner_public = False
-    
-        if len(name) > 30:
-            return {'success': 0, 'error': 'Name is too long'}
-    
-        if len(description) > 250:
-            return {'success': 0, 'error': 'Too long description'}
-    
-        owner = self.request.user
-    
-        page = Page(owner=owner, name=name, description=description, is_owner_public=is_owner_public)
-        page.save()
-    
-        return page
+                return {'error': 'missing field: %s' % key}
+
+        fields = {}
+        for key in self.cls.rest_editable_fields:
+            if key in self.request.POST:
+                fields[key] = self.request.POST[key]
+
+        self._pre_create(fields)
+
+        item = self.cls(**fields)
+
+        errors = list(item.validate())
+        if errors:
+            raise HTTPBadRequest(body=json.dumps({'errors': errors}))
+
+        item.save()
+
+        return item
+
+    # get all instances
+    def collection_get(self):
+        return {self.plural: self.cls.select()}
 
     # get one instance by id
     def get(self):
-        page = self._item()
-        return page.json()
+        return self._item()
 
     # modify existing instance
     def put(self):
-        page = self._item()
+        item = self._item()
 
         modified = False
-        for key in Page.rest_editable_fields:
+        for key in self.cls.rest_editable_fields:
             if key in self.request.POST:
                 modified = True
-                setattr(page, key, self.request.POST[key])
+                setattr(item, key, self.request.POST[key])
 
         if modified:
-            page.save()
+            item.save()
 
-        return page
+        return item
 
     @view(permission='user')
     def delete(self):
-        page = self._item()
-        page.delete_instance()
+        item = self._item()
+        item.delete_instance()
+        return {}
 
-        return {'success': 1}
+    def _pre_create(self, fields):
+        return fields
+
+
+@resource(collection_path='/api/page', path='/api/page/{id}', renderer='api')
+class PageRest(BaseRest):
+    def __init__(self, request):
+        super().__init__(request, Page, 'pages')
+
+    def _pre_create(self, fields):
+        fields['owner'] = self.request.user

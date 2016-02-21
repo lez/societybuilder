@@ -8,13 +8,21 @@ Feature: signup
   Scenario: create page over REST
     Given I am signed in
      When I create a page called "mokus" with description "fenn a fan"
-     Then I can view the page called "mokus" with description "fenn a fan"
+     Then I get a 200 OK
+      And I can view the page called "mokus" with description "fenn a fan"
+
+  Scenario: create invalid page over REST
+    Given I am signed in
+     When I create a page called "mokusssssssssssssssssssssssssss" with description "fenn a fan"
+     Then I get a 400 error
+      And Value of "name" is invalid because "Name is too long"
 
   Scenario: modify page over REST
     Given I am signed in
      When I create a page called "mokus" with description "fenn a fan"
       And I modify the page description to "hello vilag"
-     Then I can view the page called "mokus" with description "hello vilag"
+     Then I get a 200 OK
+      And I can view the page called "mokus" with description "hello vilag"
 
   Scenario: modify a nonexistent page over REST
     Given I am signed in
@@ -35,7 +43,8 @@ Feature: signup
       And Page records are cleaned from the database
       And There is a page called "mokus" with description "fenn a fan"
      When I delete the page
-     Then I cannot view the page
+     Then I get a 200 OK
+      And I cannot view the page
 
   Scenario: delete a nonexistent page over REST
     Given I am signed in
