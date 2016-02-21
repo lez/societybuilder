@@ -7,12 +7,16 @@ from pyramid.paster import bootstrap as pyramid_bootstrap
 from ist import ROOT
 from ist.model.type import *
 
-def bootstrap():
-    if len(sys.argv) < 2:
-        print('usage: %s <config.ini>' % sys.argv[0])
-        sys.exit(1)
+def bootstrap(ini_filename=None):
 
-    ini_filename = sys.argv[1]
+    if not ini_filename:
+        # get ini file from command line
+        if len(sys.argv) < 2:
+            print('usage: %s <config.ini>' % sys.argv[0])
+            sys.exit(1)
+
+        ini_filename = sys.argv[1]
+
     if ini_filename not in ('development.ini', 'testing.ini', 'production.ini'):
         print('invalid ini file:', sys.argv[1])
         sys.exit(2)
@@ -27,7 +31,7 @@ def bootstrap():
 
 
 def reset_db(settings):
-    if sys.argv[1] == 'production.ini':
+    if len(sys.argv) > 1 and sys.argv[1] == 'production.ini':
         raise Exception("I don't work in production environment")
    
     Popen(['psql', '-U', settings['peewee.database']], stdin=PIPE).communicate(
@@ -64,7 +68,8 @@ def stop_test_server():
 def run_behave():
     print("Starting behave tests")
     os.chdir(os.path.join(ROOT, 'test/behave'))
-    Popen(['behave']).wait()
+    sys.argv[0] = 'behave'
+    Popen(sys.argv).wait()
 
 def run_test(settings):
     reset_db(settings)
