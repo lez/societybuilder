@@ -6,7 +6,7 @@ class Client:
         self.base_url = base_url
         self.token = None
 
-    def _modify_args(self, args, kwargs):
+    def _modify_args(self, args: tuple, kwargs):
         args = list(args)
         kwargs = dict(kwargs)
 
@@ -29,6 +29,16 @@ class Client:
 
         args, kwargs = self._modify_args(args, kwargs)
         return requests.get(*args, **kwargs)
+
+    def put(self, *args, **kwargs):
+
+        args, kwargs = self._modify_args(args, kwargs)
+        return requests.put(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+
+        args, kwargs = self._modify_args(args, kwargs)
+        return requests.delete(*args, **kwargs)
 
     def login(self, login, passwd):
 

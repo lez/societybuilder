@@ -62,6 +62,7 @@ def stop_test_server():
     Popen(['pserve', 'testing.ini', '--stop-daemon', '--pid-file=%s' % os.path.join(ROOT, 'testing.pid')]).wait()
 
 def run_behave():
+    print("Starting behave tests")
     os.chdir(os.path.join(ROOT, 'test/behave'))
     Popen(['behave']).wait()
 
