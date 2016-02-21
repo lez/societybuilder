@@ -67,7 +67,15 @@ class PageRest:
     # modify existing instance
     def put(self):
         id = self.request.matchdict['id']
-        page = Page.get(id=id)
+        try:
+            id = int(id)
+        except TypeError:
+            raise HTTPNotFound()
+
+        try:
+            page = Page.get(id=id)
+        except Page.DoesNotExist:
+            raise HTTPNotFound()
 
         modified = False
         for key in Page.rest_editable_fields:

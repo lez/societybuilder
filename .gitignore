@@ -8,3 +8,4 @@ InternetState.egg-info
 node_modules
 *.swp
 *.swo
+pyramid.log

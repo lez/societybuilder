@@ -106,3 +106,11 @@ def step_impl(c, name):
 @then('The second page in the list is called "{name}"')
 def step_impl(c, name):
     t.assertEqual(name, c.page_listing[1]['name'])
+
+@when('I modify a nonexistent page')
+def step_impl(c):
+    c.r = c.client.put('api/page/12345', data={'description': 'something'})
+
+@then('I get a 404 error')
+def step_impl(c):
+    t.assertEqual(404, c.r.status_code)
