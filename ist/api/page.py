@@ -91,7 +91,15 @@ class PageRest:
     @view(permission='user')
     def delete(self):
         id = self.request.matchdict['id']
-        page = Page.get(id=id)
+        try:
+            id = int(id)
+        except TypeError:
+            raise HTTPNotFound()
+
+        try:
+            page = Page.get(id=id)
+        except Page.DoesNotExist:
+            raise HTTPNotFound()
 
         page.delete_instance()
 

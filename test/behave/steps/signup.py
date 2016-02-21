@@ -111,6 +111,10 @@ def step_impl(c, name):
 def step_impl(c):
     c.r = c.client.put('api/page/12345', data={'description': 'something'})
 
+@when('I delete a nonexistent page')
+def step_impl(c):
+    c.r = c.client.delete('api/page/12345')
+
 @then('I get a 404 error')
 def step_impl(c):
     t.assertEqual(404, c.r.status_code)

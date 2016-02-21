@@ -16,7 +16,7 @@ Feature: signup
       And I modify the page description to "hello vilag"
      Then I can view the page called "mokus" with description "hello vilag"
 
-  Scenario: modify nonexistent pages over REST
+  Scenario: modify a nonexistent page over REST
     Given I am signed in
      When I modify a nonexistent page
      Then I get a 404 error
@@ -37,3 +37,7 @@ Feature: signup
      When I delete the page
      Then I cannot view the page
 
+  Scenario: delete a nonexistent page over REST
+    Given I am signed in
+     When I delete a nonexistent page
+     Then I get a 404 error
