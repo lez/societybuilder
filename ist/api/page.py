@@ -1,13 +1,16 @@
+from pyramid.httpexceptions import HTTPNotFound
+from pyramid.response import Response
 from pyramid.view import view_config
+
 from ist.model.type import Page
 
 from cornice.resource import resource, view
 
 # TODO:
-# base class + page class
 # json legyen elfogadva POSTban, put-ban
-# model encoder
+# model encoder?
 # validate kulon legyen
+# base class + page class
 
 
 @resource(collection_path='/api/page', path='/api/page/{id}')
@@ -49,7 +52,16 @@ class PageRest:
 
     def get(self):
         id = self.request.matchdict['id']
-        page = Page.get(id=id)
+        try:
+            id = int(id)
+        except TypeError:
+            raise HTTPNotFound()
+
+        try:
+            page = Page.get(id=id)
+        except Page.DoesNotExist:
+            raise HTTPNotFound()
+
         return page.json()
 
     # modify existing instance
@@ -68,6 +80,7 @@ class PageRest:
 
         return {'success': 1, 'page': page.json()}
 
+    @view(permission='user')
     def delete(self):
         id = self.request.matchdict['id']
         page = Page.get(id=id)

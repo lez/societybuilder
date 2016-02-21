@@ -25,3 +25,10 @@ Feature: signup
       And The first page in the list is called "mokus"
       And The second page in the list is called "hinta"
 
+  Scenario: delete page over REST
+    Given I am signed in
+      And Page records are cleaned from the database
+      And There is a page called "mokus" with description "fenn a fan"
+     When I delete the page
+     Then I cannot view the page
+

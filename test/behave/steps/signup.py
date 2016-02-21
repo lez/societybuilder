@@ -53,9 +53,26 @@ def step_impl(c, name, desc):
     c.page_id = response['page']['id']
 
 
+@given('There is a page called "{name}" with description "{desc}"')
+def step_impl(c, name, desc):
+    # TODO: direct DB query
+    create = c.client.post('api/page', data={'name': name, 'description': desc})
+    t.assertEqual(200, create.status_code)
+    response = json.loads(create.text)
+    c.page_id = response['page']['id']
+
+
 @when('I modify the page description to "{new_desc}"')
 def step_impl(c, new_desc):
     r = c.client.put('api/page/%d' % c.page_id, data={'description': new_desc})
+    t.assertEqual(200, r.status_code)
+    resp = json.loads(r.text)
+    t.assertEqual(1, resp['success'])
+
+
+@when('I delete the page')
+def step_impl(c):
+    r = c.client.delete('api/page/%d' % c.page_id)
     t.assertEqual(200, r.status_code)
     resp = json.loads(r.text)
     t.assertEqual(1, resp['success'])
@@ -68,6 +85,11 @@ def step_impl(c, name, desc):
     resp = json.loads(r.text)
     t.assertEqual(name, resp['name'])
     t.assertEqual(desc, resp['description'])
+
+@then('I cannot view the page')
+def step_impl(c):
+    r = c.client.get('api/page/%d' % c.page_id)
+    t.assertEqual(404, r.status_code)
 
 @then('I see {num} pages in page listing')
 def step_impl(c, num):
