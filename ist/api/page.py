@@ -18,6 +18,20 @@ class PageRest:
     def __init__(self, request):
         self.request = request
 
+    def _item(self):
+        id = self.request.matchdict['id']
+        try:
+            id = int(id)
+        except TypeError:
+            raise HTTPNotFound()
+
+        try:
+            page = Page.get(id=id)
+        except Page.DoesNotExist:
+            raise HTTPNotFound()
+
+        return page
+
     # get all instances
     def collection_get(self):
         return {'pages': Page.select()}
@@ -52,31 +66,12 @@ class PageRest:
 
     # get one instance by id
     def get(self):
-        id = self.request.matchdict['id']
-        try:
-            id = int(id)
-        except TypeError:
-            raise HTTPNotFound()
-
-        try:
-            page = Page.get(id=id)
-        except Page.DoesNotExist:
-            raise HTTPNotFound()
-
+        page = self._item()
         return page.json()
 
     # modify existing instance
     def put(self):
-        id = self.request.matchdict['id']
-        try:
-            id = int(id)
-        except TypeError:
-            raise HTTPNotFound()
-
-        try:
-            page = Page.get(id=id)
-        except Page.DoesNotExist:
-            raise HTTPNotFound()
+        page = self._item()
 
         modified = False
         for key in Page.rest_editable_fields:
@@ -91,17 +86,7 @@ class PageRest:
 
     @view(permission='user')
     def delete(self):
-        id = self.request.matchdict['id']
-        try:
-            id = int(id)
-        except TypeError:
-            raise HTTPNotFound()
-
-        try:
-            page = Page.get(id=id)
-        except Page.DoesNotExist:
-            raise HTTPNotFound()
-
+        page = self._item()
         page.delete_instance()
 
         return {'success': 1}
