@@ -69,7 +69,7 @@ def run_behave():
     print("Starting behave tests")
     os.chdir(os.path.join(ROOT, 'test/behave'))
     sys.argv[0] = 'behave'
-    Popen(sys.argv).wait()
+    Popen(sys.argv, env=os.environ.update({'PYTHONPATH': ROOT})).wait()
 
 def run_test(settings):
     reset_db(settings)
