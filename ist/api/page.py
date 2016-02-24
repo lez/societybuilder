@@ -36,12 +36,12 @@ class BaseRest:
     @view(permission='user')
     def collection_post(self):
 
-        for key in Page.rest_required_fields:
+        for key in self.cls.rest_required_fields:
             if key not in self.request.POST:
-                return {'error': 'missing field: %s' % key}
+                raise HTTPBadRequest(body=json.dumps({'error': 'missing field', 'field': key}))
 
         fields = {}
-        for key in self.cls.rest_editable_fields:
+        for key in self.cls.rest_editable_fields.union(self.cls.rest_optional_fields):
             if key in self.request.POST:
                 fields[key] = self.request.POST[key]
 
@@ -87,7 +87,7 @@ class BaseRest:
         return {}
 
     def _pre_create(self, fields):
-        return fields
+        pass
 
 
 @resource(collection_path='/api/page', path='/api/page/{id}', renderer='api')

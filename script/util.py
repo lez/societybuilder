@@ -58,6 +58,9 @@ def start_test_server():
     if status == 2:
         print('*** pserve deamon is already running, using it for testing ***')
     else:
+        print('************************')
+        print('**  STARTING SERVER   **')
+        print('************************')
         time.sleep(1)  # FIXME
 
 

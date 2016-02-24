@@ -32,7 +32,9 @@ def includeme(config):
 
 
 class Base(Model):
-
+    rest_editable_fields = {}
+    rest_optional_fields = {}
+    rest_required_fields = {}
     class Meta:
         database = db
 

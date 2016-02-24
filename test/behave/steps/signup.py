@@ -119,3 +119,17 @@ def step_impl(c, field, msg):
     t.assertEqual(field, c.errors[0]['field'])
     t.assertEqual(msg, c.errors[0]['error'])
 
+@when('I post "{content}" on my wall')
+def step_impl(c, content):
+    c.r = c.client.post('api/post', data={'content':content, 'images':''})
+    resp = json.loads(c.r.text)
+    if 'id' in resp:
+        c.post_id = resp['id']
+
+@then('I can view the post with content "{content}"')
+def step_impl(c, content):
+    r = c.client.get('api/post/%d' % c.post_id)
+    t.assertEqual(200, r.status_code)
+    resp = json.loads(r.text)
+    t.assertEqual(content, resp['content'])
+

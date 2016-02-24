@@ -1,4 +1,4 @@
-Feature: signup
+Feature: everything
 
   Scenario: signup with a user
      When the testuser signs up
@@ -50,3 +50,11 @@ Feature: signup
     Given I am signed in
      When I delete a nonexistent page
      Then I get a 404 error
+
+# posts
+  Scenario: post on my wall
+    Given I am signed in
+     When I post "hello world" on my wall
+     Then I get a 200 OK
+      And I can view the post with content "hello world"
+#FIXME      And the post is first on my wall

@@ -133,7 +133,9 @@ class Post(Base):
     privacy = IntegerField(default=0)
 
     item_type = 'post'
-    rest_editable_fields = ['content', 'images']
+    rest_required_fields = {'content', 'images'}
+    rest_optional_fields = {'role', 'wall'}
+    rest_editable_fields = {'content', 'images'}
 
     def get_comments(self):
         return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
@@ -165,6 +167,14 @@ class Post(Base):
             'wall': self.get_wall(),
             'role': self.get_role(),
         }
+
+    def validate(self):
+        if len(self.content) > 5000:
+            yield {'field': 'content', 'error': 'Post is too long'}
+        # FIXME
+        # if len(self.image_ids) > 12:
+        #     yield {'field': 'image_ids', 'error': 'Too many images'}
+
 
     class Meta:
         db_table = 'posts'
@@ -247,8 +257,8 @@ class Page(Base):
     is_public = BooleanField(default=True)
     image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
 
-    rest_editable_fields = ['name', 'description', 'is_owner_public', 'is_public', 'image']
-    rest_required_fields = ['name', 'description']
+    rest_editable_fields = {'name', 'description', 'is_owner_public', 'is_public', 'image'}
+    rest_required_fields = {'name', 'description'}
 
     class Meta:
         db_table = 'pages'
