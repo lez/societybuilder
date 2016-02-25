@@ -57,4 +57,12 @@ Feature: everything
      When I post "hello world" on my wall
      Then I get a 200 OK
       And I can view the post with content "hello world"
+
+  Scenario: post on my page
+    Given I am signed in
+     When I create a page called "mokus" with description "fenn a fan"
+      And I post "hello world" on the wall of the page
+     Then I get a 200 OK
+      And I can view the post with content "hello world"
+      And The post is on the wall of the page
 #FIXME      And the post is first on my wall

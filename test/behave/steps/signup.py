@@ -133,3 +133,15 @@ def step_impl(c, content):
     resp = json.loads(r.text)
     t.assertEqual(content, resp['content'])
 
+@when('I post "{content}" on the wall of the page')
+def step_impl(c, content):
+    t.assertTrue(c.page_id)
+    c.r = c.client.post('api/post', data={'content': content, 'images': '', 'wall': 'page:%d' % c.page_id})
+    resp = json.loads(c.r.text)
+    if 'id' in resp:
+        c.post_id = resp['id']
+        c.post = resp
+
+@then('the post is on the wall of the page')
+def step_impl(c):
+    t.assertEqual(c.page_id, c.post['wall']['page']['id'])
