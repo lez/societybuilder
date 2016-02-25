@@ -250,6 +250,7 @@ class Image(Base):
 
 class Page(Base):
     created = IntegerField(default=time.time)
+    modified = IntegerField(default=time.time)
     owner = ForeignKeyField(User, on_delete='CASCADE')
     name = CharField(max_length=30)
     description = CharField(max_length=250)
