@@ -14,10 +14,9 @@ from ist.model.type import Page
 # json legyen elfogadva POSTban, PUTban
 
 class BaseRest:
-    def __init__(self, request, cls, plural):
+    def __init__(self, request, cls):
         self.request = request
         self.cls = cls
-        self.plural = plural
 
     def _item(self):
         id = self.request.matchdict['id']
@@ -60,7 +59,7 @@ class BaseRest:
 
     # get all instances
     def collection_get(self):
-        return {self.plural: self.cls.select()}
+        return {self.cls.rest_collection_name: self.cls.select()}
 
     # get one instance by id
     def get(self):

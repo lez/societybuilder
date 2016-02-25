@@ -136,6 +136,7 @@ class Post(Base):
     rest_required_fields = {'content', 'images'}
     rest_optional_fields = {'role', 'wall'}
     rest_editable_fields = {'content', 'images'}
+    rest_collection_name = 'posts'
 
     def get_comments(self):
         return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
@@ -260,6 +261,7 @@ class Page(Base):
 
     rest_editable_fields = {'name', 'description', 'is_owner_public', 'is_public', 'image'}
     rest_required_fields = {'name', 'description'}
+    rest_collection_name = 'pages'
 
     class Meta:
         db_table = 'pages'

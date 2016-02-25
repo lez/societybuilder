@@ -1,13 +1,10 @@
 import os
 from pyramid.config import Configurator
-from pyramid.tests.pkgs.staticpermapp import RootFactory
 
 from .api import api_methods
 from .page import page_methods
 from .view import notfound
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
-
-from .util import l
 
 ROOT = os.path.dirname(__path__[0])
 
@@ -27,7 +24,6 @@ def main(global_settings, **settings):
 
     config = Configurator(settings=settings,
                           authentication_policy=IsAuthenticationPolicy(),
-                          root_factory=RootFactory,
                           authorization_policy=IsAuthorizationPolicy())
 
     config.include('ist.model.base')

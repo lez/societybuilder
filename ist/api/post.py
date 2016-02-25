@@ -7,7 +7,7 @@ from ist.model.type import Post, Comment, Image
 @resource(collection_path='/api/post', path='/api/post/{id}', renderer='api')
 class PostRest(BaseRest):
     def __init__(self, request):
-        super().__init__(request, Post, 'posts')
+        super().__init__(request, Post)
 
     def _pre_create(self, fields):
         fields['author'] = self.request.user
