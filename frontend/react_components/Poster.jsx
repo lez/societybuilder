@@ -133,11 +133,7 @@ var Poster = React.createClass({
       type: 'POST',
       data: data,
       success: function(result){
-        if (!result.success) {
-          alert(result.error ? result.error : Strings.general_error);
-        } else {
-          document.location.reload();
-        }
+        document.location.reload();
       },
       error: function(result){
         alert(Strings.general_error);

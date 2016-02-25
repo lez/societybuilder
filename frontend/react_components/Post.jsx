@@ -52,11 +52,7 @@ var Post = React.createClass({
                 url: '/api/post/' + this.props.post.id,
                 type: 'DELETE',
                 success: function(result){
-                    if (!result.success) {
-                        alert(result.error ? result.error : Strings.general_error);
-                    } else {
-                        document.location.reload();
-                    }
+                    document.location.reload();
                 },
                 error: function(result){
                    alert(Strings.general_error);
