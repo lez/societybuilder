@@ -1,7 +1,9 @@
 import json
 
+import time
 from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
 
+from ist.model.base import db
 from ist.model.type import Page
 
 from cornice.resource import resource, view
@@ -76,6 +78,7 @@ class BaseRest:
                 setattr(item, key, self.request.POST[key])
 
         if modified:
+            item.modified = int(time.time())
             item.save()
 
         return item
@@ -83,10 +86,15 @@ class BaseRest:
     @view(permission='user')
     def delete(self):
         item = self._item()
-        item.delete_instance()
+        with db.transaction():
+            self._pre_delete(item)
+            item.delete_instance()
         return {}
 
     def _pre_create(self, fields):
+        pass
+
+    def _pre_delete(self, item):
         pass
 
 

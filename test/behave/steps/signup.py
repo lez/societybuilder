@@ -1,11 +1,9 @@
 #!python
 import json
 
-import requests
 import unittest
 
 from behave import when, then, given
-
 from importlib import import_module
 
 t = unittest.TestCase('__init__')
