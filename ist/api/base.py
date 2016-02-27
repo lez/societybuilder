@@ -5,7 +5,6 @@ from cornice.resource import view
 from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
 
 from ist.model.base import db
-from ist.model.type import Page
 
 # TODO:
 # authorization
@@ -18,16 +17,18 @@ class BaseRest:
         self.request = request
         self.cls = cls
 
-    def _item(self):
-        id = self.request.matchdict['id']
+    def _item(self, *, custom_cls=None, custom_id_name=None):
+        id_name = custom_id_name or 'id'
+        id = self.request.matchdict[id_name]
         try:
             id = int(id)
         except TypeError:
             raise HTTPNotFound()
 
+        cls = custom_cls or self.cls
         try:
-            item = self.cls.get(id=id)
-        except Page.DoesNotExist:
+            item = cls.get(id=id)
+        except cls.DoesNotExist:
             raise HTTPNotFound()
 
         return item
@@ -56,7 +57,7 @@ class BaseRest:
         item.save()
 
         return item
-        
+
     # get all instances
     def collection_get(self):
         return {self.cls.rest_collection_name: self.cls.select()}

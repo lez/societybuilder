@@ -188,7 +188,7 @@ class Comment(Base):
     comment = TextField(null=True)
     image = ForeignKeyField(ImageProxy, null=True)
 
-    collection_name = 'comments'
+    rest_collection_name = 'comments'
     rest_required_fields = {'comment', 'item_id', 'item_type'}
 
     def json(self):
