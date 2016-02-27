@@ -40,7 +40,7 @@ class IsAuthenticationPolicy:
 
     def authenticated_userid(self, request):
         if 'user' in request.session:
-            l.info('user found in session')
+            l.debug('user found in session')
             userid = request.session['user']
             try:
                 # make sure the user exists in the database
@@ -50,11 +50,16 @@ class IsAuthenticationPolicy:
             return userid
         token = request.cookies.get('me')
         if not token:
-            l.info('token not found in cookie')
-            return
+            l.debug('token not found in cookie')
+            token = request.GET.get('token')
+            if not token:
+                l.debug('token not found')
+                return
+
         try:
             user = User.get_by_token(token)
         except User.DoesNotExist:
+            # user removed? TODO delete userauth from db
             self.forget(request)
             return
         request.session['user'] = user.id
