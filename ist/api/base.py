@@ -55,11 +55,8 @@ class BaseRest:
 
         item.save()
 
-        return self._return_created_item(item)
-
-    def _return_created_item(self, item):
         return item
-
+        
     # get all instances
     def collection_get(self):
         return {self.cls.rest_collection_name: self.cls.select()}

@@ -10,6 +10,3 @@ class CommentRest(BaseRest):
     def _pre_create(self, fields):
         fields['image'] = self.request.POST.get('image_id', None)
         fields['user'] = self.request.user
-
-    def _return_created_item(self, item):
-        return {'comment': item, 'success': 1}
