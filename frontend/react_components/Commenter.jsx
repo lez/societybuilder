@@ -91,24 +91,18 @@ var Commenter = React.createClass({
       type: 'POST',
       data: data,
       success: function(result){
-        var replydata = result;
-        if (!replydata.success) {
-          alert(replydata.error);
-          this.setState({'submitting': false});
-        } else {
-          if (this.props.append){
-            replydata.comment.user = this.props.user;
-            this.props.append(replydata.comment);
+        if (this.props.append){
+          this.props.append(result);
 //            element.animate({'scrollTop': element[0].scrollHeight}, 200);
-            this.replaceState(this.getInitialState());
-            this.setState({'key': randomString(8)});
-          } else {
-            document.location.reload();
-          }
+          this.replaceState(this.getInitialState());
+          this.setState({'key': randomString(8)});
+        } else {
+          document.location.reload();
         }
       }.bind(this),
       error: function(result){
-        alert('error');
+        console.log(result);
+        alert('An error occured');
         this.setState({'submitting': false});
       }.bind(this)
     });
