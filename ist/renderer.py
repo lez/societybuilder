@@ -21,6 +21,10 @@ class ApiRenderer:
         pass
 
     def __call__(self, value, system):
+        request = system.get('request')
+        if request is not None:
+            request.response.content_type = 'application/json'
+
         return ApiEncoder().encode(value)
 
 

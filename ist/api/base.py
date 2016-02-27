@@ -41,7 +41,7 @@ class BaseRest:
                 raise HTTPBadRequest(body=json.dumps({'error': 'missing field', 'field': key}))
 
         fields = {}
-        for key in self.cls.rest_editable_fields.union(self.cls.rest_optional_fields):
+        for key in self.cls.rest_all_fields():
             if key in self.request.POST:
                 fields[key] = self.request.POST[key]
 
@@ -55,6 +55,9 @@ class BaseRest:
 
         item.save()
 
+        return self._return_created_item(item)
+
+    def _return_created_item(self, item):
         return item
 
     # get all instances

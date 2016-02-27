@@ -32,9 +32,15 @@ def includeme(config):
 
 
 class Base(Model):
-    rest_editable_fields = {}
-    rest_optional_fields = {}
-    rest_required_fields = {}
+
+    rest_editable_fields = set()
+    rest_optional_fields = set()
+    rest_required_fields = set()
+
+    @classmethod
+    def rest_all_fields(cls):
+        return list(cls.rest_editable_fields.union(cls.rest_optional_fields).union(cls.rest_required_fields))
+
     class Meta:
         database = db
 

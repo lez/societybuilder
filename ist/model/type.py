@@ -188,6 +188,9 @@ class Comment(Base):
     comment = TextField(null=True)
     image = ForeignKeyField(ImageProxy, null=True)
 
+    collection_name = 'comments'
+    rest_required_fields = {'comment', 'item_id', 'item_type'}
+
     def json(self):
         return {
             'id': self.get_id(),
@@ -197,11 +200,17 @@ class Comment(Base):
             'image': self.image.json() if self.image else None
         }
 
+    def validate(self):
+        if self.comment and len(self.comment) > 1000:
+            yield {'field': 'comment', 'error': 'Comment is too long'}
+
+
     class Meta:
         db_table = 'comments'
         indexes = (
             (('item_type', 'item_id', 'id'), True),
         )
+
 
 MEDIA_ROOT = ist.__path__[0]
 MEDIA_DIR = 'media'
