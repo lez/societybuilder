@@ -3,6 +3,7 @@ import json
 
 import unittest
 
+import time
 from behave import when, then, given
 from importlib import import_module
 
@@ -143,3 +144,45 @@ def step_impl(c, content):
 @then('the post is on the wall of the page')
 def step_impl(c):
     t.assertEqual(c.page_id, c.post['wall']['page']['id'])
+
+@given('I have a post')
+def step_impl(c):
+    c.r = c.client.post('api/post', data={'content': 'this is what I have', 'images':''})
+    resp = json.loads(c.r.text)
+    if 'id' in resp:
+        c.post_id = resp['id']
+
+@when('I comment "{comment}" on the post')
+def step_impl(c, comment):
+    c.r = c.client.post('api/comment', data={'item_type': 'post', 'item_id': c.post_id, 'comment': comment})
+    c.comment = json.loads(c.r.text)
+
+@then('the post has 1 comment "{comment}"')
+def step_impl(c, comment):
+    c.r = c.client.get('api/post/%d/comments' % c.post_id)
+    resp = json.loads(c.r.text)
+    t.assertIn('comments', resp)
+    t.assertEqual(1, len(resp['comments']))
+    t.assertEqual(comment, resp['comments'][0]['comment'])
+
+@then('the comment author is me')
+def step_impl(c):
+    t.assertEqual(1, c.comment['user']['id'])
+
+@then('the comment created time is just now')
+def step_impl(c):
+    current_time = int(time.time())
+    t.assertGreater(current_time + 1, c.comment['created'])
+    t.assertLess(current_time - 2, c.comment['created'])
+
+@then('the comment modified time is null')
+def step_impl(c):
+    t.assertEqual(None, c.comment['modified'])
+
+
+
+
+
+
+
+

@@ -187,6 +187,7 @@ class Comment(Base):
     user = ForeignKeyField(User, on_delete='CASCADE')
     comment = TextField(null=True)
     image = ForeignKeyField(ImageProxy, null=True)
+    modified = IntegerField(null=True)
 
     rest_collection_name = 'comments'
     rest_required_fields = {'comment', 'item_id', 'item_type'}
@@ -197,7 +198,8 @@ class Comment(Base):
             'comment': self.comment,
             'created': self.created,
             'user': self.user.json(),
-            'image': self.image.json() if self.image else None
+            'image': self.image.json() if self.image else None,
+            'modified': self.modified,
         }
 
     def validate(self):
@@ -260,7 +262,7 @@ class Image(Base):
 
 class Page(Base):
     created = IntegerField(default=time.time)
-    modified = IntegerField(default=time.time)
+    modified = IntegerField(null=True)
     owner = ForeignKeyField(User, on_delete='CASCADE')
     name = CharField(max_length=30)
     description = CharField(max_length=250)

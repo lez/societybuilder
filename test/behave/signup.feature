@@ -65,4 +65,20 @@ Feature: everything
      Then I get a 200 OK
       And I can view the post with content "hello world"
       And The post is on the wall of the page
-#FIXME      And the post is first on my wall
+#FIX  And the post is the first on my wall
+
+
+# comments
+  Scenario: comment on a post
+    Given I am signed in
+      And I have a post
+     When I comment "bazinga" on the post
+     Then I get a 200 OK
+      And the comment author is me
+      And the comment created time is just now
+      And the comment modified time is null
+      And the post has 1 comment "bazinga"
+
+
+
+

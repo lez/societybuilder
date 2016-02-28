@@ -23,4 +23,4 @@ class PostCommentRest(BaseRest):
     def collection_get(self):
         post = self._item(custom_cls=Post, custom_id_name='post_id')
         comments = Comment.select().where(Comment.item_type=='post' and Comment.item_id==post.id)
-        return {'comments': comments}
+        return {Comment.rest_collection_name: comments}

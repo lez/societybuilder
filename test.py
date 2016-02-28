@@ -2,13 +2,13 @@ from peewee import *
 from ist.model.base import Base
 
 
-class Image(Base):
+class TestImage(Base):
     size = IntegerField()
     class Meta:
         db_table = 'imgs'
 
-class Comment(Base):
-    image = ForeignKeyField(Image, on_delete='CASCADE')
+class TestComment(Base):
+    image = ForeignKeyField(TestImage, on_delete='CASCADE')
     msg = TextField()
     class Meta:
         db_table = 'comms'
@@ -24,12 +24,12 @@ class Comment(Base):
 #    pass
 
 
-Image.create_table()
-Comment.create_table()
+TestImage.create_table()
+TestComment.create_table()
 
-i = Image(size=15)
+i = TestImage(size=15)
 i.save()
-c = Comment(image=i, msg='hello')
+c = TestComment(image=i, msg='hello')
 c.save()
 
 

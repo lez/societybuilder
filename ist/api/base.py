@@ -77,7 +77,7 @@ class BaseRest:
                 setattr(item, key, self.request.POST[key])
 
         if modified:
-            assert getattr(item, 'modified')
+            assert hasattr(item, 'modified')
             item.modified = int(time.time())
             item.save()
 
