@@ -151,6 +151,7 @@ def step_impl(c):
     resp = json.loads(c.r.text)
     if 'id' in resp:
         c.post_id = resp['id']
+        c.post = resp
 
 @when('I comment "{comment}" on the post')
 def step_impl(c, comment):
@@ -179,8 +180,27 @@ def step_impl(c):
 def step_impl(c):
     t.assertEqual(None, c.comment['modified'])
 
+@given('I have a comment on the post')
+def step_impl(c):
+    c.r = c.client.post('api/comment', data={'comment': 'initial comment', 'item_id': c.post['id'], 'item_type': 'post', 'images':''})
+    resp = json.loads(c.r.text)
+    if 'id' in resp:
+        c.comment = resp
+        c.comment_id = resp['id']
 
+@when('I modify the comment to "{comment}"')
+def step_impl(c, comment):
+    c.r = c.client.put('api/comment/%d' % c.comment_id, data={'comment': comment})
+    resp = json.loads(c.r.text)
+    if 'id' in resp:
+        c.comment = resp
+        c.comment_id = resp['id']
 
+@then('the comment modified time is just now')
+def step_impl(c):
+    current_time = int(time.time())
+    t.assertGreater(current_time + 1, c.comment['modified'])
+    t.assertLess(current_time - 2, c.comment['modified'])
 
 
 

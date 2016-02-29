@@ -191,6 +191,7 @@ class Comment(Base):
 
     rest_collection_name = 'comments'
     rest_required_fields = {'comment', 'item_id', 'item_type'}
+    rest_editable_fields = {'comment'}
 
     def json(self):
         return {

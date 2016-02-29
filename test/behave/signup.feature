@@ -79,6 +79,13 @@ Feature: everything
       And the comment modified time is null
       And the post has 1 comment "bazinga"
 
-
+  Scenario: modify a comment
+    Given I am signed in
+      And I have a post
+      And I have a comment on the post
+     When I modify the comment to "not really"
+     Then I get a 200 OK
+      And the comment modified time is just now
+      And the post has 1 comment "not really"
 
 
