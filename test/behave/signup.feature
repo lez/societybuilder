@@ -1,4 +1,4 @@
-Feature: everything
+Feature: REST API
 
   Scenario: signup with a user
      When the testuser signs up
@@ -87,5 +87,3 @@ Feature: everything
      Then I get a 200 OK
       And the comment modified time is just now
       And the post has 1 comment "not really"
-
-

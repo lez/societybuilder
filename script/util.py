@@ -74,9 +74,17 @@ def run_behave():
     sys.argv[0] = 'behave'
     Popen(sys.argv, env=os.environ.update({'PYTHONPATH': ROOT})).wait()
 
+def run_cucumber():
+    print("Starting cucumber tests")
+    os.chdir(os.path.join(ROOT, 'frontend'))
+    sys.argv[0] = './node_modules/.bin/cucumber.js'
+    Popen(sys.argv, env=os.environ.update({'PYTHONPATH': ROOT})).wait()
+
 def run_test(settings):
     reset_db(settings)
     start_test_server()
     run_behave()
+    reset_db(settings)
+    run_cucumber()
     stop_test_server()
 

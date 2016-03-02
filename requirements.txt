@@ -1,3 +1,9 @@
+#$ pip install -r requirements-to-freeze.txt --upgrade
+#Installing collected packages: six, enum34, ipaddress, ...
+#
+#$ pip freeze > requirements.txt
+#
+
 peewee==2.6.0
 behave==1.2.5
 pyramid==1.5.7
