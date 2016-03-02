@@ -7,4 +7,4 @@ from script.util import bootstrap, run_test
 
 env, registry, settings = bootstrap('testing.ini')
 
-run_test(settings)
+run_test(settings, cucumber=True, behave=True)

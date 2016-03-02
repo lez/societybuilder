@@ -80,11 +80,13 @@ def run_cucumber():
     sys.argv[0] = './node_modules/.bin/cucumber.js'
     Popen(sys.argv, env=os.environ.update({'PYTHONPATH': ROOT})).wait()
 
-def run_test(settings):
-    reset_db(settings)
+def run_test(settings, cucumber=False, behave=False):
     start_test_server()
-    run_behave()
-    reset_db(settings)
-    run_cucumber()
+    if behave:
+        reset_db(settings)
+        run_behave()
+    if cucumber:
+        reset_db(settings)
+        run_cucumber()
     stop_test_server()
 
