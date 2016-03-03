@@ -1,9 +1,18 @@
 module.exports = function () {
 
-  this.Given(/^I am on the front page$/, function (callback) { // `this` is set to a World instance.
+  this.Given(/^I am on the front page$/, function (callback) {
 
     this.visit('/', callback);
 
+  });
+
+
+  this.Given(/^I am a logged in user$/, function (callback) {
+
+    this.browser.visit('/', function(){this.browser.fill('#loginbox input[name="login"]', 'komakoma')
+                         .fill('#loginbox input[name="passwd"]', 'komakoma')
+                         .pressButton('Log in', callback)}.bind(this));
+    
   });
 
 
@@ -12,6 +21,24 @@ module.exports = function () {
     this.browser.fill('#loginbox input[name="login"]', 'komakoma')
                 .fill('#loginbox input[name="passwd"]', 'komakoma')
                 .pressButton('Log in', callback);
+
+  });
+
+
+  this.When(/^I log out$/, function (callback) {
+
+    this.browser.assert.element('.logoutbutton');
+    this.browser.visit('/logout', callback);
+
+  });
+
+
+  this.When(/^I sign up$/, function (callback) {
+
+    this.browser.fill('#signupbox input[name="login"]', 'komakoma')
+                .fill('#signupbox input[name="passwd"]', 'komakoma')
+                .fill('#signupbox input[name="email"]', 'komakoma@gmail.com')
+                .pressButton('Sign up', callback);
 
   });
 
@@ -28,14 +55,12 @@ module.exports = function () {
   });
 
 
-  this.When(/^I sign up$/, function (callback) {
+  this.Then(/^I am logged out$/, function (callback) {
 
-    this.browser.fill('#signupbox input[name="login"]', 'komakoma')
-                .fill('#signupbox input[name="passwd"]', 'komakoma')
-                .fill('#signupbox input[name="email"]', 'komakoma@gmail.com')
-                .pressButton('Sign up', callback);
+    this.browser.assert.element('#loginbox');
+    this.browser.assert.cookie('me');
+    callback();
 
   });
-
 };
 
