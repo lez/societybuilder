@@ -17,6 +17,11 @@ Feature: REST API
      Then I get a 400 error
       And Value of "name" is invalid because "Name is too long"
 
+  Scenario: create page with invalid field
+    Given I am signed in
+     When I create a page with an invalid field
+     Then I get a 400 error
+
   Scenario: modify page over REST
     Given I am signed in
      When I create a page called "mokus" with description "fenn a fan"
@@ -92,5 +97,6 @@ Feature: REST API
       And I have a comment on the post
      When I modify the comment to "not really"
      Then I get a 200 OK
+      And the comment created time is just now
       And the comment modified time is just now
       And the post has 1 comment "not really"

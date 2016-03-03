@@ -190,8 +190,9 @@ class Comment(Base):
     modified = IntegerField(null=True)
 
     rest_collection_name = 'comments'
+
     rest_required_fields = {'comment', 'item_id', 'item_type'}
-    rest_editable_fields = {'comment'}
+    rest_editable_fields = {'comment', 'image'}
 
     def json(self):
         return {
@@ -273,6 +274,7 @@ class Page(Base):
 
     rest_editable_fields = {'name', 'description', 'is_owner_public', 'is_public', 'image'}
     rest_required_fields = {'name', 'description'}
+
     rest_collection_name = 'pages'
 
     class Meta:

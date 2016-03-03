@@ -49,6 +49,10 @@ def step_impl(c, name, desc):
     if 'errors' in response:
         c.errors = response['errors']
 
+@when('I create a page with an invalid field')
+def step_impl(c):
+    c.r = c.client.post('api/page', data={'name': 'lust for life', 'description': 'you know', 'invalid_field': 'one more please'})
+
 @given('There is a page called "{name}" with description "{desc}"')
 def step_impl(c, name, desc):
     # FIXME: direct DB create
@@ -186,11 +190,12 @@ def step_impl(c):
 
 @given('I have a comment on the post')
 def step_impl(c):
-    c.r = c.client.post('api/comment', data={'comment': 'initial comment', 'item_id': c.post['id'], 'item_type': 'post', 'images':''})
+    c.r = c.client.post('api/comment', data={'comment': 'initial comment', 'item_id': c.post['id'], 'item_type': 'post'})
     resp = json.loads(c.r.text)
     if 'id' in resp:
         c.comment = resp
         c.comment_id = resp['id']
+    t.assertEqual(200, c.r.status_code)
 
 @when('I modify the comment to "{comment}"')
 def step_impl(c, comment):

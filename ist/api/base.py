@@ -41,7 +41,12 @@ class BaseRest:
             if key not in self.request.POST:
                 raise HTTPBadRequest(body=json.dumps({'error': 'missing field', 'field': key}))
 
+        for key in self.request.POST:
+            if key not in self.cls.rest_all_fields():
+                raise HTTPBadRequest(body=json.dumps({'error': 'invalid field', 'field': key}))
+
         fields = {}
+
         for key in self.cls.rest_all_fields():
             if key in self.request.POST:
                 fields[key] = self.request.POST[key]
