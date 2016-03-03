@@ -7,7 +7,7 @@ module.exports = function () {
   });
 
 
-  this.Given(/^I am a logged in user$/, function (callback) {
+  this.Given(/^I am logged in$/, function (callback) {
 
     this.browser.visit('/', function(){this.browser.fill('#loginbox input[name="login"]', 'komakoma')
                          .fill('#loginbox input[name="passwd"]', 'komakoma')
@@ -43,7 +43,7 @@ module.exports = function () {
   });
 
 
-  this.Then(/^I am logged in$/, function (callback) {
+  this.Then(/^I get logged in$/, function (callback) {
 
     this.browser.assert.element('#profilemenu');
     this.browser.assert.text('.userlink', 'komakoma');
@@ -55,7 +55,7 @@ module.exports = function () {
   });
 
 
-  this.Then(/^I am logged out$/, function (callback) {
+  this.Then(/^I get logged out$/, function (callback) {
 
     this.browser.assert.element('#loginbox');
     this.browser.assert.cookie('me');
