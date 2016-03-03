@@ -64,6 +64,10 @@ def step_impl(c, new_desc):
     resp = json.loads(r.text)
     t.assertEqual(new_desc, resp['description'])
 
+@when('I modify the page invalid_field to "{value}"')
+def step_impl(c, value):
+    c.r = c.client.put('api/page/%d' % c.page_id, data={'invalid_field': value})
+
 @when('I delete the page')
 def step_impl(c):
     c.r = c.client.delete('api/page/%d' % c.page_id)

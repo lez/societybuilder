@@ -71,10 +71,12 @@ class BaseRest:
         item = self._item()
 
         modified = False
-        for key in self.cls.rest_editable_fields:
-            if key in self.request.POST:
+        for key in self.request.POST:
+            if key in self.cls.rest_editable_fields:
                 modified = True
                 setattr(item, key, self.request.POST[key])
+            else:
+                raise HTTPBadRequest(body=json.dumps({'error': 'invalid field', 'field': key}))
 
         if modified:
             assert hasattr(item, 'modified')

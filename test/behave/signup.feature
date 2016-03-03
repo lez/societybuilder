@@ -24,6 +24,13 @@ Feature: REST API
      Then I get a 200 OK
       And I can view the page called "mokus" with description "hello vilag"
 
+  Scenario: modify invalid field of a page over REST
+    Given I am signed in
+     When I create a page called "mokus" with description "fenn a fan"
+      And I modify the page invalid_field to "not really"
+     Then I get a 400 error
+      And I can view the page called "mokus" with description "fenn a fan"
+
   Scenario: modify a nonexistent page over REST
     Given I am signed in
      When I modify a nonexistent page
