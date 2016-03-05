@@ -5,6 +5,32 @@ Feature: REST API
      Then the testuser is able to log in
       And the testuser is able to log out
 
+  Scenario: user info
+    Given I am signed in
+     When I query /api/me
+     Then my "login" is "testuser"
+      And my "email" is "test@jovilag.hu"
+
+  Scenario: modify user info
+    Given I am signed in
+     When I change my "email" to "nextgeneration@jovilag.hu"
+     Then I get a 200 OK
+      And my "login" is "testuser"
+      And my "email" is "nextgeneration@jovilag.hu"
+
+  Scenario: modify user info with reload
+    Given I am signed in
+     When I change my "email" to "something.different@jovilag.hu"
+      And I query /api/me
+     Then I get a 200 OK
+      And my "login" is "testuser"
+      And my "email" is "something.different@jovilag.hu"
+
+  Scenario: try to modify user login
+    Given I am signed in
+     When I change my "login" to "littleme"
+     Then I get a 400 error
+
   Scenario: create page over REST
     Given I am signed in
      When I create a page called "mokus" with description "fenn a fan"

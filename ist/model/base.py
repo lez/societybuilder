@@ -39,7 +39,7 @@ class Base(Model):
 
     @classmethod
     def rest_all_fields(cls):
-        return list(cls.rest_editable_fields.union(cls.rest_optional_fields).union(cls.rest_required_fields))
+        return list(set(cls.rest_editable_fields).union(set(cls.rest_optional_fields)).union(set(cls.rest_required_fields)))
 
     class Meta:
         database = db

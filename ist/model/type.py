@@ -18,6 +18,9 @@ class User(Base):
     salt = CharField(max_length=132)
     created_ts = IntegerField(null=False, default=time.time)
     image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
+    modified = IntegerField(default=time.time)
+
+    rest_editable_fields = ('email',)
 
     def check_password(self, password):
         hasher = hashlib.sha512()
@@ -108,7 +111,8 @@ class User(Base):
         return {
             'login': self.login,
             'id': self.id,
-            'image': self.image.json() if self.image else None
+            'image': self.image.json() if self.image else None,
+            'email': self.email,
         }
 
 def _token_expire():

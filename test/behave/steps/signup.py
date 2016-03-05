@@ -211,7 +211,16 @@ def step_impl(c):
     t.assertGreater(current_time + 1, c.comment['modified'])
     t.assertLess(current_time - 2, c.comment['modified'])
 
+@when('I query /api/me')
+def step_impl(c):
+    c.r = c.client.get('api/me')
+    c.user = json.loads(c.r.text)
 
+@then('my "{what}" is "{name}"')
+def step_impl(c, what, name):
+    t.assertEqual(name, c.user[what])
 
-
-
+@when('I change my "{field}" to "{value}"')
+def step_impl(c, field, value):
+    c.r = c.client.put('api/me', data={field: value})
+    c.user = json.loads(c.r.text)
