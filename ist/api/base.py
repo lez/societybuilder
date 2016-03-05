@@ -68,7 +68,11 @@ class BaseCollectionRest(BaseRest):
         if errors:
             raise HTTPBadRequest(body=json.dumps({'errors': errors}))
 
-        item.save()
+        try:
+            item.save()
+        except Exception as e:
+            print('Cannot save item; cls="%s", fields=%r' % (self.cls.__name__, fields))
+            raise
 
         return item
 
