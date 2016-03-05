@@ -1,12 +1,22 @@
-from pyramid.view import view_config
-from ist.model.type import Image
+from cornice.resource import resource
+from pyramid.httpexceptions import HTTPMethodNotAllowed
 
-@view_config(route_name='user', renderer='json', request_method='POST', permission='user')
-def content_view(request):
-    if 'image_id' in request.POST:
-        val = request.POST.getone('image_id')
-        val=int(val)
-        request.user.image = Image.get(Image.id == val)
-        request.user.save()
+from ist.api.base import BaseItemRest
+from ist.model.type import Image, User
 
-    return {'success': 1}
+
+@resource(path='/api/me', renderer='api')
+class MeRest(BaseItemRest):
+    def __init__(self, request):
+        super().__init__(request, User)
+
+    def get(self):
+        self.request.matchdict['id'] = self.request.user.id
+        return super().get()
+
+    def put(self):
+        self.request.matchdict['id'] = self.request.user.id
+        return super().put()
+
+    def delete(self):
+        raise HTTPMethodNotAllowed()

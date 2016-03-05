@@ -53,23 +53,19 @@ var internet_state = {
     console.log(data);
   },
 
-  submitRest: function(url, data) {
+  submitRest: function(url, data, callback) {
     console.log(data);
     jQuery.ajax({
       url: url,
-      type: 'POST',
+      type: 'PUT',
       data: data,
       success: function(result){
-        if (!result.success) {
-          alert(result.error ? result.error : Strings.general_error);
-        } else {
-          document.location.reload();
-        }
+          callback();
       }.bind(this),
       error: function(result){
           alert(Strings.general_error);
-        }.bind(this)
-      });
+      }.bind(this)
+    });
   }
 };
 

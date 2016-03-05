@@ -1,7 +1,6 @@
 import os
 from pyramid.config import Configurator
 
-from .api import api_methods
 from .page import page_methods
 from .view import notfound
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
@@ -35,7 +34,6 @@ def main(global_settings, **settings):
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.add_route('signup', '/signup')
-    config.include(api_methods, '/api')
     config.add_route('upload', '/upload')
     config.add_route('hello', '/hello')
     config.add_route('test', '/test')

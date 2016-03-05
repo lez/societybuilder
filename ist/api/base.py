@@ -10,7 +10,14 @@ from ist.model.base import db
 # authorization
 # ----------
 # pagination
-# json legyen elfogadva POSTban, PUTban
+# json legyen elfogadva POSTban, PUTban, esetleg image.id szintaxisu post fieldek ☃
+
+# Convention what's followed:
+# GET  /api/foo -> all foo objects
+# POST /api/foo -> new foo object
+# GET  /api/foo/1 -> get one foo object with id 1
+# PUT  /api/foo/1 -> modify foo object with id 1
+# DELETE /api/foo/1 -> delete foo object with id 1
 
 class BaseRest:
     def __init__(self, request, cls):
@@ -35,7 +42,7 @@ class BaseRest:
 
 class BaseCollectionRest(BaseRest):
 
-    # new instance
+    # create new instance
     @view(permission='user')
     def collection_post(self):
 
@@ -70,7 +77,8 @@ class BaseCollectionRest(BaseRest):
         return {self.cls.rest_collection_name: self.cls.select()}
 
     def _pre_create(self, fields):
-        pass
+        # This is a hook for you
+        ...
 
 
 class BaseItemRest(BaseRest):
@@ -107,7 +115,8 @@ class BaseItemRest(BaseRest):
         return {}
 
     def _pre_delete(self, item):
-        pass
+        # Remove child instances as well
+        ...
 
 class BaseFullRest(BaseItemRest, BaseCollectionRest):
     pass
