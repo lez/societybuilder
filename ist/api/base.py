@@ -33,6 +33,8 @@ class BaseRest:
 
         return item
 
+class BaseCollectionRest(BaseRest):
+
     # new instance
     @view(permission='user')
     def collection_post(self):
@@ -67,6 +69,12 @@ class BaseRest:
     def collection_get(self):
         return {self.cls.rest_collection_name: self.cls.select()}
 
+    def _pre_create(self, fields):
+        pass
+
+
+class BaseItemRest(BaseRest):
+
     # get one instance by id
     def get(self):
         return self._item()
@@ -98,8 +106,8 @@ class BaseRest:
             item.delete_instance()
         return {}
 
-    def _pre_create(self, fields):
-        pass
-
     def _pre_delete(self, item):
         pass
+
+class BaseFullRest(BaseItemRest, BaseCollectionRest):
+    pass

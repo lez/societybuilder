@@ -1,11 +1,11 @@
 from cornice.resource import resource
 
-from ist.api.page import BaseRest
+from ist.api.page import BaseFullRest
 from ist.model.type import Post, Comment, Image
 
 
 @resource(collection_path='/api/post', path='/api/post/{id}', renderer='api')
-class PostRest(BaseRest):
+class PostRest(BaseFullRest):
     def __init__(self, request):
         super().__init__(request, Post)
 

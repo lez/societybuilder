@@ -1,11 +1,11 @@
 from cornice.resource import resource
 
-from ist.api.page import BaseRest
+from ist.api.base import BaseFullRest, BaseCollectionRest
 from ist.model.type import Comment, Post
 
 
 @resource(collection_path='/api/comment', path='/api/comment/{id}', renderer='api')
-class CommentRest(BaseRest):
+class CommentRest(BaseFullRest):
     def __init__(self, request):
         super().__init__(request, Comment)
 
@@ -16,7 +16,7 @@ class CommentRest(BaseRest):
 
 # TODO this could be a single decorated function
 @resource(collection_path='/api/post/{post_id}/comments', path='nonexistent', renderer='api')
-class PostCommentRest(BaseRest):
+class PostCommentRest(BaseCollectionRest):
     def __init__(self, request):
         super().__init__(request, Comment)
 
