@@ -12,6 +12,7 @@ var internet_state = {
   Thumbnail: require('./Thumbnail.jsx'),
   UserThumbnail: require('./UserThumbnail.jsx'),
   RoleThumbnail: require('./RoleThumbnail.jsx'),
+  RestImageField: require('./RestImageField.jsx'),
 
   reducer: function(state, action){
     //console.log('event: ' + action.type);

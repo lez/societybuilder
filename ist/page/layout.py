@@ -4,6 +4,7 @@ from pyramid.exceptions import HTTPNotFound
 from ist.view.element import *
 from ist.util import l
 from ist.model.type import Page, User, AuthToken
+from pyxl.html import *
 
 @view_config(route_name='createpage', renderer='layout', permission='user')
 def create_page(request):
@@ -54,7 +55,7 @@ def edit_page(request):
     except Page.DoesNotExist:
         raise HTTPNotFound('no such page')
 
-    content = "wip"
+    content = <react_restimagefield url="/api/page/{page.id}" image="{page.image or ''}" field="image" />
 
     return content
 

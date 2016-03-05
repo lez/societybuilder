@@ -73,6 +73,9 @@ class x_react_thumbnail(x_jsx):
 class x_react_userthumbnail(x_jsx):
     _react_path = 'UserThumbnail.jsx'
 
+class x_react_restimagefield(x_jsx):
+    _react_path = 'RestImageField.jsx'
+
 # site elements
 class x_layout(x_element):
 
