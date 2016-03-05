@@ -196,12 +196,12 @@ class x_poster(x_element):
 
 class x_createpage(x_element):
     def render(self):
-        return <form data-url="/api/page" id="createpage" method="post" onsubmit="IS.submit(event, this);">
+        return <form data-url="/api/page" id="createpage" method="post" onsubmit="IS.submit(event, this, null);">
             <input type="text" name="name" placeholder="Name" />
             <input type="text" name="description" placeholder="Short description" />
             <input type="checkbox" name="is_owner_public" checked="checked" />
             <input type="submit" name="submit" value="Create Page" />
-            <inputimage name="image" />
+#            <inputimage name="image" />
         </form>
 
 class x_inputimage(x_element):

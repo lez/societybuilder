@@ -25,7 +25,7 @@ var internet_state = {
     React.render(React.createElement(react_class, attr), element);
   },
 
-  submit: function(event, element) {
+  submit: function(event, element, callback) {
     event.preventDefault();
     data = {};
     jQuery(element).find("input[type!='submit']").each(function (idx, input) {
@@ -40,16 +40,13 @@ var internet_state = {
       type: 'POST',
       data: data,
       success: function(result){
-        if (!result.success) {
-          alert(result.error ? result.error : Strings.general_error);
-        } else {
-          document.location.reload();
-        }
+        if (callback) callback();
+        else document.location.reload();
       }.bind(this),
       error: function(result){
-          alert(Strings.general_error);
-        }.bind(this)
-      });
+        alert(result.error ? result.error : Strings.general_error);
+      }.bind(this)
+    });
     console.log(data);
   },
 

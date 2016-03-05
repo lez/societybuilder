@@ -269,12 +269,12 @@ class Image(Base):
 class Page(Base):
     created = IntegerField(default=time.time)
     modified = IntegerField(null=True)
-    owner = ForeignKeyField(User, on_delete='CASCADE')
+    owner = ForeignKeyField(User)
     name = CharField(max_length=30)
     description = CharField(max_length=250)
     is_owner_public = BooleanField(default=False)
     is_public = BooleanField(default=True)
-    image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
+    image = ForeignKeyField(ImageProxy, null=True)
 
     rest_editable_fields = {'name', 'description', 'is_owner_public', 'is_public', 'image'}
     rest_required_fields = {'name', 'description'}
