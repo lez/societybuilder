@@ -62,6 +62,13 @@ Feature: REST API
      Then I get a 400 error
       And I can view the page called "mokus" with description "fenn a fan"
 
+  Scenario: modify page without data returns error
+    Given I am signed in
+      And Page records are cleaned from the database
+      And There is a page called "mokus" with description "fenn a fan"
+     When I modify the page without request body
+     Then I get a 400 error
+
   Scenario: modify a nonexistent page over REST
     Given I am signed in
      When I modify a nonexistent page

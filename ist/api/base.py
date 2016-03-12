@@ -81,7 +81,7 @@ class BaseCollectionRest(BaseRest):
         return {self.cls.rest_collection_name: self.cls.select()}
 
     def _pre_create(self, fields):
-        # This is a hook for you
+        # This is a hook for you to override
         ...
 
 
@@ -107,6 +107,8 @@ class BaseItemRest(BaseRest):
             assert hasattr(item, 'modified')
             item.modified = int(time.time())
             item.save()
+        else:
+            raise HTTPBadRequest(body=json.dumps({'error': 'missing request body'}))
 
         return item
 
@@ -119,7 +121,7 @@ class BaseItemRest(BaseRest):
         return {}
 
     def _pre_delete(self, item):
-        # Remove child instances as well
+        # Override me to remove child instances as well
         ...
 
 class BaseFullRest(BaseItemRest, BaseCollectionRest):

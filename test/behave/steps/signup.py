@@ -72,6 +72,10 @@ def step_impl(c, new_desc):
 def step_impl(c, value):
     c.r = c.client.put('api/page/%d' % c.page_id, data={'invalid_field': value})
 
+@when('I modify the page without request body')
+def step_impl(c):
+    c.r = c.client.put('api/page/%d' % c.page_id, data={})
+
 @when('I delete the page')
 def step_impl(c):
     c.r = c.client.delete('api/page/%d' % c.page_id)
