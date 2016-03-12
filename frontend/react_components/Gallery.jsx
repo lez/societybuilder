@@ -99,7 +99,7 @@ var Gallery = React.createClass({
   },
 
   close: function (e) {
-    React.unmountComponentAtNode(this.getDOMNode().parentNode);
+    React.unmountComponentAtNode(this.parentNode);
     e.preventDefault();
   },
 

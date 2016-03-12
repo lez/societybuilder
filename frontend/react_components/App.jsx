@@ -22,8 +22,10 @@ var internet_state = {
 
   addAnyReactElement: function(react_class, element, attr) {
     var React = require('react');
+    var ReactDOM = require('react-dom');
+
     //console.log('add' + react_class);
-    React.render(React.createElement(react_class, attr), element);
+    ReactDOM.render(React.createElement(react_class, attr), element);
   },
 
   submit: function(event, element, callback) {

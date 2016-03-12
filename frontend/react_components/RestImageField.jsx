@@ -16,7 +16,7 @@ var RestImageField = React.createClass({
 
     submit: function(event) {
         event.preventDefault();
-        var imagefield = this.refs.imagefield.getDOMNode();
+        var imagefield = this.refs.imagefield;
         // never be afraid of a tiny boilerplate
         var val = jQuery(imagefield).find('input[name="image_id"]').val();
         var data = {};

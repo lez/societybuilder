@@ -16,7 +16,7 @@ var RestTextField = React.createClass({
     },
 
     getValue: function() {
-        var field = this.refs.field.getDOMNode();
+        var field = this.refs.field;
         return jQuery(field).val();
     },
 

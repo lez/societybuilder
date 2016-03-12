@@ -10,7 +10,6 @@ class CommentRest(BaseFullRest):
         super().__init__(request, Comment)
 
     def _pre_create(self, fields):
-        fields['image'] = self.request.POST.get('image_id', None)
         fields['user'] = self.request.user
 
 

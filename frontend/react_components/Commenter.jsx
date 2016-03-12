@@ -43,12 +43,12 @@ var Commenter = React.createClass({
       f.key = randomString({length: 16});
       this.setState({'file': f});
     }
-    this.refs.content.getDOMNode().focus();
+    this.refs.content.focus();
   },
 
   onImageDelete: function(image){
     this.setState({'file': null, 'image': null});
-    this.refs.content.getDOMNode().focus();
+    this.refs.content.focus();
   },
 
   onUploadComplete: function(image, thumbnail, image_id){
@@ -67,7 +67,7 @@ var Commenter = React.createClass({
   },
 
   updateBoxHeight: function(e) {
-    var content = this.refs.content.getDOMNode();
+    var content = this.refs.content;
     if (content.scrollHeight > content.clientHeight) {
       var new_height = content.scrollHeight+12;
       if (new_height > 500) new_height = 500;
@@ -79,12 +79,12 @@ var Commenter = React.createClass({
     if (this.state.submitting) return false;
     this.setState({'submitting': true});
     var data = {
-      comment: this.refs.content.getDOMNode().value,
+      comment: this.refs.content.value,
       item_type: 'post',
       item_id: this.props.post.id
     };
     if (this.state.file && this.state.file.id)
-      data.image_id = this.state.file.id;
+      data.image = this.state.file.id;
 
     jQuery.ajax({
       url: '/api/comment',

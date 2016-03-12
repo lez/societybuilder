@@ -61,18 +61,20 @@ var Poster = React.createClass({
             onUploadComplete={this.handleUploadComplete}
           />
           <table className="composer_footer">
-            <tr>
-              <td>
-                {(this.state.imgs.length < max_imgs) ?
-                <FileUploadButton multiple="1" upload={this.handleUploadStart}>
-                  <i className="icon-camera"></i>
-                </FileUploadButton> : null}
-              </td>
-              <td></td>
-              <td>
-                <input type="submit" className="post-button ns2_btn1" name="post" value="Küldés" onClick={this.submit} />
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>
+                  {(this.state.imgs.length < max_imgs) ?
+                  <FileUploadButton multiple="1" upload={this.handleUploadStart}>
+                    <i className="icon-camera"/>
+                  </FileUploadButton> : null}
+                </td>
+                <td/>
+                <td>
+                  <input type="submit" className="post-button ns2_btn1" name="post" value="Küldés" onClick={this.submit} />
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
@@ -108,7 +110,7 @@ var Poster = React.createClass({
   },
 
   updateTextArea: function(){
-    var content = this.refs.content.getDOMNode();
+    var content = this.refs.content;
     if (content.scrollHeight > content.clientHeight) {
       var new_height = content.scrollHeight+12;
       if (new_height > 500) new_height = 500;
@@ -122,7 +124,7 @@ var Poster = React.createClass({
     // TODO valoszinuleg kulon kellene szedni az ImgUp feltoltesi viselkedeset, es a torolheto thumbnail viselkedest
     var data = {
       images: image_ids.join(','),
-      content: this.refs.content.getDOMNode().value
+      content: this.refs.content.value
     };
     if (this.props.wall) {
       data.wall = this.props.wall; // wall and role are not required when editing a post

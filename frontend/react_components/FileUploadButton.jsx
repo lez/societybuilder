@@ -20,15 +20,15 @@ var FileUploadButton = React.createClass({
 
     upload: function() {
         var f;
-        var node = this.refs.selectedfile.getDOMNode();
-        if (!this.props.multiple){
-            f = node.files[0];
-        } else {
+        var node = this.refs.selectedfile;
+        if (this.props.multiple){
             f = node.files;
+        } else {
+            f = node.files[0];
         }
         this.props.upload(f);
         this.reset(node);
-    },
+    }
 });
 
 module.exports = FileUploadButton;
