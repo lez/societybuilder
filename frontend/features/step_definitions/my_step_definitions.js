@@ -71,16 +71,14 @@ module.exports = function () {
         this.browser.visit('/page/create', function () {
             this.browser.fill('input[name="name"]', name)
                         .fill('input[name="description"]', description)
-                        .pressButton('Create Page', callback)
+                        .pressButton('Create Page', function() {
+                            this.browser.assert.success();
+                            this.browser.assert.url(/\/page\/(.*)\/show/);
+                            this.page_id = this.browser.url.match(/\/page\/(.*)\/show/)[1];
+                            callback();
+                        }.bind(this));
         }.bind(this));
 
-    });
-
-
-    this.Then(/^the page is created$/, function (callback) {
-        this.browser.assert.success();
-        //this.browser.assert.global('location', '/page/(.*)/show', 'the url should be right');
-        callback();
     });
 
 
@@ -92,6 +90,23 @@ module.exports = function () {
 
     this.Then(/^the page description is "(.*)"/, function (description, callback) {
         this.browser.assert.text('.description', description);
+        callback();
+    });
+
+
+    this.When(/^I visit the edit page$/, function (callback) {
+        this.browser.visit('/page/'+this.page_id+'/edit', callback);
+    });
+
+
+    this.When(/^I set the page description to "(.*)"$/, function (description, callback) {
+        this.browser.fill('textarea.description', description)
+                    .pressButton('Mentés', callback);
+    });
+
+
+    this.Then(/^the page description on edit page is "(.*)"/, function (description, callback) {
+        this.browser.assert.text('textarea.description', description);
         callback();
     });
 

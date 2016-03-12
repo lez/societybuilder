@@ -20,6 +20,12 @@ Feature: user handling
   Scenario: create a page
     Given I am logged in
      When I create a page called "Universe" with the description "42"
-     Then the page is created
-      And the page name is "Universe"
+     Then the page name is "Universe"
       And the page description is "42"
+
+  Scenario: edit a page description
+    Given I am logged in
+     When I create a page called "Universe" with the description "42"
+      And I visit the edit page
+      And I set the page description to "everything"
+     Then the page description on edit page is "everything"

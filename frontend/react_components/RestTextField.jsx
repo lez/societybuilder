@@ -10,7 +10,7 @@ var RestTextField = React.createClass({
     render: function() {
         return <div className="RestTextField">
             <span className="label">{this.props.label}</span>
-            {this.state.changed ? <textarea id="text_id" key="yep" ref="field" onChange={this.onChange}/> : <textarea id="text_id" key="yep" value={this.props.text} ref="field" onChange={this.onChange}/>}
+            {this.state.changed ? <textarea className={this.props.field} id="text_id" key="yep" ref="field" onChange={this.onChange}/> : <textarea className={this.props.field} id="text_id" key="yep" value={this.props.text} ref="field" onChange={this.onChange}/>}
             {this.state.changed ? <button onClick={this.submit}>Mentés</button> : null}
         </div>;
     },
