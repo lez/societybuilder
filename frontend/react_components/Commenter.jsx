@@ -101,7 +101,6 @@ var Commenter = React.createClass({
         }
       }.bind(this),
       error: function(result){
-        console.log(result);
         alert('An error occured');
         this.setState({'submitting': false});
       }.bind(this)

@@ -199,7 +199,8 @@ class x_poster(x_element):
 
 class x_createpage(x_element):
     def render(self):
-        return <form data-url="/api/page" id="createpage" method="post" onsubmit="IS.submit(event, this, null);">
+        js_string = "IS.submit(event, this, function(page){document.location = '/page/'+page.id+'/show';});"
+        return <form data-url="/api/page" id="createpage" method="post" onsubmit={js_string}>
             <input type="text" name="name" placeholder="Name" />
             <input type="text" name="description" placeholder="Short description" />
             <input type="checkbox" name="is_owner_public" checked="checked" />

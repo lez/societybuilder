@@ -16,7 +16,6 @@ var internet_state = {
   RestTextField: require('./RestTextField.jsx'),
 
   reducer: function(state, action){
-    //console.log('event: ' + action.type);
     return action.active;
   },
 
@@ -24,43 +23,39 @@ var internet_state = {
     var React = require('react');
     var ReactDOM = require('react-dom');
 
-    //console.log('add' + react_class);
     ReactDOM.render(React.createElement(react_class, attr), element);
   },
 
   submit: function(event, element, callback) {
     event.preventDefault();
-    data = {};
+    var data = {};
     jQuery(element).find("input[type!='submit']").each(function (idx, input) {
-      inp = jQuery(input);
+      var inp = jQuery(input);
       if (inp.attr('type') == 'checkbox') data[inp.attr('name')] = inp.prop('checked');
       else data[inp.attr('name')] = inp.val();
     });
-    console.log(data);
     var url = element.getAttribute('data-url');
     jQuery.ajax({
       url: url,
       type: 'POST',
       data: data,
       success: function(result){
-        if (callback) callback();
+        if (callback) callback(result);
         else document.location.reload();
       }.bind(this),
       error: function(result){
         alert(result.error ? result.error : Strings.general_error);
       }.bind(this)
     });
-    console.log(data);
   },
 
   submitRest: function(url, data, callback) {
-    console.log(data);
     jQuery.ajax({
       url: url,
       type: 'PUT',
       data: data,
       success: function(result){
-        if (callback) callback();
+        if (callback) callback(result);
         else document.location.reload();
       }.bind(this),
       error: function(result){

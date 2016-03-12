@@ -36,9 +36,11 @@ def show_page(request):
         <posts posts="{posts}" user="{request.user}" />
     </frag>
 
-    rightbar = <rightbar user="{request.user}">
-        {page.description}
-        <br/><a href="/page/{page.id}/edit">edit</a>
+    rightbar = <rightbar user="{request.user}">\
+        <div class="description">
+            {page.description}
+        </div>
+        <a href="/page/{page.id}/edit">edit</a>
     </rightbar>
 
     return content, rightbar

@@ -15,3 +15,11 @@ Feature: user handling
    Given I am logged in
     When I log out
     Then I get logged out
+
+# working with pages
+  Scenario: create a page
+    Given I am logged in
+     When I create a page called "Universe" with the description "42"
+     Then the page is created
+      And the page name is "Universe"
+      And the page description is "42"
