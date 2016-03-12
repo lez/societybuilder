@@ -302,7 +302,7 @@ class Page(Base):
     def json(self):
         return {
             'id': self.id,
-            # thumbnail...
+            'image': self.image,
             'name': self.name,
             'description': self.description,
         }

@@ -76,6 +76,9 @@ class x_react_userthumbnail(x_jsx):
 class x_react_restimagefield(x_jsx):
     _react_path = 'RestImageField.jsx'
 
+class x_react_resttextfield(x_jsx):
+    _react_path = 'RestTextField.jsx'
+
 # site elements
 class x_layout(x_element):
 
@@ -229,3 +232,8 @@ class x_user(x_element):
             <img src="{user.thumbnail('60x60')}" />
         </div>
 
+class x_content_header(x_element):
+    def render(self):
+        return <div class="content_header">
+            {self.children()}
+        </div>

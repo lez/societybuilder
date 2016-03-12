@@ -1,0 +1,11 @@
+.RestTextField {
+    display: flex;
+}
+
+.RestTextField .label {
+    width: 120px;
+}
+
+.RestTextField textarea {
+    width: 350px;
+}

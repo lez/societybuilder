@@ -55,7 +55,11 @@ def edit_page(request):
     except Page.DoesNotExist:
         raise HTTPNotFound('no such page')
 
-    content = <react_restimagefield url="/api/page/{page.id}" image="{page.image or ''}" field="image" />
+    content = <frag>\
+        <content_header>{page.name}</content_header>
+        <react_restimagefield url="/api/page/{page.id}" image="{page.image or ''}" field="image" />
+        <react_resttextfield url="/api/page/{page.id}" text="{page.description or ''}" field="description" label="What is this page about?"/>
+    </frag>
 
     return content
 

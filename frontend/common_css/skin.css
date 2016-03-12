@@ -5,3 +5,8 @@
 #usermenu .profilemenu {
     font-family: Arial,sans-serif;
 }
+
+.content_header {
+    font-size: 1.6em;
+    margin-bottom: 30px;
+}

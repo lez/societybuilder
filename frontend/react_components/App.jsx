@@ -13,6 +13,7 @@ var internet_state = {
   UserThumbnail: require('./UserThumbnail.jsx'),
   RoleThumbnail: require('./RoleThumbnail.jsx'),
   RestImageField: require('./RestImageField.jsx'),
+  RestTextField: require('./RestTextField.jsx'),
 
   reducer: function(state, action){
     //console.log('event: ' + action.type);
@@ -57,7 +58,8 @@ var internet_state = {
       type: 'PUT',
       data: data,
       success: function(result){
-          callback();
+        if (callback) callback();
+        else document.location.reload();
       }.bind(this),
       error: function(result){
           alert(Strings.general_error);
