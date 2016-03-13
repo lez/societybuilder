@@ -57,11 +57,10 @@ module.exports = function () {
     });
 
 
-    this.Then(/^I get logged out$/, function (callback) {
+    this.Then(/^I get logged out$/, function () {
 
         this.browser.assert.element('#loginbox');
         this.browser.assert.cookie('me');
-        callback();
 
     });
 
@@ -82,15 +81,13 @@ module.exports = function () {
     });
 
 
-    this.Then(/^the page name is "(.*)"/, function (name, callback) {
+    this.Then(/^the page name is "(.*)"/, function (name) {
         this.browser.assert.text('#showpage .title', name);
-        callback();
     });
 
 
-    this.Then(/^the page description is "(.*)"/, function (description, callback) {
+    this.Then(/^the page description is "(.*)"/, function (description) {
         this.browser.assert.text('.description', description);
-        callback();
     });
 
 
@@ -105,9 +102,8 @@ module.exports = function () {
     });
 
 
-    this.Then(/^the page description on edit page is "(.*)"/, function (description, callback) {
+    this.Then(/^the page description on edit page is "(.*)"/, function (description) {
         this.browser.assert.text('textarea.description', description);
-        callback();
     });
 
 
