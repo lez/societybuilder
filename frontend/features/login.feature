@@ -29,3 +29,9 @@ Feature: user handling
       And I visit the edit page
       And I set the page description to "everything"
      Then the page description on edit page is "everything"
+
+  Scenario: post on a page
+    Given I am logged in
+     When I create a page called "Universe" with the description "42"
+      And I post "kukuriku"
+     Then I see a post with content "kukuriku"

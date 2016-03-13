@@ -107,5 +107,15 @@ module.exports = function () {
     });
 
 
+    this.When(/^I post "(.*)"$/, function (content, callback) {
+        this.browser.fill('textarea.content', content)
+            .pressButton('Küldés', callback);
+    });
+
+
+    this.Then(/^I see a post with content "(.*)"$/, function (content) {
+        this.browser.assert.text('.Post .content', content);
+    });
+
 };
 
