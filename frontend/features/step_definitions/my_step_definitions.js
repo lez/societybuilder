@@ -96,9 +96,13 @@ module.exports = function () {
     });
 
 
-    this.When(/^I set the page description to "(.*)"$/, function (description, callback) {
-        this.browser.fill('textarea.description', description)
-                    .pressButton('Mentés', callback);
+    this.When(/^I set the page description to "(.*)"$/, function (description) {
+        this.browser.fill('textarea.description', description);
+    });
+
+
+    this.When(/^I press the button "(.*)"$/, function (button, callback) {
+        this.browser.pressButton(button, callback);
     });
 
 
@@ -109,7 +113,11 @@ module.exports = function () {
 
     this.When(/^I post "(.*)"$/, function (content, callback) {
         this.browser.fill('textarea.content', content)
-            .pressButton('Küldés', callback);
+                    .pressButton('Küldés', callback);
+    });
+
+    this.When(/^I refresh the page$/, function (callback) {
+        this.browser.visit(this.browser.url, callback);
     });
 
 

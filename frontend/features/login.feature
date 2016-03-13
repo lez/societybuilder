@@ -28,6 +28,16 @@ Feature: user handling
      When I create a page called "Universe" with the description "42"
       And I visit the edit page
       And I set the page description to "everything"
+      And I press the button "Mentés"
+     Then the page description on edit page is "everything"
+
+  Scenario: edit a page description with refresh
+    Given I am logged in
+     When I create a page called "Universe" with the description "42"
+      And I visit the edit page
+      And I set the page description to "everything"
+      And I press the button "Mentés"
+      And I refresh the page
      Then the page description on edit page is "everything"
 
   Scenario: post on a page
