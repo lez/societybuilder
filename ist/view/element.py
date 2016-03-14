@@ -61,9 +61,6 @@ class x_react_images(x_jsx):
 class x_react_profileimage(x_jsx):
     _react_path = 'ProfileImage.jsx'
 
-class x_react_editprofileimage(x_jsx):
-    _react_path = 'EditProfileImage.jsx'
-
 class x_react_imagefield(x_jsx):
     _react_path = 'ImageField.jsx'
 
@@ -134,7 +131,7 @@ class x_userlink(x_element):
         return <span class="userlink"><a href="/{user.login}/profile">{user.login}</a></span>
 
 class x_profilemenu(x_element):
-  # XXX @required
+    # TODO @required
     def render(self, user: User):
         return <a href="/{user.login}/profile">
             <div id="profilemenu">

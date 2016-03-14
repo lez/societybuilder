@@ -20,7 +20,7 @@ class User(Base):
     image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
     modified = IntegerField(default=time.time)
 
-    rest_editable_fields = ('email',)
+    rest_editable_fields = ('email', 'image')
 
     def check_password(self, password):
         hasher = hashlib.sha512()
