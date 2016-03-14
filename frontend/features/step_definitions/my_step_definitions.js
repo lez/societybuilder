@@ -96,8 +96,18 @@ module.exports = function () {
     });
 
 
+    this.When(/^I visit the edit profile page$/, function (callback) {
+        this.browser.visit('/komakoma/profile', callback);
+    });
+
+
     this.When(/^I set the page description to "(.*)"$/, function (description) {
         this.browser.fill('textarea.description', description);
+    });
+
+
+    this.When(/^I set the about me to "(.*)"$/, function (about) {
+        this.browser.fill('textarea.about', about);
     });
 
 
@@ -108,6 +118,11 @@ module.exports = function () {
 
     this.Then(/^the page description on edit page is "(.*)"/, function (description) {
         this.browser.assert.text('textarea.description', description);
+    });
+
+
+    this.Then(/^the about me says I am "(.*)"/, function (about) {
+        this.browser.assert.text('textarea.about', about);
     });
 
 

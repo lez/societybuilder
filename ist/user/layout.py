@@ -1,4 +1,5 @@
 #coding: pyxl
+from pyxl.html import *
 from pyramid.view import view_config
 from pyramid.exceptions import HTTPNotFound
 from ist.view.element import *
@@ -13,4 +14,7 @@ def show_profile(request):
     except User.DoesNotExist:
         raise HTTPNotFound()
 
-    return <react_restimagefield image="{request.user.image}" url="/api/me" field="image" reload="{True}" />
+    return <frag>
+        <react_restimagefield image="{request.user.image}" url="/api/me" field="image" reload="{True}" />
+        <react_resttextfield text="{request.user.about}" url="/api/me" field="about" label="About me" />
+    </frag>

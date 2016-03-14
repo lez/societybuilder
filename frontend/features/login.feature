@@ -45,3 +45,10 @@ Feature: user handling
      When I create a page called "Universe" with the description "42"
       And I post "kukuriku"
      Then I see a post with content "kukuriku"
+
+  Scenario: edit profile
+    Given I am logged in
+    When I visit the edit profile page
+    And I set the about me to "the best monkey"
+    And I press the button "Mentés"
+    Then the about me says I am "the best monkey"

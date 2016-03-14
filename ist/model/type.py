@@ -19,8 +19,9 @@ class User(Base):
     created_ts = IntegerField(null=False, default=time.time)
     image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
     modified = IntegerField(default=time.time)
+    about = TextField(null=True)
 
-    rest_editable_fields = ('email', 'image')
+    rest_editable_fields = ('email', 'image', 'about')
 
     def check_password(self, password):
         hasher = hashlib.sha512()

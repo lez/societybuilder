@@ -6,7 +6,7 @@ var RestTextField = React.createClass({
         return {};
     },
 
-    // props: url, field, initial value (text)
+    // props: label (human description of the field), url, field, initial value (text)
     render: function() {
         return <div className="RestTextField">
             <span className="label">{this.props.label}</span>
