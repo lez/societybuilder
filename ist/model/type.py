@@ -281,15 +281,20 @@ class Page(Base):
     modified = IntegerField(null=True)
     owner = ForeignKeyField(User)
     name = CharField(max_length=30)
-    description = CharField(max_length=250)
+    description = CharField(max_length=250)     # null = True?
     is_owner_public = BooleanField(default=False)
     is_public = BooleanField(default=True)
     image = ForeignKeyField(ImageProxy, null=True)
+    permalink = CharField(unique=True, max_length=30)
 
     rest_editable_fields = {'name', 'description', 'is_owner_public', 'is_public', 'image'}
     rest_required_fields = {'name', 'description'}
 
     rest_collection_name = 'pages'
+
+    @classmethod
+    def get_by_permalink(self, permalink):
+        return Page.select().where(Page.permalink==permalink).get()
 
     class Meta:
         db_table = 'pages'
@@ -315,6 +320,7 @@ class Page(Base):
             'image': self.image,
             'name': self.name,
             'description': self.description,
+            'permalink': self.permalink,
         }
 
     def validate(self):

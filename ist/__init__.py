@@ -1,8 +1,7 @@
 import os
 from pyramid.config import Configurator
 
-from ist.model.type import User
-from .page import page_methods
+from ist.model.type import User, Page
 from .view import notfound
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
@@ -30,7 +29,9 @@ def main(global_settings, **settings):
     config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
     config.add_renderer(name='api', factory='ist.renderer.ApiRenderer')
     config.add_renderer(name='layout', factory='ist.renderer.LayoutRenderer')
+
     config.add_request_method(user, reify=True)
+
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
@@ -38,12 +39,22 @@ def main(global_settings, **settings):
     config.add_route('upload', '/upload')
     config.add_route('hello', '/hello')
     config.add_route('test', '/test')
-    config.include(page_methods, '/page')
+
+    # pages
+    config.add_route('createpage', '/page/create')
+    config.add_route('showallpages', '/page/all')
+    config.add_route('showmypages', '/page/my')
+    config.add_route('editpage', '/page/{id}/edit')  # TODO permalinkesiteni
+
     config.add_route('media', '/media/{subpath:.*}')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('favicon', '/favicon.ico')
+
+    # predicated stuff
     config.add_route('user_profile', '/{login}/profile')
-    config.add_route('wall', '/{login}', custom_predicates=(user_exists,))
+    config.add_route('user_wall', '/{login}', custom_predicates=(user_exists,))
+    config.add_route('page_wall', '/{permalink}', custom_predicates=(page_exists,))
+
     config.add_notfound_view(notfound)
     config.include('pyramid_redis_sessions')
     config.include('cornice')
@@ -56,6 +67,14 @@ def user_exists(info, request):
         User.get_by_login(login)
         return True
     except User.DoesNotExist:
+        return False
+
+def page_exists(info, request):
+    permalink = info['match']['permalink']
+    try:
+        Page.get_by_permalink(permalink)
+        return True
+    except Page.DoesNotExist:
         return False
 
 if __name__ == '__main__':

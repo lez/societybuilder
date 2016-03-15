@@ -72,8 +72,8 @@ module.exports = function () {
                         .fill('input[name="description"]', description)
                         .pressButton('Create Page', function() {
                             this.browser.assert.success();
-                            this.browser.assert.url(/\/page\/(.*)\/show/);
-                            this.page_id = this.browser.url.match(/\/page\/(.*)\/show/)[1];
+                            //this.browser.assert.url(/\/page\/(.*)\/show/);
+                            //this.page_id = this.browser.url.match(/\/page\/(.*)\/show/)[1];
                             callback();
                         }.bind(this));
         }.bind(this));
@@ -91,8 +91,8 @@ module.exports = function () {
     });
 
 
-    this.When(/^I visit the edit page$/, function (callback) {
-        this.browser.visit('/page/'+this.page_id+'/edit', callback);
+    this.When(/^I click the edit page link$/, function (callback) {
+        this.browser.clickLink('edit', callback);
     });
 
 

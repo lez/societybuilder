@@ -19,7 +19,7 @@ def home(request):
 def test(request):
     return 'test'
 
-@view_config(route_name='wall', renderer='layout', permission='user')
+@view_config(route_name='user_wall', renderer='layout', permission='user')
 def me(request):
     login = request.matchdict['login']
     user = User.get_by_login(login)

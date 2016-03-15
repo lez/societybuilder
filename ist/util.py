@@ -3,6 +3,7 @@ import base64
 import logging
 import datetime
 
+from unidecode import unidecode
 
 
 def random_string(length=32):
@@ -57,4 +58,7 @@ def relative_time(old):
             return ret + text
     return current.strftime('%B %d.')
 
-__all__ = ['l', 'random_string', 'EMAIL_REGEX', 'human_time', 'relative_time']
+def permalink(name):
+    return unidecode(name).replace(' ', '-')
+
+__all__ = ['l', 'random_string', 'EMAIL_REGEX', 'human_time', 'relative_time', 'permalink']

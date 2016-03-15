@@ -25,16 +25,16 @@ Feature: user handling
 
   Scenario: edit a page description
     Given I am logged in
-     When I create a page called "Universe" with the description "42"
-      And I visit the edit page
+     When I create a page called "End of the World" with the description "42"
+      And I click the edit page link
       And I set the page description to "everything"
       And I press the button "Mentés"
      Then the page description on edit page is "everything"
 
   Scenario: edit a page description with refresh
     Given I am logged in
-     When I create a page called "Universe" with the description "42"
-      And I visit the edit page
+     When I create a page called "Over the rainbow" with the description "42"
+      And I click the edit page link
       And I set the page description to "everything"
       And I press the button "Mentés"
       And I refresh the page
@@ -42,7 +42,7 @@ Feature: user handling
 
   Scenario: post on a page
     Given I am logged in
-     When I create a page called "Universe" with the description "42"
+     When I create a page called "Unicorns" with the description "42"
       And I post "kukuriku"
      Then I see a post with content "kukuriku"
 

@@ -18,7 +18,7 @@ var Post = React.createClass({
                 <RoleThumbnail role={post.role} size="medium"/>
                 <div className="post_data">
                     <div>
-                        {post.role.user ? <UserName user={post.role.user} /> : <span className="UserName"><a href={'/' + post.role.page.name}>{post.role.page.name}</a></span>}
+                        {post.role.user ? <UserName user={post.role.user} /> : <span className="UserName"><a href={'/' + post.role.page.permalink}>{post.role.page.name}</a></span>}
                     </div>
                     <div>
                         <span className="TimeStamp"><a href={post.permalink}>{Time.human(post.created)}</a></span>

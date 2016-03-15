@@ -50,6 +50,7 @@ Feature: REST API
 
   Scenario: modify page over REST
     Given I am signed in
+      And Page records are cleaned from the database
      When I create a page called "mokus" with description "fenn a fan"
       And I modify the page description to "hello vilag"
      Then I get a 200 OK
@@ -57,6 +58,7 @@ Feature: REST API
 
   Scenario: modify invalid field of a page over REST
     Given I am signed in
+      And Page records are cleaned from the database
      When I create a page called "mokus" with description "fenn a fan"
       And I modify the page invalid_field to "not really"
      Then I get a 400 error
@@ -105,6 +107,7 @@ Feature: REST API
 
   Scenario: post on my page
     Given I am signed in
+      And Page records are cleaned from the database
      When I create a page called "mokus" with description "fenn a fan"
       And I post "hello world" on the wall of the page
      Then I get a 200 OK

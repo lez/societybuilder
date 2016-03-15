@@ -10,16 +10,13 @@ from pyxl.html import *
 def create_page(request):
     return <createpage />
 
-@view_config(route_name='showpage', renderer='layout')
+@view_config(route_name='page_wall', renderer='layout')
 def show_page(request):
-    id_ = request.matchdict['id']
+    permalink = request.matchdict['permalink']
     try:
-        id_ = int(id_)
-    except TypeError:
-        raise HTTPNotFound('invalid_id')
-    try:
-        page = Page.get(id=id_)
+        page = Page.get_by_permalink(permalink)
     except Page.DoesNotExist:
+        l.info('race condition, wow.')
         raise HTTPNotFound('no such page')
 
     posts = page.posts()
@@ -71,8 +68,8 @@ def show_all_pages(request):
 
     a = <ul/>
     for page in pages:
-        a.append_children([<li><a href="/page/{page.id}/show">{page.name}</a></li>])
-    
+        a.append_children([<li><a href="/{page.permalink}">{page.name}</a></li>])
+
     return a
 
 @view_config(route_name='showmypages', renderer='layout', permission='user')
@@ -81,6 +78,6 @@ def show_my_pages(request):
 
     a = <ul/>
     for page in pages:
-        a.append_children([<li><a href="/page/{page.id}/show">{page.name}</a></li>])
+        a.append_children([<li><a href="/{page.permalink}">{page.name}</a></li>])
 
     return a
