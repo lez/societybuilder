@@ -52,3 +52,10 @@ Feature: user handling
     And I set the about me to "the best monkey"
     And I press the button "Mentés"
     Then the about me says I am "the best monkey"
+
+  Scenario: post on my wall
+    Given I am logged in
+    When I visit "/komakoma"
+    And I post "kukuriku"
+    Then I see a post with content "kukuriku"
+

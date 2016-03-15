@@ -11,10 +11,12 @@ def home(request):
 def test(request):
     return 'test'
 
-@view_config(route_name='me', renderer='layout', permission='user')
+@view_config(route_name='wall', renderer='layout', permission='user')
 def me(request):
-    posts = request.user.posts()
+    login = request.matchdict['login']
+    user = User.get_by_login(login)
+    posts = user.posts()
     return <frag>
-        <react_poster user="{request.user}" wall="{request.user.wall_id}" role="{request.user.role}" roles="{[request.user.role]}" />
+        <react_poster user="{request.user}" wall="{user.wall_id}" role="{request.user.role}" roles="{[request.user.role]}" />
         <posts posts="{posts}" user="{request.user}" />
     </frag>

@@ -148,7 +148,7 @@ class x_sidebar(x_element):
                 <li><a href="/page/all">All pages</a></li>
                 <if cond="{user}">
                     <li><a href="/page/my">My pages</a></li>
-                    <li><a href="/me">Me</a></li>
+                    <li><a href="/{user.login}">Me</a></li>
                     <li><a href="/page/create">Create page</a></li>
                 </if>
             </ul>

@@ -101,6 +101,11 @@ module.exports = function () {
     });
 
 
+    this.When(/^I visit "(.*)"$/, function (url, callback) {
+        this.browser.visit(url, callback);
+    });
+
+
     this.When(/^I set the page description to "(.*)"$/, function (description) {
         this.browser.fill('textarea.description', description);
     });

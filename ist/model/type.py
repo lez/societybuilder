@@ -95,6 +95,15 @@ class User(Base):
         return userauth.user
 
     @classmethod
+    def get_by_login(cls, login):
+        try:
+            user = User.select().where(User.login==login).get()
+        except User.DoesNotExist:
+            l.info('login %s does not exist' % login)
+            raise
+        return user
+
+    @classmethod
     def authenticate(cls, login, password):
         try:
             user = User.get(login=login)

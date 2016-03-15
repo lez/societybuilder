@@ -1,6 +1,7 @@
 import os
 from pyramid.config import Configurator
 
+from ist.model.type import User
 from .page import page_methods
 from .view import notfound
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
@@ -37,17 +38,25 @@ def main(global_settings, **settings):
     config.add_route('upload', '/upload')
     config.add_route('hello', '/hello')
     config.add_route('test', '/test')
-    config.add_route('me', '/me')
     config.include(page_methods, '/page')
     config.add_route('media', '/media/{subpath:.*}')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('favicon', '/favicon.ico')
     config.add_route('user_profile', '/{login}/profile')
+    config.add_route('wall', '/{login}', custom_predicates=(user_exists,))
     config.add_notfound_view(notfound)
     config.include('pyramid_redis_sessions')
     config.include('cornice')
     config.scan(__name__)
     return config.make_wsgi_app()
+
+def user_exists(info, request):
+    login = info['match']['login']
+    try:
+        User.get_by_login(login)
+        return True
+    except User.DoesNotExist:
+        return False
 
 if __name__ == '__main__':
     app = main({})
