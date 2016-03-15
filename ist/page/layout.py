@@ -27,34 +27,35 @@ def show_page(request):
     else:
         poster = None
 
-    content = <frag>
-        <showpage page="{page}" user="{request.user}" />
+    content = <frag>\
+        <div class="page_header">
+            <react_pagethumbnail page={page} size="medium" />
+            <h1 class="page_name">{page.name}</h1>
+        </div>
         {poster}
         <posts posts="{posts}" user="{request.user}" />
     </frag>
 
-    rightbar = <rightbar user="{request.user}">\
+    rightbar = <rightbar user="{request.user}">
         <div class="description">
             {page.description}
         </div>
-        <a href="/page/{page.id}/edit">edit</a>
+        <a href="/{page.permalink}/edit">edit</a>
     </rightbar>
 
     return content, rightbar
 
-@view_config(route_name='editpage', renderer='layout')
-def edit_page(request):
-    id_ = request.matchdict['id']
+@view_config(route_name='page_edit', renderer='layout')
+def page_edit(request):
+
     try:
-        id_ = int(id_)
-    except TypeError:
-        raise HTTPNotFound('invalid_id')
-    try:
-        page = Page.get(id=id_)
+        page = Page.get_by_permalink(request.matchdict['permalink'])
     except Page.DoesNotExist:
+        l.info('no page found, strange')
         raise HTTPNotFound('no such page')
 
     content = <frag>\
+        <breadcrumb href="/{page.permalink}">Back to page wall</breadcrumb>
         <content_header>{page.name}</content_header>
         <react_restimagefield url="/api/page/{page.id}" image="{page.image or ''}" field="image" />
         <react_resttextfield url="/api/page/{page.id}" text="{page.description or ''}" field="description" label="What is this page about?"/>

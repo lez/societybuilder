@@ -44,7 +44,6 @@ def main(global_settings, **settings):
     config.add_route('createpage', '/page/create')
     config.add_route('showallpages', '/page/all')
     config.add_route('showmypages', '/page/my')
-    config.add_route('editpage', '/page/{id}/edit')  # TODO permalinkesiteni
 
     config.add_route('media', '/media/{subpath:.*}')
     config.add_static_view('static', 'static', cache_max_age=3600)
@@ -53,6 +52,7 @@ def main(global_settings, **settings):
     # predicated stuff
     config.add_route('user_profile', '/{login}/profile')
     config.add_route('user_wall', '/{login}', custom_predicates=(user_exists,))
+    config.add_route('page_edit', '/{permalink}/edit')
     config.add_route('page_wall', '/{permalink}', custom_predicates=(page_exists,))
 
     config.add_notfound_view(notfound)

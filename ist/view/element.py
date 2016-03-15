@@ -70,6 +70,9 @@ class x_react_thumbnail(x_jsx):
 class x_react_userthumbnail(x_jsx):
     _react_path = 'UserThumbnail.jsx'
 
+class x_react_pagethumbnail(x_jsx):
+    _react_path = 'PageThumbnail.jsx'
+
 class x_react_restimagefield(x_jsx):
     _react_path = 'RestImageField.jsx'
 
@@ -210,11 +213,11 @@ class x_inputimage(x_element):
     def render(self, name):
         return <input type="hidden" name="{name}" />
 
-class x_showpage(x_element):
-    def render(self, user: User, page: Page):
-        return <div id="showpage">
-            <div class="title">{page.name}</div>
-        </div>
+# class x_showpage(x_element):
+#     def render(self, user: User, page: Page):
+#         return <div id="showpage">
+#             <div class="title">{page.name}</div>
+#         </div>
 
 class x_posts(x_element):
     def render(self, posts, user):
@@ -234,4 +237,12 @@ class x_content_header(x_element):
     def render(self):
         return <div class="content_header">
             {self.children()}
+        </div>
+
+class x_breadcrumb(x_element):
+    def render(self, href):
+        return <div>
+            <a href={href}>
+                &lt; {self.children()}
+            </a>
         </div>

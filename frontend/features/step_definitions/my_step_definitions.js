@@ -82,7 +82,7 @@ module.exports = function () {
 
 
     this.Then(/^the page name is "(.*)"/, function (name) {
-        this.browser.assert.text('#showpage .title', name);
+        this.browser.assert.text('.page_header .page_name', name);
     });
 
 

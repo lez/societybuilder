@@ -11,6 +11,7 @@ var internet_state = {
     CommentPanel: require('./CommentPanel.jsx'),
     Thumbnail: require('./Thumbnail.jsx'),
     UserThumbnail: require('./UserThumbnail.jsx'),
+    PageThumbnail: require('./PageThumbnail.jsx'),
     RoleThumbnail: require('./RoleThumbnail.jsx'),
     RestImageField: require('./RestImageField.jsx'),
     RestTextField: require('./RestTextField.jsx'),

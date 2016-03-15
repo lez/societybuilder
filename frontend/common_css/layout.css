@@ -79,6 +79,16 @@
     margin-left: 18px;
 }
 
+.page_header {
+    display: flex;
+    flex-direction: row;
+    padding: 4px;
+}
+
+.page_header .page_name {
+    margin-left: 20px;
+}
+
 .user img {
     float: left;
 }
@@ -87,3 +97,7 @@
 .verticalform p     { display: table-row;  }
 .verticalform label { display: table-cell; text-align: right;}
 .verticalform input { display: table-cell; margin-left: 10px;}
+
+h1 {
+    font-size: 1.6em;
+}
