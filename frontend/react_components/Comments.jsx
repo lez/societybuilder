@@ -3,14 +3,17 @@ var Comment = require('./Comment.jsx');
 var randomstring = require('random-string');
 
 var Comments = React.createClass({
-  getInitialState: function() {
-    return {}
-  },
+    getInitialState: function () {
+        return {}
+    },
 
-  render: function(){
-    return (<div className="Comments">{this.props.comments.map(function(comment) {comment.key=randomstring(12); return <Comment comment={comment} key={comment.key} />;})}</div>);
-  },
+    render: function () {
+        return (<div className="Comments">{this.props.comments.map(function (comment) {
+            comment.key = randomstring(12);
+            return <Comment comment={comment} key={comment.key}/>;
+        })}</div>);
+    }
 
 });
 
-module.exports = Comments
+module.exports = Comments;
