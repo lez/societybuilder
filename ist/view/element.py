@@ -30,7 +30,7 @@ class x_jsx(x_element):
 
         return <frag>
             <div id="{self._react_id}" class="{'wrap_'+self._react_classname.lower()}">{html.rawhtml(render(self._react_path, self._attr))}</div>
-            <script type="text/javascript">{html.rawhtml(render_react_element)}</script>
+            <script type="text/javascript">{html.rawhtml(render_react_element + "\n")}</script>
         </frag>
 
 
