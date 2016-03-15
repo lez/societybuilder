@@ -74,13 +74,6 @@ class User(Base):
     def role(self):
         return get_role(self.role_id)
 
-    @property
-    def roles(self):
-        roles = [{'user': self, 'id': 'user:%d' % self.id, 'name': self.login}]
-        for page in self.pages():
-            roles.append({'page': page, 'id': 'page:%d' % page.id, 'name': page.name})
-        return roles
-
     @classmethod
     def get_by_token(cls, token):
         try:

@@ -10,6 +10,9 @@ from pyxl.html import *
 def create_page(request):
     return <createpage />
 
+# hozz létre egy oldalt az együttesednek, témádnak, cégednek, akárcsak más közösségi oldalakon. A leírásból legyen egyértelmű, miről szól az oldal.
+
+
 @view_config(route_name='page_wall', renderer='layout')
 def show_page(request):
     permalink = request.matchdict['permalink']
@@ -21,7 +24,7 @@ def show_page(request):
 
     posts = page.posts()
     if page.owner == request.user:
-        poster = <react_poster user="{request.user}" wall="{page.wall_id}" role="{page.role}" roles="{request.user.roles}" />
+        poster = <react_poster user="{request.user}" wall="{page.wall_id}" role="{page.role}" />
     elif request.user:
         poster = <react_poster user="{request.user}" wall="{page.wall_id}" role="{request.user.role}" />
     else:

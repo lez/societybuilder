@@ -10,7 +10,7 @@ def home(request):
     posts = Post.select().order_by(-Post.created)
     return <frag>\
         <if cond={request.user}>
-            <react_poster user="{request.user}" wall="{request.user.wall_id}" role="{request.user.role}" roles="{[request.user.role]}" />
+            <react_poster user="{request.user}" wall="{request.user.wall_id}" role="{request.user.role}" />
         </if>
         <posts posts="{posts}" user="{request.user}" />
     </frag>
@@ -25,6 +25,6 @@ def me(request):
     user = User.get_by_login(login)
     posts = user.posts()
     return <frag>
-        <react_poster user="{request.user}" wall="{user.wall_id}" role="{request.user.role}" roles="{[request.user.role]}" />
+        <react_poster user="{request.user}" wall="{user.wall_id}" role="{request.user.role}" />
         <posts posts="{posts}" user="{request.user}" />
     </frag>

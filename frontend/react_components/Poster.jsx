@@ -2,9 +2,9 @@ var randomString = require('random-string');
 var React = require('react');
 var UploadImages = require('./UploadImages.jsx');
 var Video = require('./Video.jsx');
-var Roles = require('./Roles.jsx');
 var Strings = require('../common_js/Strings.js');
 var FileUploadButton = require('./FileUploadButton.jsx');
+var RoleThumbnail = require('./RoleThumbnail.jsx');
 
 var Poster = React.createClass({
     getInitialState: function () {
@@ -18,8 +18,7 @@ var Poster = React.createClass({
             return {
                 imgs: [],
                 content: '',
-                changed: 0,
-                role: this.props.role.id
+                changed: 0
             }
         }
     },
@@ -28,16 +27,12 @@ var Poster = React.createClass({
         return 12;
     },
 
-    handleChangeRole: function (role) {
-        this.setState({role: role});
-    },
-
     render: function () {
         var max_imgs = this.getMaxImgs();
 
         return (
             <div className="Poster clearfix">
-                <Roles roles={this.props.roles} current={this.state.role} onChangeRole={this.handleChangeRole}/>
+                <RoleThumbnail role={this.props.role} />
                 <div className="wrapper">
                     <div>
                         {this.state.changed ?
@@ -132,7 +127,7 @@ var Poster = React.createClass({
         };
         if (this.props.wall) {
             data.wall = this.props.wall; // wall and role are not required when editing a post
-            data.role = this.state.role;
+            data.role = this.props.role.id;
         }
         var args = {
             url: '/api/post',
