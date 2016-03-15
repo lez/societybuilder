@@ -32,22 +32,26 @@ def main(global_settings, **settings):
 
     config.add_request_method(user, reify=True)
 
+    # user
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.add_route('signup', '/signup')
-    config.add_route('upload', '/upload')
+
+    # test
     config.add_route('hello', '/hello')
     config.add_route('test', '/test')
+
+    # static
+    config.add_route('media', '/media/{subpath:.*}')
+    config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_route('favicon', '/favicon.ico')
+    config.add_route('upload', '/upload')
 
     # pages
     config.add_route('createpage', '/page/create')
     config.add_route('showallpages', '/page/all')
     config.add_route('showmypages', '/page/my')
-
-    config.add_route('media', '/media/{subpath:.*}')
-    config.add_static_view('static', 'static', cache_max_age=3600)
-    config.add_route('favicon', '/favicon.ico')
 
     # predicated stuff
     config.add_route('user_profile', '/{login}/profile')

@@ -44,7 +44,7 @@
 
 .Poster .content {
     resize: none;
-    padding: 8px 7px 0 7px;
+    padding: 6px 7px 0 42px;
     font-family: Helvetica,Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
     font-size: 14px;
     line-height: 18px;
@@ -58,7 +58,8 @@
 .Poster .wrapper {
     display: block;
     float: left;
-    width: 495px;
+    width: 510px;
+    margin: 5px;
 }
 
 .Poster .UploadImages {
@@ -112,4 +113,7 @@
 
 .Poster .Thumbnail {
     float: left;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
 }
