@@ -12,6 +12,11 @@ var CommentPanel = React.createClass({
     },
 
     render: function () {
+
+        if (this.props.comments.length === 0 && !this.props.user) {
+            return null;
+        }
+
         return <div className="CommentPanel">
             <Comments comments={this.state.comments}/>
             {this.props.user ? <Commenter user={this.props.user} post={this.props.post} append={this.append}/> : null}

@@ -134,7 +134,7 @@ class Post(Base):
     modified = IntegerField(default=time.time)
     author = ForeignKeyField(User, on_delete='CASCADE')  # the user who is logged in when the post is sent
     wall = CharField(max_length=20)  # 'wall' is where posts are created.
-    role = CharField(max_length=20)  # posts are created on behalf of a virtual personality, a so called 'role'. Currently it can be a user or a page.
+    role = CharField(max_length=20)  # posts are created on behalf of a entity, called a 'role'. Role can be a user or a page.
     content = TextField(null=True)
     images = CharField()
     privacy = IntegerField(default=0)
