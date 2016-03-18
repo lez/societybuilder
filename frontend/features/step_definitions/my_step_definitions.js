@@ -36,12 +36,12 @@ module.exports = function () {
 
 
     this.When(/^I sign up$/, function (callback) {
-
-        this.browser.fill('#signupbox input[name="login"]', 'komakoma')
-                    .fill('#signupbox input[name="passwd"]', 'komakoma')
-                    .fill('#signupbox input[name="email"]', 'komakoma@gmail.com')
-                    .pressButton('Sign up', callback);
-
+        this.browser.clickLink('Sign up', function () {
+            this.browser.fill('#signupbox input[name="login"]', 'komakoma')
+                .fill('#signupbox input[name="passwd"]', 'komakoma')
+                .fill('#signupbox input[name="email"]', 'komakoma@gmail.com')
+                .pressButton('Sign up', callback);
+        }.bind(this));
     });
 
 

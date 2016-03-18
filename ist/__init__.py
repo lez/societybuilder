@@ -32,11 +32,13 @@ def main(global_settings, **settings):
 
     config.add_request_method(user, reify=True)
 
-    # user
     config.add_route('home', '/')
+
+    # user
+    config.add_route('signup', '/signup')
+    config.add_route('api_signup', '/api/signup')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
-    config.add_route('signup', '/signup')
 
     # test
     config.add_route('hello', '/hello')

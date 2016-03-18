@@ -12,7 +12,7 @@ t = unittest.TestCase('__init__')
 
 @when('the testuser signs up')
 def step_impl(c):
-    r = c.client.post('signup', data={'login': 'testuser', 'passwd': 'jelszo', 'email': 'test@jovilag.hu'})
+    r = c.client.post('api/signup', data={'login': 'testuser', 'passwd': 'jelszo', 'email': 'test@jovilag.hu'})
     t.assertEqual(200, r.status_code)
 
 @then('the testuser is able to log in')

@@ -27,7 +27,7 @@ var internet_state = {
         ReactDOM.render(React.createElement(react_class, attr), element);
     },
 
-
+    // create page, signup, etc. (pyxl forms)
     submit: function (event, element, callback) {
         event.preventDefault();
         var data = {};
@@ -37,20 +37,33 @@ var internet_state = {
             else data[inp.attr('name')] = inp.val();
         });
         var url = element.getAttribute('data-url');
+
         jQuery.ajax({
             url: url,
             type: 'POST',
-            data: data,
-            success: function (result) {
-                if (callback) callback(result);
-                else document.location.reload();
-            }.bind(this),
-            error: function (result) {
-                alert(result.error ? result.error : Strings.general_error);
-            }.bind(this)
+            data: data
+        }).done(function (result) {
+            if (callback) callback(result);
+            else document.location.reload();
+        }).fail(function (xhr) {
+            var result = JSON.parse(xhr.responseText);
+            if (!result.error) {
+                alert(Strings.general_error);
+                return;
+            }
+            if (!result.field) {
+                alert(result.error);
+                return;
+            }
+            var error = result.error;
+            var field = result.field;
+
+            jQuery(element).find('span.error').html('');
+            jQuery(element).find('#'+field+'_error').find('span.error').html(error);
         });
     },
 
+    // react
     submitRest: function (url, data, callback) {
         jQuery.ajax({
             url: url,

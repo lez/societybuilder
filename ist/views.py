@@ -40,30 +40,3 @@ def logout_view(request):
         del request.session['user']
     return HTTPFound(location='/', headers=forget(request))
 
-@view_config(route_name='signup')
-def signup_view(request):
-    if request.method == 'POST':
-        login = request.POST.get('login')
-        passwd = request.POST.get('passwd')
-        email = request.POST.get('email')
-        try:
-            User.get(login=login)
-            raise Exception('this name is already taken')
-        except User.DoesNotExist:
-            pass
-        if len(passwd) < 6:
-            raise Exception('too short password')
-        try:
-            User.get(email=email)
-            raise Exception('this email is already taken')
-        except User.DoesNotExist:
-            pass
-
-        user = User(login=login, email=email)
-        user.set_password(passwd)
-        try:
-            user.validate()
-        except ValidationError as e:
-            return Response('field=%s, error=%s' % (e.field, str(e)))
-        user.save()
-        return HTTPFound(location=request.route_url('home'), headers=remember_user(user, request))

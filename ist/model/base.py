@@ -51,6 +51,9 @@ class ApiEncoder(json.JSONEncoder):
         if isinstance(o, Base) and hasattr(o, 'json'):
             return o.json()
 
+        if isinstance(o, type(Ellipsis)):
+            return None
+
         # encode iterables for cleaner api code
         try:
             iterable = iter(o)

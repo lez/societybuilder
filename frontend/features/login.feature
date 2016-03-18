@@ -1,7 +1,7 @@
 Feature: user handling
 
   Scenario: signing up
-   Given I am on the front page
+   Given I visit "/signup"
     When I sign up
     Then I get logged in
 # And I received welcome email

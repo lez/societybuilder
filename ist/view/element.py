@@ -161,7 +161,7 @@ class x_rightbar(x_element):
     def render(self, user):
         x = <div id="rightbar" />
         if not user:
-            x.append_children([<signupbox />])
+            x.append_children([<signup_info />])
         x.append_children(self.children())
         return x
 
@@ -171,14 +171,35 @@ class x_logo(x_element):
 
 class x_signupbox(x_element):
     def render(self):
+        js_string = "IS.submit(event, this, function(user){document.location = '/hello';});"
         return <div id="signupbox">
-            <p>Sign up for this site.</p>
-            <form action="/signup" method="post" class="verticalform">
-                  <p><label for="login">Name:</label><input id="login" name="login" type="text" placeholder="login" /></p>
-                  <p><label for="passwd">Password:</label><input id="passwd" name="passwd" type="password" placeholder="password" /></p>
-                  <p><label for="email">Email:</label><input id="email" name="email" type="text" placeholder="email address" /></p>
-                  <p><input name="submit" type="submit" value="Sign up" /></p>
+            <p>Sign up for this site.</p><br/>
+            <form data-url="/api/signup" id="signupbox" method="post" onsubmit={js_string} class="verticalform">
+                <field name="login" type="text" placeholder="login">Name:</field>
+                <field name="passwd" type="password" placeholder="password">Password:</field>
+                <field name="email" type="text" placeholder="email">Email:</field>
+                <p><input name="submit" type="submit" value="Sign up" /></p>
             </form>
+        </div>
+
+class x_field(x_element):
+    def render(self, name, type, placeholder):
+        return <frag>
+            <p>
+                <label for="{name}">{self.children()}</label>
+                <input id="{name}" name="{name}" type="{type}" placeholder="{placeholder}" />
+            </p>
+            <p id="{name}_error">
+                <span></span>
+                <span class="error"></span>
+            </p>
+        </frag>
+
+class x_signup_info(x_element):
+    def render(self):
+        return <div id="signup_info">
+            <p>Sign up, it's cool!</p>
+            <a href="/signup">Sign up</a>
         </div>
 
 class x_loginbox(x_element):

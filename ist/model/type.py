@@ -45,10 +45,8 @@ class User(Base):
             raise ValidationError('login', 'login name is too long')
         if re.search(r'[^a-zA-Z0-9_-]', self.login):
             raise ValidationError('login', 'invalid character, use alphanumeric letters, \'_\' and \'-\'')
-        if not re.search(r'^[a-zA-Z]', self.login):
-            raise ValidationError('login', 'login name must start with an alphabetical letter')
         if not re.search(EMAIL_REGEX, self.email, flags=re.IGNORECASE):
-            raise ValidationError('email', 'invalid email address, please use a conventional one')
+            raise ValidationError('email', 'invalid email address')
 
     class Meta:
         db_table = 'users'
@@ -174,6 +172,7 @@ class Post(Base):
             'modified': self.modified,
             'wall': self.get_wall(),
             'role': self.get_role(),
+            'permalink': ...,
         }
 
     def validate(self):
