@@ -2,6 +2,7 @@ import os
 from pyramid.config import Configurator
 
 from ist.model.type import User, Page
+from ist.util import l
 from .view import notfound
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
@@ -65,7 +66,29 @@ def main(global_settings, **settings):
     config.include('pyramid_redis_sessions')
     config.include('cornice')
     config.scan(__name__)
+
+    config.add_tween('ist.request_logger')
+
     return config.make_wsgi_app()
+
+
+def request_logger(handler, registry):
+    def request_handler(request):
+        response = handler(request)
+
+        # exclude common paths from being logged for clearness
+        if request.path.split('/')[1] in ('static', 'favicon.ico', 'media', '_debug_toolbar'):
+            return response
+
+        info_log = '[%d] %s' % (response.status_int, request.path_qs)
+        if response.status_int in [301, 302]:
+            info_log += ' => %s' % response.headers['location']
+
+        l.info(info_log)
+
+        return response
+
+    return request_handler
 
 def user_exists(info, request):
     login = info['match']['login']
