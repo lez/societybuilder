@@ -8,7 +8,7 @@ from pyramid.view import view_config
 from ist.api.base import BaseItemRest
 from ist.auth import remember_user
 from ist.model.base import ValidationError, ApiEncoder
-from ist.model.type import User
+from ist.model.type import User, Page
 
 
 @resource(path='/api/me', renderer='api')
@@ -50,6 +50,12 @@ def signup_user(request):
         User.get(login_lower=login_lower)
         return HTTPBadRequest(body=json.dumps({'error': 'this name is already taken', 'field': 'login'}), content_type='application/json')
     except User.DoesNotExist:
+        pass
+
+    try:
+        Page.get_by_permalink_lower(login_lower)
+        return HTTPBadRequest(body=json.dumps({'error': 'this name is already taken', 'field': 'login'}), content_type='application/json')
+    except Page.DoesNotExist:
         pass
 
     email_lower = email.lower()

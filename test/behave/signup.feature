@@ -58,9 +58,16 @@ Feature: REST API
      Then I get a 200 OK
       And I can view the page called "mokus" with description "fenn a fan"
 
-  Scenario: cannot create page if the user exists
+  Scenario: cannot create page if the user exists with the same name
     Given I am signed in
      When I create a page called "testUSER" with description "Whatsup"
+     Then I get a 400 error
+
+  Scenario: cannot signup if page exists with the same name
+    Given I am signed in
+     When I create a page called "pWer" with description "soka"
+      And I log out
+      And I sign up as "PweR"
      Then I get a 400 error
 
   Scenario: page permalink redirection works
