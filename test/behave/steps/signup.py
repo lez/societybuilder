@@ -4,16 +4,41 @@ import json
 import unittest
 
 import time
-from behave import when, then, given
+from behave import when, then, given, use_step_matcher
 from importlib import import_module
+
 
 t = unittest.TestCase('__init__')
 
+# REGEX steps are defined in a block, because the step matcher can only be changed with use_step_matcher directive.
+# It would be nice if I could give it to @when in a keyword argument, like:
+#  @when('I sign up as "(?P<login>[^"]+)"', step_matcher='re')
+#
+#         Wouldn't it?
 
-@when('the testuser signs up')
-def step_impl(c):
-    r = c.client.post('api/signup', data={'login': 'testuser', 'passwd': 'jelszo', 'email': 'test@jovilag.hu'})
-    t.assertEqual(200, r.status_code)
+use_step_matcher("re")
+
+@when('I sign up as "(?P<login>[^"]+)"')
+def step_impl(c, login):
+    c.r = c.client.post('api/signup', data={'login': login, 'passwd': 'jelszo', 'email': '%s@jovilag.hu' % login})
+
+@when('I sign up as "(?P<login>[^"]+)" using password "(?P<passwd>[^"]+)"')
+def step_impl(c, login, passwd):
+    c.r = c.client.post('api/signup', data={'login': login, 'passwd': passwd, 'email': '%s@jovilag.hu' % login})
+
+@then('I get a (?P<code>3\d\d) redirect to "(?P<url>[^"]+)"')
+def step_impl(c, code, url):
+    code = int(code)
+    t.assertEqual(code, c.r.history[0].status_code)
+    t.assertEqual(url, c.client.normalize_path(c.r.history[0].headers['location']))
+    t.assertEqual(200, c.r.status_code)
+
+@then('I get a (?P<code>[45]\d\d) error')
+def step_impl(c, code):
+    t.assertEqual(int(code), c.r.status_code)
+
+
+use_step_matcher("parse")
 
 @then('the testuser is able to log in')
 def step_impl(c):
@@ -117,10 +142,6 @@ def step_impl(c):
 def step_impl(c):
     c.r = c.client.delete('api/page/12345')
 
-@then('I get a {code} error')
-def step_impl(c, code):
-    t.assertEqual(int(code), c.r.status_code)
-
 @then('I get a 200 OK')
 def step_impl(c):
     t.assertEqual(200, c.r.status_code)
@@ -219,6 +240,10 @@ def step_impl(c):
 def step_impl(c):
     c.r = c.client.get('api/me')
     c.user = json.loads(c.r.text)
+
+@when('I visit "{path}"')
+def step_impl(c, path):
+    c.r = c.client.get(path)
 
 @then('my "{what}" is "{name}"')
 def step_impl(c, what, name):

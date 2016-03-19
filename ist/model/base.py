@@ -11,9 +11,9 @@ class MyRequest(Request):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         db.connect()
-        self.add_finished_callback(self.finish)
+        self.add_finished_callback(self.close_database)
 
-    def finish(self, request):
+    def close_database(self, request):
         if not db.is_closed():
             db.close()
 

@@ -12,6 +12,7 @@ ImageProxy = Proxy()
 
 class User(Base):
     login = CharField(unique=True, max_length=50)
+    login_lower = CharField(unique=True, max_length=50)
     fullname = CharField(max_length=100, null=True)
     email = CharField(unique=True, max_length=100)
     password_sha512 = CharField(max_length=132)
@@ -90,7 +91,14 @@ class User(Base):
         try:
             user = User.select().where(User.login==login).get()
         except User.DoesNotExist:
-            l.info('login %s does not exist' % login)
+            raise
+        return user
+
+    @classmethod
+    def get_by_login_lower(cls, login_lower):
+        try:
+            user = User.select().where(User.login_lower==login_lower).get()
+        except User.DoesNotExist:
             raise
         return user
 

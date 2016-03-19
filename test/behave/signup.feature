@@ -1,15 +1,36 @@
 Feature: REST API
 
   Scenario: signup with a user
-     When the testuser signs up
+     When I sign up as "testuser"
      Then the testuser is able to log in
       And the testuser is able to log out
+
+  Scenario: signup with a short login
+     When I sign up as "I"
+     Then I get a 400 error
+
+  Scenario: signup with a short login 2
+     When I sign up as "ba"
+     Then I get a 400 error
+
+  Scenario: signup with a short password
+     When I sign up as "bazmegye" using password "yo"
+     Then I get a 400 error
+
+  Scenario: signup with invalid login name
+     When I sign up as "GrétaGarbó"
+     Then I get a 400 error
+
+  Scenario: in memoriam Ian Murdock
+     When I sign up as "IanMurdock"
+      And I visit "/ianMURDOCK"
+     Then I get a 301 redirect to "/IanMurdock"
 
   Scenario: user info
     Given I am signed in
      When I query /api/me
      Then my "login" is "testuser"
-      And my "email" is "test@jovilag.hu"
+      And my "email" is "testuser@jovilag.hu"
 
   Scenario: modify user info
     Given I am signed in

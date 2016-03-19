@@ -45,14 +45,16 @@ def signup_user(request):
     except KeyError:
         return HTTPBadRequest(body=json.dumps({'error': 'required field missing', 'field': 'email'}), content_type='application/json')
 
+    login_lower = login.lower()
     try:
-        User.get(login=login)
+        User.get(login_lower=login_lower)
         return HTTPBadRequest(body=json.dumps({'error': 'this name is already taken', 'field': 'login'}), content_type='application/json')
     except User.DoesNotExist:
         pass
 
+    email_lower = email.lower()
     try:
-        User.get(email=email)
+        User.get(email=email_lower)
         return HTTPBadRequest(body=json.dumps({'error': 'this address is already taken', 'field': 'email'}), content_type='application/json')
     except User.DoesNotExist:
         pass
@@ -60,7 +62,7 @@ def signup_user(request):
     if len(passwd) < 6:
         return HTTPBadRequest(body=json.dumps({'error': 'password too short', 'field': 'passwd'}), content_type='application/json')
 
-    user = User(login=login, email=email)
+    user = User(login=login, login_lower=login_lower, email=email_lower)
     user.set_password(passwd)
 
     try:

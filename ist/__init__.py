@@ -59,6 +59,7 @@ def main(global_settings, **settings):
     # predicated stuff
     config.add_route('user_profile', '/{login}/profile')
     config.add_route('user_wall', '/{login}', custom_predicates=(user_exists,))
+    config.add_route('user_redirect', '/{login}', custom_predicates=(user_exists_lower,))
     config.add_route('page_edit', '/{permalink}/edit')
     config.add_route('page_wall', '/{permalink}', custom_predicates=(page_exists,))
 
@@ -75,6 +76,11 @@ def main(global_settings, **settings):
 def request_logger(handler, registry):
     def request_handler(request):
         response = handler(request)
+
+        if not request.path:
+            l.info('[???] invalid request')
+            return response
+            # TODO "GET //xxx" returns a valid response containing /...
 
         # exclude common paths from being logged for clearness
         if request.path.split('/')[1] in ('static', 'favicon.ico', 'media', '_debug_toolbar'):
@@ -97,6 +103,15 @@ def user_exists(info, request):
         return True
     except User.DoesNotExist:
         return False
+
+def user_exists_lower(info, request):
+    login_lower = info['match']['login'].lower()
+    try:
+        User.get_by_login_lower(login_lower)
+        return True
+    except User.DoesNotExist:
+        return False
+
 
 def page_exists(info, request):
     permalink = info['match']['permalink']

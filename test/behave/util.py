@@ -3,14 +3,14 @@ import requests
 
 class Client:
     def __init__(self, base_url):
-        self.base_url = base_url
+        self.base_url = base_url   # in the form of 'http://localhost:5000'
         self.token = None
 
     def _modify_args(self, args: tuple, kwargs):
         args = list(args)
         kwargs = dict(kwargs)
 
-        args[0] = self.base_url + args[0]
+        args[0] = self.base_url + self.normalize_path(args[0])
 
         cookies = kwargs.get('cookies', {})
         if self.token:
@@ -19,6 +19,14 @@ class Client:
         kwargs['cookies'] = cookies
 
         return args, kwargs
+
+    # return the path with a leading slash (/)
+    def normalize_path(self, url):
+        if url.startswith(self.base_url):
+            return url.split(self.base_url)[1]
+        if url.startswith('/'):
+            return url
+        return '/' + url
 
     def post(self, *args, **kwargs):
 
@@ -42,7 +50,7 @@ class Client:
 
     def login(self, login, passwd):
 
-        r = requests.post(self.base_url + 'login', data={'login': login, 'passwd': passwd})
+        r = self.post('login', data={'login': login, 'passwd': passwd})
         self.token = r.history[0].cookies['me']
 
         return r
