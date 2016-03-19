@@ -60,8 +60,10 @@ def main(global_settings, **settings):
     config.add_route('user_profile', '/{login}/profile')
     config.add_route('user_wall', '/{login}', custom_predicates=(user_exists,))
     config.add_route('user_redirect', '/{login}', custom_predicates=(user_exists_lower,))
+
     config.add_route('page_edit', '/{permalink}/edit')
     config.add_route('page_wall', '/{permalink}', custom_predicates=(page_exists,))
+    config.add_route('page_redirect', '/{permalink}', custom_predicates=(page_exists_lower,))
 
     config.add_notfound_view(notfound)
     config.include('pyramid_redis_sessions')
@@ -80,7 +82,7 @@ def request_logger(handler, registry):
         if not request.path:
             l.info('[???] invalid request')
             return response
-            # TODO "GET //xxx" returns a valid response containing /...
+            # TODO "GET //xxx" returns a valid response with the main page
 
         # exclude common paths from being logged for clearness
         if request.path.split('/')[1] in ('static', 'favicon.ico', 'media', '_debug_toolbar'):
@@ -112,7 +114,6 @@ def user_exists_lower(info, request):
     except User.DoesNotExist:
         return False
 
-
 def page_exists(info, request):
     permalink = info['match']['permalink']
     try:
@@ -120,6 +121,15 @@ def page_exists(info, request):
         return True
     except Page.DoesNotExist:
         return False
+
+def page_exists_lower(info, request):
+    permalink_lower = info['match']['permalink'].lower()
+    try:
+        Page.get_by_permalink_lower(permalink_lower)
+        return True
+    except Page.DoesNotExist:
+        return False
+
 
 if __name__ == '__main__':
     app = main({})

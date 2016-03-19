@@ -286,6 +286,7 @@ class Page(Base):
     is_public = BooleanField(default=True)
     image = ForeignKeyField(ImageProxy, null=True)
     permalink = CharField(unique=True, max_length=30)
+    permalink_lower = CharField(unique=True, max_length=30)
 
     rest_editable_fields = {'name', 'description', 'is_owner_public', 'is_public', 'image'}
     rest_required_fields = {'name', 'description'}
@@ -295,6 +296,10 @@ class Page(Base):
     @classmethod
     def get_by_permalink(self, permalink):
         return Page.select().where(Page.permalink==permalink).get()
+
+    @classmethod
+    def get_by_permalink_lower(self, permalink_lower):
+        return Page.select().where(Page.permalink_lower==permalink_lower).get()
 
     class Meta:
         db_table = 'pages'

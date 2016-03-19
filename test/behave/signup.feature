@@ -58,6 +58,12 @@ Feature: REST API
      Then I get a 200 OK
       And I can view the page called "mokus" with description "fenn a fan"
 
+  Scenario: page permalink redirection works
+    Given I am signed in
+     When I create a page called "Capitaly" with description "nope"
+      And I visit "/capitaly"
+     Then I get a 301 redirect to "/Capitaly"
+
   Scenario: create invalid page over REST
     Given I am signed in
      When I create a page called "mokusssssssssssssssssssssssssss" with description "fenn a fan"

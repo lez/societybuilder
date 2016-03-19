@@ -1,4 +1,5 @@
 #coding: pyxl
+from pyramid.httpexceptions import HTTPMovedPermanently
 from pyramid.view import view_config
 from pyramid.exceptions import HTTPNotFound
 from ist.view.element import *
@@ -47,6 +48,12 @@ def show_page(request):
     </rightbar>
 
     return content, rightbar
+
+@view_config(route_name='page_redirect')
+def page_redirect(request):
+    permalink_lower = request.matchdict['permalink'].lower()
+    page = Page.get_by_permalink_lower(permalink_lower)
+    return HTTPMovedPermanently(location='/%s' % page.permalink)
 
 @view_config(route_name='page_edit', renderer='layout')
 def page_edit(request):

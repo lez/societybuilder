@@ -7,15 +7,15 @@ from script.util import bootstrap, run_test
 
 env, registry, settings = bootstrap(sys.argv[1])
 
-from ist.model.type import User
+from ist.model.type import User, Page
 
 from ist.util import permalink
 
 # Iterate over the pages and fill in their permalink field
 
-for u in User.select():
+for p in Page.select():
 
-    u.login_lower = u.login.lower()
-    u.save()
+    p.permalink_lower = p.permalink.lower()
+    p.save()
 
-    print(u.login, u.login_lower)
+    print(p.permalink, p.permalink_lower)

@@ -12,3 +12,4 @@ class PageRest(BaseFullRest):
     def _pre_create(self, fields):
         fields['owner'] = self.request.user
         fields['permalink'] = permalink(fields['name'])
+        fields['permalink_lower'] = fields['permalink'].lower()
