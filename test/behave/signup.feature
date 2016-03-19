@@ -2,8 +2,13 @@ Feature: REST API
 
   Scenario: signup with a user
      When I sign up as "testuser"
-     Then the testuser is able to log in
-      And the testuser is able to log out
+     Then I get a 200 OK
+
+  Scenario: log out
+     When I log in as "testuser"
+      And I log out
+     Then I get a 302 redirect to "/"
+# check cookie
 
   Scenario: signup with a short login
      When I sign up as "I"

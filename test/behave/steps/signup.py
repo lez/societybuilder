@@ -40,20 +40,21 @@ def step_impl(c, code):
 
 use_step_matcher("parse")
 
-@then('the testuser is able to log in')
-def step_impl(c):
-    r = c.client.login('testuser', 'jelszo')
-    t.assertEqual(302, r.history[0].status_code)
-    t.assertEqual(200, r.status_code)
-    t.assertTrue(c.client.logged_in())
-    assert('logout' in r.text)
+@when('I log in as "{login}"')
+def step_impl(c, login):
+    c.r = c.client.login(login, 'jelszo')
 
-@then('the testuser is able to log out')
+@then('I am logged in')
 def step_impl(c):
-    r = c.client.logout()
-    t.assertEqual(302, r.history[0].status_code)
-    t.assertEqual(200, r.status_code)
-    t.assertFalse(c.client.logged_in())
+    t.assertTrue(c.client.logged_in())
+
+@then('the response contains "{text}"')
+def step_impl(c, text):
+    t.assertIn(text, c.r.text)
+
+@when('I log out')
+def step_impl(c):
+    c.r = c.client.logout()
 
 @given('I am signed in')
 def step_impl(c):
@@ -81,9 +82,9 @@ def step_impl(c):
 @given('There is a page called "{name}" with description "{desc}"')
 def step_impl(c, name, desc):
     # FIXME: direct DB create
-    create = c.client.post('api/page', data={'name': name, 'description': desc})
-    t.assertEqual(200, create.status_code)
-    response = json.loads(create.text)
+    c.r = c.client.post('api/page', data={'name': name, 'description': desc})
+    t.assertEqual(200, c.r.status_code)
+    response = json.loads(c.r.text)
     c.page_id = response['id']
 
 @when('I modify the page description to "{new_desc}"')
