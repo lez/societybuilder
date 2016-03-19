@@ -58,6 +58,11 @@ Feature: REST API
      Then I get a 200 OK
       And I can view the page called "mokus" with description "fenn a fan"
 
+  Scenario: cannot create page if the user exists
+    Given I am signed in
+     When I create a page called "testUSER" with description "Whatsup"
+     Then I get a 400 error
+
   Scenario: page permalink redirection works
     Given I am signed in
      When I create a page called "Capitaly" with description "nope"

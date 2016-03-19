@@ -1,5 +1,9 @@
+import json
+
+from pyramid.httpexceptions import HTTPBadRequest
+
 from ist.api.base import BaseFullRest
-from ist.model.type import Page
+from ist.model.type import Page, User
 from ist.util import permalink
 
 from cornice.resource import resource
@@ -13,3 +17,10 @@ class PageRest(BaseFullRest):
         fields['owner'] = self.request.user
         fields['permalink'] = permalink(fields['name'])
         fields['permalink_lower'] = fields['permalink'].lower()
+
+        try:
+            User.get_by_login_lower(fields['permalink_lower'])
+            raise HTTPBadRequest(body=json.dumps({'error': 'this name is already taken'}))
+        except User.DoesNotExist:
+            pass
+
