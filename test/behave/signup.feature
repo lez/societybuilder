@@ -85,7 +85,7 @@ Feature: REST API
     Given I am signed in
      When I create a page called "mokusssssssssssssssssssssssssss" with description "fenn a fan"
      Then I get a 400 error
-      And Value of "name" is invalid because "Name is too long"
+      And Value of "name" is invalid because "name is too long"
 
   Scenario: create page with invalid field
     Given I am signed in
