@@ -65,7 +65,7 @@ def main(global_settings, **settings):
     config.add_route('page_wall', '/{permalink}', custom_predicates=(page_exists,))
     config.add_route('page_redirect', '/{permalink}', custom_predicates=(page_exists_lower,))
 
-    config.add_notfound_view(notfound)
+    config.add_notfound_view(notfound, custom_predicates=(not_api,))
     config.include('pyramid_redis_sessions')
     config.include('cornice')
     config.scan(__name__)
@@ -130,6 +130,11 @@ def page_exists_lower(info, request):
     except Page.DoesNotExist:
         return False
 
+def not_api(info, request):
+    for prefix in ('/api/page/', '/api/user/', '/api/post/', '/api/comment/'):
+        if request.path.startswith(prefix):
+            return False
+    return True
 
 if __name__ == '__main__':
     app = main({})

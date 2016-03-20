@@ -29,14 +29,14 @@ class BaseRest:
         id = self.request.matchdict[id_name]
         try:
             id = int(id)
-        except TypeError:
-            raise HTTPNotFound()
+        except ValueError:
+            raise HTTPNotFound(body=json.dumps({'error': 'resource not found'}), content_type='application/json')
 
         cls = custom_cls or self.cls
         try:
             item = cls.get(id=id)
         except cls.DoesNotExist:
-            raise HTTPNotFound()
+            raise HTTPNotFound(body=json.dumps({'error': 'resource not found'}), content_type='application/json')
 
         return item
 

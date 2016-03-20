@@ -281,7 +281,7 @@ class Page(Base):
     modified = IntegerField(null=True)
     owner = ForeignKeyField(User)
     name = CharField(max_length=30)
-    description = CharField(max_length=250)     # null = True?
+    description = CharField(max_length=2000)
     is_owner_public = BooleanField(default=False)
     is_public = BooleanField(default=True)
     image = ForeignKeyField(ImageProxy, null=True)
