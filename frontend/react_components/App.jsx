@@ -47,6 +47,15 @@ var internet_state = {
             else document.location.reload();
         }).fail(function (xhr) {
             var result = JSON.parse(xhr.responseText);
+
+            if (result.errors !== undefined) {
+                this.clearErrors(element);
+                for(var i=0; i<result.errors.length; i++) {
+                    this.displayError(element, result.errors[i]);
+                }
+                return;
+            }
+
             if (!result.error) {
                 alert(Strings.general_error);
                 return;
@@ -55,12 +64,20 @@ var internet_state = {
                 alert(result.error);
                 return;
             }
-            var error = result.error;
-            var field = result.field;
+            this.displayError(result);
+        }.bind(this));
+    },
 
-            jQuery(element).find('span.error').html('');
-            jQuery(element).find('#'+field+'_error').find('span.error').html(error);
-        });
+    clearErrors: function (element) {
+        jQuery(element).find('span.error').html('');
+    },
+
+    displayError: function(element, error_with_field) {
+        var error = error_with_field.error;
+        var field = error_with_field.field;
+
+        jQuery(element).find('#'+field+'_error').find('span.error').html(error);
+
     },
 
     // react

@@ -221,10 +221,9 @@ class x_poster(x_element):
 class x_createpage(x_element):
     def render(self):
         js_string = "IS.submit(event, this, function(page){document.location = '/'+page.permalink;});"
-        return <form data-url="/api/page" id="createpage" method="post" onsubmit={js_string}>
-            <input type="text" name="name" placeholder="Name" />
-            <input type="text" name="description" placeholder="Short description" />
-            <input type="checkbox" name="is_owner_public" checked="checked" />
+        return <form data-url="/api/page" id="createpage" method="post" onsubmit={js_string} class="verticalform">
+            <field type="text" name="name" placeholder="Page name">Name</field>
+            <field type="text" name="description" placeholder="Short description">Description</field>
             <input type="submit" name="submit" value="Create Page" />
 #            <inputimage name="image" />
         </form>

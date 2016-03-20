@@ -330,10 +330,14 @@ class Page(Base):
 
     def validate(self):
         if len(self.name) > 30:
-            yield {'field': 'name', 'error': 'Name is too long'}
+            yield {'field': 'name', 'error': 'name is too long'}
+        if len(self.name) < 3:
+            yield {'field': 'name', 'error': 'name is too short'}
 
-        if len(self.description) > 250:
+        if len(self.description) > 2000:
             yield {'field': 'description', 'error': 'description is too long'}
+        if len(self.description) < 3:
+            yield {'field': 'description', 'error': 'description is too short'}
 
     # FIXME: ValidationError
 
