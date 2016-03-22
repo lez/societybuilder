@@ -52,6 +52,11 @@ def step_impl(c):
 def step_impl(c, text):
     t.assertIn(text, c.r.text)
 
+@then('the error message is "{error}"')
+def step_impl(c, error):
+    c.json = json.loads(c.r.text)
+    t.assertEqual(error, c.json['error'])
+
 @when('I log out')
 def step_impl(c):
     c.r = c.client.logout()

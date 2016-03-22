@@ -46,8 +46,9 @@ var internet_state = {
             if (callback) callback(result);
             else document.location.reload();
         }).fail(function (xhr) {
-            this.clearErrors(element);
             var result = JSON.parse(xhr.responseText);
+
+            this.clearErrors(element);
             if (result.errors !== undefined) {
                 for(var i=0; i<result.errors.length; i++) {
                     this.displayError(element, result.errors[i]);
@@ -69,6 +70,31 @@ var internet_state = {
 
     clearErrors: function (element) {
         jQuery(element).find('span.error').html('');
+    },
+
+    submitLogin: function (event, element, callback) {
+        event.preventDefault();
+        var data = {};
+        data['login'] = jQuery(element).find("input[name='login']").val();
+        data['passwd'] = jQuery(element).find("input[name='passwd']").val();
+        var url = element.getAttribute('data-url');
+
+        jQuery.ajax({
+            url: url,
+            type: 'POST',
+            data: data
+        }).done(function (result) {
+            if (callback) callback(result);
+            else document.location.reload();
+        }).fail(function (xhr) {
+            console.log('failed');
+            var result = JSON.parse(xhr.responseText);
+            this.clearErrors(element);
+            jQuery(element).find('#error').find('span.error').html(result.error);
+            console.log('failed no');
+
+            //jQuery('#loginbox').find('#error').find('span.error').html('fakk')
+        }.bind(this));
     },
 
     displayError: function(element, error_with_field) {

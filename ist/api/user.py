@@ -1,10 +1,12 @@
 import json
 
 from cornice.resource import resource
-from pyramid.httpexceptions import HTTPMethodNotAllowed, HTTPBadRequest
+from pyramid.httpexceptions import HTTPMethodNotAllowed, HTTPBadRequest, HTTPForbidden, HTTPUnauthorized, HTTPFound
 from pyramid.response import Response
+from pyramid.security import authenticated_userid
 from pyramid.view import view_config
 
+from ist.util import l
 from ist.api.base import BaseItemRest
 from ist.auth import remember_user
 from ist.model.base import ValidationError, ApiEncoder
@@ -79,3 +81,28 @@ def signup_user(request):
     user.save()
 
     return Response(body=ApiEncoder().encode({'user': user}), headers=remember_user(user, request))
+
+
+@view_config(route_name='api_login', renderer='api', request_method='POST')
+def login_view(request):
+    if authenticated_userid(request):
+        raise HTTPForbidden('You are already logged in')
+    try:
+        login = request.POST['login']
+    except KeyError:
+        return HTTPBadRequest(body=json.dumps({'error': 'required field missing', 'field': 'login'}), content_type='application/json')
+
+    try:
+        passwd = request.POST['passwd']
+    except KeyError:
+        return HTTPBadRequest(body=json.dumps({'error': 'required field missing', 'field': 'passwd'}), content_type='application/json')
+
+    next = request.params.get('next') or request.referer or '/'
+
+    try:
+        user = User.authenticate(login, passwd)
+    except User.AuthFailed:
+        return HTTPUnauthorized(body=json.dumps({'error': 'login failed'}), content_type='application/json')
+
+    l.info('login successful')
+    return HTTPFound(location=next, headers=remember_user(user, request))

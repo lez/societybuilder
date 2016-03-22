@@ -1,5 +1,10 @@
 Feature: REST API
 
+  Scenario: login failure
+     When I log in as "nonexistent"
+     Then I get a 401 error
+      And the error message is "login failed"
+
   Scenario: signup with a user
      When I sign up as "testuser"
      Then I get a 200 OK

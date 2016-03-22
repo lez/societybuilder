@@ -204,11 +204,15 @@ class x_signup_info(x_element):
 
 class x_loginbox(x_element):
     def render(self):
+        js_string = "IS.submitLogin(event, this, function(user){document.location = '/';});"
         return <div id="loginbox">
-            <form action="/login" method="post">
+            <form data-url="/api/login" id="login" method="post" onsubmit={js_string}>
                 <input name="login" type="text" placeholder="login" />
                 <input name="passwd" type="password" placeholder="password" />
                 <input name="submit" type="submit" value="Log in" />
+                <p id="error">
+                    <span class="error"></span>
+                </p>
             </form>
         </div>
 

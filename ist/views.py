@@ -17,23 +17,6 @@ def hello_view(request):
 def hello_view(request):
     return FileResponse('ist/static/favicon.ico', request=request, content_type='image/x-icon', cache_max_age=30*24*3600)
 
-@view_config(route_name='login')
-def login_view(request):
-    if authenticated_userid(request):
-        raise HTTPForbidden('You are already logged in')
-    next = request.params.get('next') or request.referer or '/'
-    if 'login' not in request.POST:
-        return Response('invalid login')
-    login = request.POST.get('login')
-    passwd = request.POST.get('passwd')
-    try:
-        user = User.authenticate(login, passwd)
-    except User.AuthFailed:
-        l.info('auth failed')
-        return Response('invalid login')
-    l.info('login successful')
-    return HTTPFound(location=next, headers=remember_user(user, request))
-
 @view_config(route_name='logout')
 def logout_view(request):
     if 'user' in request.session:

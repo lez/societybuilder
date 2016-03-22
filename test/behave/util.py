@@ -50,8 +50,9 @@ class Client:
 
     def login(self, login, passwd):
 
-        r = self.post('login', data={'login': login, 'passwd': passwd})
-        self.token = r.history[0].cookies['me']
+        r = self.post('api/login', data={'login': login, 'passwd': passwd}, allow_redirects=False)
+        if 'me' in r.cookies:
+            self.token = r.cookies['me']
 
         return r
 

@@ -38,7 +38,7 @@ def main(global_settings, **settings):
     # user
     config.add_route('signup', '/signup')
     config.add_route('api_signup', '/api/signup')
-    config.add_route('login', '/login')
+    config.add_route('api_login', '/api/login')
     config.add_route('logout', '/logout')
 
     # test
