@@ -46,10 +46,9 @@ var internet_state = {
             if (callback) callback(result);
             else document.location.reload();
         }).fail(function (xhr) {
+            this.clearErrors(element);
             var result = JSON.parse(xhr.responseText);
-
             if (result.errors !== undefined) {
-                this.clearErrors(element);
                 for(var i=0; i<result.errors.length; i++) {
                     this.displayError(element, result.errors[i]);
                 }
@@ -64,7 +63,7 @@ var internet_state = {
                 alert(result.error);
                 return;
             }
-            this.displayError(result);
+            this.displayError(element, result);
         }.bind(this));
     },
 

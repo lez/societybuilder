@@ -45,6 +45,16 @@ module.exports = function () {
     });
 
 
+    this.When(/^I sign up as "([^"]*)"$/, function (login, callback) {
+        this.browser.clickLink('Sign up', function () {
+            this.browser.fill('#signupbox input[name="login"]', login)
+                .fill('#signupbox input[name="passwd"]', 'komakoma')
+                .fill('#signupbox input[name="email"]', login+'@gmail.com')
+                .pressButton('Sign up', callback);
+        }.bind(this));
+    });
+
+
     this.Then(/^I get logged in$/, function (callback) {
 
         this.browser.assert.element('#profilemenu');
@@ -81,8 +91,13 @@ module.exports = function () {
     });
 
 
-    this.Then(/^the page name is "(.*)"/, function (name) {
+    this.Then(/^the page name is "(.*)"$/, function (name) {
         this.browser.assert.text('.page_header .page_name', name);
+    });
+
+
+    this.Then(/^the error message below "([^"]*)" is "([^"]*)"$/, function (field, error) {
+        this.browser.assert.text('#'+field+'_error .error', error);
     });
 
 

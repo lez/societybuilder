@@ -1,10 +1,15 @@
 Feature: user handling
 
-  Scenario: signing up
+  Scenario: sign up
    Given I visit "/signup"
     When I sign up
     Then I get logged in
 # And I received welcome email
+
+  Scenario: sign up with invalid username
+    Given I visit "/signup"
+    When I sign up as "x"
+    Then the error message below "login" is "login name is too short"
 
   Scenario: logging in
    Given I am on the front page
@@ -22,6 +27,12 @@ Feature: user handling
      When I create a page called "Universe" with the description "42"
      Then the page name is "Universe"
       And the page description is "42"
+
+  Scenario: create a page with too short fields
+    Given I am logged in
+     When I create a page called "U" with the description "4"
+     Then the error message below "name" is "name is too short"
+      And the error message below "description" is "description is too short"
 
   Scenario: edit a page description
     Given I am logged in
