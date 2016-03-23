@@ -18,18 +18,22 @@ Feature: REST API
   Scenario: signup with a short login
      When I sign up as "I"
      Then I get a 400 error
+      And the error message is "login name is too short"
 
   Scenario: signup with a short login 2
      When I sign up as "ba"
      Then I get a 400 error
+      And the error message is "login name is too short"
 
   Scenario: signup with a short password
      When I sign up as "bazmegye" using password "yo"
      Then I get a 400 error
+      And the error message is "password too short"
 
   Scenario: signup with invalid login name
      When I sign up as "GrétaGarbó"
      Then I get a 400 error
+    And the error message is "invalid character, use alphanumeric letters, '_' and '-'"
 
   Scenario: in memoriam Ian Murdock
      When I sign up as "IanMurdock"
@@ -61,6 +65,7 @@ Feature: REST API
     Given I am signed in
      When I change my "login" to "littleme"
      Then I get a 400 error
+      And the error message is "invalid field"
 
   Scenario: create page over REST
     Given I am signed in
@@ -72,6 +77,7 @@ Feature: REST API
     Given I am signed in
      When I create a page called "testUSER" with description "Whatsup"
      Then I get a 400 error
+      And the error message is "this name is already taken"
 
   Scenario: cannot signup if page exists with the same name
     Given I am signed in
@@ -79,6 +85,7 @@ Feature: REST API
       And I log out
       And I sign up as "PweR"
      Then I get a 400 error
+      And the error message is "this name is already taken"
 
   Scenario: page permalink redirection works
     Given I am signed in
@@ -96,6 +103,7 @@ Feature: REST API
     Given I am signed in
      When I create a page with an invalid field
      Then I get a 400 error
+      And the error message is "invalid field"
 
   Scenario: modify page over REST
     Given I am signed in
@@ -119,6 +127,7 @@ Feature: REST API
       And There is a page called "mokus" with description "fenn a fan"
      When I modify the page without request body
      Then I get a 400 error
+      And the error message is "missing request body"
 
   Scenario: modify a nonexistent page over REST
     Given I am signed in
