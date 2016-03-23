@@ -33,8 +33,10 @@ var internet_state = {
         var data = {};
         jQuery(element).find("input[type!='submit']").each(function (idx, input) {
             var inp = jQuery(input);
-            if (inp.attr('type') == 'checkbox') data[inp.attr('name')] = inp.prop('checked');
-            else data[inp.attr('name')] = inp.val();
+            if (!inp.hasClass('exclude-from-rest')) {
+                if (inp.attr('type') == 'checkbox') data[inp.attr('name')] = inp.prop('checked');
+                else data[inp.attr('name')] = inp.val();
+            }
         });
         var url = element.getAttribute('data-url');
 
