@@ -30,7 +30,7 @@ var ImageField = React.createClass({
             <FileUploadButton upload={this.upload}>
                 {x}
             </FileUploadButton>
-            <input type="hidden" name="image_id" value={this.field_value()}/>
+            <input type="hidden" name={this.props.name} value={this.field_value()}/>
         </div>;
     },
 

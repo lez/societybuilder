@@ -15,7 +15,7 @@ var EditProfileImage = React.createClass({
 
     render: function() {
         return <div className="EditProfileImage">
-            <ImageField image={this.props.image} onChange={this.onChange} ref="imagefield"/>
+            <ImageField image={this.props.image} onChange={this.onChange} ref="imagefield" name="image_id"/>
             {this.state.changed ? <button onClick={this.submit}>Csere</button> : null}
         </div>;
     },

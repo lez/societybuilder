@@ -9,7 +9,7 @@ var RestImageField = React.createClass({
     // props: url, field, initial value (image), reload (bool)
     render: function() {
         return <div className="RestImageField" ref="main">
-            <ImageField image={this.props.image} onChange={this.onChange}/>
+            <ImageField image={this.props.image} onChange={this.onChange} name="image_id"/>
             {this.state.changed ? <button onClick={this.submit}>Csere</button> : null}
         </div>;
     },
