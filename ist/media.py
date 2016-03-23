@@ -19,9 +19,9 @@ def media_view(request):
             return HTTPNotFound('File not found: %s' % path)
         resolution = parts[1]
         if resolution not in ['30x30', '60x60', '100x100', '200x200', '300x300']:
-            l.info('nemjo felbontas')
+            l.debug('invalid resolution: %s' % resolution)
             return HTTPNotFound('File not found: %s' % path)
-        width, height = resolution.split(b'x')
+        width, height = resolution.split('x')
         src = os.path.join(dirname, '{}.{}'.format(parts[0], parts[2]))
         images.generate_thumbnail(src, path, width=int(width), height=int(width))
 
