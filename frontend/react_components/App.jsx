@@ -102,9 +102,12 @@ var internet_state = {
     displayError: function(element, error_with_field) {
         var error = error_with_field.error;
         var field = error_with_field.field;
-
-        jQuery(element).find('#'+field+'_error').find('span.error').html(error);
-
+        var container = jQuery(element).find('#'+field+'_error').find('span.error');
+        if (container) {
+            alert(error + '; field=' + field);
+        } else {
+            container.html(error);
+        }
     },
 
     // react
