@@ -3,7 +3,7 @@ from pyramid.config import Configurator
 
 from ist.model.type import User, Page
 from ist.util import l
-from .view import notfound
+from .view import notfound, notfound_api, forbidden, forbidden_api
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
 ROOT = os.path.dirname(__path__[0])
@@ -66,6 +66,10 @@ def main(global_settings, **settings):
     config.add_route('page_redirect', '/{permalink}', custom_predicates=(page_exists_lower,))
 
     config.add_notfound_view(notfound, custom_predicates=(not_api,))
+    config.add_notfound_view(notfound_api, custom_predicates=(is_api,))
+    config.add_forbidden_view(forbidden, custom_predicates=(not_api,))
+    config.add_forbidden_view(forbidden_api, custom_predicates=(is_api,))
+
     config.include('pyramid_redis_sessions')
     config.include('cornice')
     config.scan(__name__)
@@ -130,11 +134,13 @@ def page_exists_lower(info, request):
     except Page.DoesNotExist:
         return False
 
+def is_api(info, request):
+    if request.path.startswith('/api'):
+        return True
+    return False
+
 def not_api(info, request):
-    for prefix in ('/api/page/', '/api/user/', '/api/post/', '/api/comment/'):
-        if request.path.startswith(prefix):
-            return False
-    return True
+    return not is_api(info, request)
 
 if __name__ == '__main__':
     app = main({})

@@ -13,7 +13,7 @@ from ist.model.base import ValidationError, ApiEncoder
 from ist.model.type import User, Page
 
 
-@resource(path='/api/me', renderer='api')
+@resource(path='/api/me', renderer='api', permission='user')
 class MeRest(BaseItemRest):
     def __init__(self, request):
         super().__init__(request, User)

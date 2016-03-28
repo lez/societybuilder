@@ -2,7 +2,7 @@ import json
 import time
 
 from cornice.resource import view
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPForbidden, HTTPClientError
 
 from ist.model.base import db
 
@@ -89,36 +89,48 @@ class BaseItemRest(BaseRest):
 
     # get one instance by id
     def get(self):
-        return self._item()
+        try:
+            return self._item()
+        except HTTPClientError as e:
+            return e
 
     # modify existing instance
+    @view(permission='user')
     def put(self):
-        item = self._item()
+        try:
+            item = self._item()
+            if not item.is_editable_by(self.request.user):
+                raise HTTPForbidden(body=json.dumps({'error': 'permission denied'}))
 
-        modified = False
-        for key in self.request.POST:
-            if key in self.cls.rest_editable_fields:
-                modified = True
-                setattr(item, key, self.request.POST[key])
+            modified = False
+            for key in self.request.POST:
+                if key in self.cls.rest_editable_fields:
+                    modified = True
+                    setattr(item, key, self.request.POST[key])
+                else:
+                    raise HTTPBadRequest(body=json.dumps({'error': 'invalid field', 'field': key}))
+
+            if modified:
+                assert hasattr(item, 'modified')
+                item.modified = int(time.time())
+                item.save()
             else:
-                raise HTTPBadRequest(body=json.dumps({'error': 'invalid field', 'field': key}))
+                raise HTTPBadRequest(body=json.dumps({'error': 'missing request body'}))
 
-        if modified:
-            assert hasattr(item, 'modified')
-            item.modified = int(time.time())
-            item.save()
-        else:
-            raise HTTPBadRequest(body=json.dumps({'error': 'missing request body'}))
-
-        return item
+            return item
+        except HTTPClientError as e:
+            return e
 
     @view(permission='user')
     def delete(self):
-        item = self._item()
-        with db.transaction():
-            self._pre_delete(item)
-            item.delete_instance()
-        return {}
+        try:
+            item = self._item()
+            with db.transaction():
+                self._pre_delete(item)
+                item.delete_instance()
+            return {}
+        except HTTPClientError as e:
+            return e
 
     def _pre_delete(self, item):
         # Override me to remove child instances as well

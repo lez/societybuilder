@@ -7,9 +7,17 @@ var FileUploadButton = React.createClass({
 
     render: function() {
         return <div className="FileUploadButton">
-                    {this.props.children}
-                    <input type="file" name="selected-file" className="exclude-from-rest" onChange={this.upload} onBlur={this.upload} ref="selectedfile" multiple={this.props.multiple} />
-               </div>;
+            {this.props.children}
+            <input
+                className="exclude-from-rest"
+                multiple={this.props.multiple}
+                name="selected-file"
+                onChange={this.upload}
+                onBlur={this.upload}
+                ref="selectedfile"
+                type="file"
+            />
+        </div>;
     },
 
     reset: function(e) {

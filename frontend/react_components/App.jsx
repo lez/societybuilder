@@ -103,7 +103,7 @@ var internet_state = {
         var error = error_with_field.error;
         var field = error_with_field.field;
         var container = jQuery(element).find('#'+field+'_error').find('span.error');
-        if (container) {
+        if (container === undefined) {
             alert(error + '; field=' + field);
         } else {
             container.html(error);
