@@ -18,6 +18,10 @@ class PageRest(BaseFullRest):
         fields['permalink'] = permalink(fields['name'])
         fields['permalink_lower'] = fields['permalink'].lower()
 
+        if 'image' in fields and not fields['image']:
+            # remove optional image field if nothing was given
+            del fields['image']
+
         try:
             User.get_by_login_lower(fields['permalink_lower'])
             raise HTTPBadRequest(body=json.dumps({'error': 'this name is already taken'}))
