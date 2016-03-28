@@ -15,7 +15,7 @@ var Post = React.createClass({
         var post = this.props.post;
 
         var show_edit = false;
-        if (this.props.user.id == this.props.post.author) show_edit = true;
+        if (this.props.user && this.props.user.id == this.props.post.author) show_edit = true;
         if (this.state.editing) show_edit = false;
 
         return <div className="Post">

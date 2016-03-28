@@ -151,6 +151,7 @@ module.exports = function () {
                     .pressButton('Küldés', callback);
     });
 
+
     this.When(/^I refresh the page$/, function (callback) {
         this.browser.visit(this.browser.url, callback);
     });

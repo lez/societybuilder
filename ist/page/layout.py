@@ -44,7 +44,9 @@ def show_page(request):
         <div class="description">
             {page.description}
         </div>
-        <a href="/{page.permalink}/edit">edit</a>
+        <if cond={request.user and page.is_editable_by(request.user)}>
+            <a href="/{page.permalink}/edit">edit</a>
+        </if>
     </rightbar>
 
     return content, rightbar
