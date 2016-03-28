@@ -94,10 +94,10 @@ def step_impl(c, name, desc):
 
 @when('I modify the page description to "{new_desc}"')
 def step_impl(c, new_desc):
-    r = c.client.put('api/page/%d' % c.page_id, data={'description': new_desc})
-    t.assertEqual(200, r.status_code)
-    resp = json.loads(r.text)
-    t.assertEqual(new_desc, resp['description'])
+    c.r = c.client.put('api/page/%d' % c.page_id, data={'description': new_desc})
+
+    # resp = json.loads(r.text)
+    # t.assertEqual(new_desc, resp['description'])
 
 @when('I modify the page invalid_field to "{value}"')
 def step_impl(c, value):

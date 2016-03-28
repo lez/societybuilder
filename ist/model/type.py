@@ -24,6 +24,11 @@ class User(Base):
 
     rest_editable_fields = ('email', 'image', 'about')
 
+    def is_editable_by(self, user):
+        if user.id == self.id:
+            return True
+        return False
+
     def check_password(self, password):
         hasher = hashlib.sha512()
         hasher.update(self.salt.encode())
@@ -151,6 +156,11 @@ class Post(Base):
     rest_editable_fields = {'content', 'images'}
     rest_collection_name = 'posts'
 
+    def is_editable_by(self, user):
+        if user == self.author:
+            return True
+        return False
+
     def get_comments(self):
         return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
 
@@ -207,6 +217,11 @@ class Comment(Base):
 
     rest_required_fields = {'comment', 'item_id', 'item_type'}
     rest_editable_fields = {'comment', 'image'}
+
+    def is_editable_by(self, user):
+        if user == self.user:
+            return True
+        return False
 
     def json(self):
         return {
@@ -292,6 +307,11 @@ class Page(Base):
     rest_required_fields = {'name', 'description'}
 
     rest_collection_name = 'pages'
+
+    def is_editable_by(self, user):
+        if user == self.owner:
+            return True
+        return False
 
     @classmethod
     def get_by_permalink(self, permalink):

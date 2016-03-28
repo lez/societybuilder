@@ -37,6 +37,9 @@ class Base(Model):
     rest_optional_fields = set()
     rest_required_fields = set()
 
+    def is_editable_by(self, user):
+        raise NotImplementedError()
+
     @classmethod
     def rest_all_fields(cls):
         return list(set(cls.rest_editable_fields).union(set(cls.rest_optional_fields)).union(set(cls.rest_required_fields)))

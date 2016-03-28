@@ -125,10 +125,15 @@ class BaseItemRest(BaseRest):
     def delete(self):
         try:
             item = self._item()
+
+            if not item.is_editable_by(self.request.user):
+                raise HTTPForbidden(body=json.dumps({'error': 'permission denied'}))
+
             with db.transaction():
                 self._pre_delete(item)
                 item.delete_instance()
             return {}
+
         except HTTPClientError as e:
             return e
 

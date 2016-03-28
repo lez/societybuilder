@@ -113,6 +113,17 @@ Feature: REST API
      Then I get a 200 OK
       And I can view the page called "mokus" with description "hello vilag"
 
+  Scenario: modify page over REST with another user
+    Given I am signed in
+      And Page records are cleaned from the database
+     When I create a page called "mokus" with description "fenn a fan"
+      And I log out
+      And I sign up as "black"
+      And I log in as "black"
+      And I modify the page description to "hello vilag"
+     Then I get a 403 error
+      And the error message is "permission denied"
+
   Scenario: modify invalid field of a page over REST
     Given I am signed in
       And Page records are cleaned from the database
@@ -150,6 +161,16 @@ Feature: REST API
      When I delete the page
      Then I get a 200 OK
       And I cannot view the page
+
+  Scenario: delete page over REST with another user
+    Given I am signed in
+      And Page records are cleaned from the database
+      And There is a page called "mokus" with description "fenn a fan"
+     When I log out
+      And I log in as "black"
+      And I delete the page
+     Then I get a 403 error
+      And the error message is "permission denied"
 
   Scenario: delete a nonexistent page over REST
     Given I am signed in
@@ -194,3 +215,13 @@ Feature: REST API
       And the comment created time is just now
       And the comment modified time is just now
       And the post has 1 comment "not really"
+
+  Scenario: modify a comment with other user
+    Given I am signed in
+      And I have a post
+      And I have a comment on the post
+     When I log out
+      And I log in as "black"
+      And I modify the comment to "not really"
+     Then I get a 403 error
+      And the error message is "permission denied"
