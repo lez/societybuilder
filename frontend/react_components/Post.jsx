@@ -13,6 +13,11 @@ var Post = React.createClass({
 
     render: function() {
         var post = this.props.post;
+
+        var show_edit = false;
+        if (this.props.user.id == this.props.post.author) show_edit = true;
+        if (this.state.editing) show_edit = false;
+
         return <div className="Post">
             <div className="header clearfix">
                 <RoleThumbnail role={post.role} size="medium"/>
@@ -24,13 +29,15 @@ var Post = React.createClass({
                         <span className="TimeStamp"><a href={post.permalink}>{Time.human(post.created)}</a></span>
                     </div>
                 </div>
-                {(!this.state.editing) ? <div>
-                <div className="DeletePostButton">
+                {show_edit ? <div>
+
+                    <div className="DeletePostButton">
                         <a href="#" onClick={this.handleDelete}><i className="icon-cancel"></i></a>
                     </div>
                     <div className="EditPostButton">
                         <a href="#" onClick={this.handleEdit}><i className="icon-edit"></i></a>
-                    </div></div>
+                    </div>
+                </div>
                  : null
                  }
             </div>

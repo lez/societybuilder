@@ -190,6 +190,7 @@ class Post(Base):
             'modified': self.modified,
             'wall': self.get_wall(),
             'role': self.get_role(),
+            'author': self.author.id,
             'permalink': ...,
         }
 
