@@ -232,17 +232,6 @@ class x_createpage(x_element):
             <input type="submit" name="submit" value="Create Page" />
         </form>
 
-class x_inputimage(x_element):
-    # @required
-    def render(self, name):
-        return <input type="hidden" name="{name}" />
-
-# class x_showpage(x_element):
-#     def render(self, user: User, page: Page):
-#         return <div id="showpage">
-#             <div class="title">{page.name}</div>
-#         </div>
-
 class x_posts(x_element):
     def render(self, posts, user):
         a = <div id="posts" />
