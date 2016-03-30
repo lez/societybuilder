@@ -106,3 +106,37 @@ def login_view(request):
 
     l.info('login successful')
     return HTTPFound(location=next, headers=remember_user(user, request))
+
+
+@view_config(route_name='api_change_password', renderer='api', request_method='POST', permission='user')
+def change_password(request):
+    try:
+        passwd = request.POST['passwd']
+    except KeyError:
+        return HTTPBadRequest(body=json.dumps({'error': 'required field missing', 'field': 'passwd'}), content_type='application/json')
+
+    try:
+        request.user.check_password(passwd)
+    except User.AuthFailed:
+        return HTTPUnauthorized(body=json.dumps({'error': 'invalid password', 'field': 'passwd'}), content_type='application/json')
+
+    try:
+        new_passwd = request.POST['new_passwd']
+    except KeyError:
+        return HTTPBadRequest(body=json.dumps({'error': 'required field missing', 'field': 'new_passwd'}), content_type='application/json')
+
+    if len(new_passwd) < 6:
+        return HTTPBadRequest(body=json.dumps({'error': 'password too short', 'field': 'new_passwd'}), content_type='application/json')
+
+    try:
+        new_passwd_again = request.POST['new_passwd_again']
+    except KeyError:
+        return HTTPBadRequest(body=json.dumps({'error': 'required field missing', 'field': 'new_passwd_again'}), content_type='application/json')
+
+    if new_passwd != new_passwd_again:
+        return HTTPBadRequest(body=json.dumps({'error': 'the passwords do not match', 'field': 'new_passwd_again'}), content_type='application/json')
+
+    request.user.set_password(new_passwd)
+    request.user.save()
+
+    return Response(body=ApiEncoder().encode({'user': request.user}))

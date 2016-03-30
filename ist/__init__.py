@@ -39,6 +39,7 @@ def main(global_settings, **settings):
     config.add_route('signup', '/signup')
     config.add_route('api_signup', '/api/signup')
     config.add_route('api_login', '/api/login')
+    config.add_route('api_change_password', '/api/change_password')
     config.add_route('logout', '/logout')
 
     # test
@@ -58,6 +59,7 @@ def main(global_settings, **settings):
 
     # predicated stuff
     config.add_route('user_profile', '/{login}/profile')
+    config.add_route('user_change_password', '/{login}/change_password', custom_predicates=(user_exists,))
     config.add_route('user_wall', '/{login}', custom_predicates=(user_exists,))
     config.add_route('user_redirect', '/{login}', custom_predicates=(user_exists_lower,))
 
