@@ -58,12 +58,12 @@ def main(global_settings, **settings):
     config.add_route('showmypages', '/page/my')
 
     # predicated stuff
-    config.add_route('user_profile', '/{login}/profile')
+    config.add_route('user_profile', '/{login}/profile', custom_predicates=(user_exists,))
     config.add_route('user_change_password', '/{login}/change_password', custom_predicates=(user_exists,))
     config.add_route('user_wall', '/{login}', custom_predicates=(user_exists,))
     config.add_route('user_redirect', '/{login}', custom_predicates=(user_exists_lower,))
 
-    config.add_route('page_edit', '/{permalink}/edit')
+    config.add_route('page_edit', '/{permalink}/edit', custom_predicates=(page_exists,))
     config.add_route('page_wall', '/{permalink}', custom_predicates=(page_exists,))
     config.add_route('page_redirect', '/{permalink}', custom_predicates=(page_exists_lower,))
 
