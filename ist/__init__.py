@@ -85,7 +85,7 @@ def request_logger(handler, registry):
     def request_handler(request):
         response = handler(request)
 
-        if not request.path:
+        if not request.path or '/' not in request.path:
             l.info('[???] invalid request')
             return response
             # TODO "GET //xxx" returns a valid response with the main page
@@ -94,7 +94,7 @@ def request_logger(handler, registry):
         if request.path.split('/')[1] in ('static', 'favicon.ico', 'media', '_debug_toolbar'):
             return response
 
-        info_log = '[%d] %s' % (response.status_int, request.path_qs)
+        info_log = '[%d] %s %s' % (response.status_int, request.method, request.path_qs)
         if response.status_int in [301, 302]:
             info_log += ' => %s' % response.headers['location']
 
