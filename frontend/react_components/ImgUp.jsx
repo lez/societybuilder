@@ -16,7 +16,7 @@ var ImgUp = React.createClass({
 
         return <div className="ImgUp">
             <span className="percentage">{this.stateString()}</span>
-            {this.props.onImageDelete ? <a href="#" onClick={this.delete} className="delete_button"><i className="icon-cancel"></i></a> : null}
+            {this.props.handleImageDelete ? <a href="#" onClick={this.delete} className="delete_button"><i className="icon-cancel"></i></a> : null}
             <span id="preview" ref="preview" className="thumb">
                 {thumb}
             </span>
@@ -39,7 +39,7 @@ var ImgUp = React.createClass({
         if (this.upload) {
             this.upload.abort();
         }
-        this.props.onImageDelete(this.props.file);
+        this.props.handleImageDelete(this.props.file);
         e.preventDefault();
     },
 
@@ -67,8 +67,8 @@ var ImgUp = React.createClass({
     },
 
     showImage: function (image, image_id) {
-        if (this.props.onUploadComplete) {
-            this.props.onUploadComplete(this.props.file, image, image_id);
+        if (this.props.handleUploadComplete) {
+            this.props.handleUploadComplete(this.props.file, image, image_id);
         }
     }
 });

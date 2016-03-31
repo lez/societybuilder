@@ -32,12 +32,12 @@ def change_password(request):
     except User.DoesNotExist:
         raise HTTPNotFound()
 
-    js_string = "IS.submit(event, this, function(user){document.location.reload(true);});"
+    js_string = "IS.submit(event, this, function(user){document.location = '/' + user.login + '/profile';});"
     return <div id="change_password">
         <form data-url="/api/change_password" method="post" class="verticalform" onsubmit={js_string}>
-            <field name="passwd" type="password" placeholder="current">Current password:</field>
-            <field name="new_passwd" type="password" placeholder="new">New password:</field>
-            <field name="new_passwd_again" type="password" placeholder="repeat new">Repeat new password:</field>
+            <field name="passwd" type="password" placeholder="current password">Current password:</field>
+            <field name="new_passwd" type="password" placeholder="new password">New password:</field>
+            <field name="new_passwd_again" type="password" placeholder="new password again">Repeat new password:</field>
             <p><input name="submit" type="submit" value="Change" /></p>
         </form>
     </div>

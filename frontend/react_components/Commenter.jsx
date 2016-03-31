@@ -29,7 +29,7 @@ var Commenter = React.createClass({
                     onKeyDown={this.checkSubmit}
                     ref="content"
                 />
-                {file ? <ImgUp file={file} onImageDelete={this.onImageDelete} onUploadComplete={this.onUploadComplete} /> : null}
+                {file ? <ImgUp file={file} onImageDelete={this.handleImageDelete} onUploadComplete={this.handleUploadComplete} /> : null}
             </div>
             {file ? null : <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton>}
         </div>;
@@ -44,12 +44,12 @@ var Commenter = React.createClass({
         this.refs.content.focus();
     },
 
-    onImageDelete: function (image) {
+    handleImageDelete: function (image) {
         this.setState({'file': null, 'image': null});
         this.refs.content.focus();
     },
 
-    onUploadComplete: function (image, thumbnail, image_id) {
+    handleUploadComplete: function (image, thumbnail, image_id) {
         var file = this.state.file;
         file.thumbnail = thumbnail;
         file.id = image_id;

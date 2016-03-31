@@ -19,3 +19,21 @@
     padding-bottom: 5px;
 }
 
+.Comment .EditCommentButton {
+    float: right;
+    display: none;
+}
+
+.Comment:hover .EditCommentButton {
+    display: block;
+}
+
+.Comment .DeleteCommentButton {
+    float: right;
+    display: none;
+}
+
+.Comment:hover .DeleteCommentButton {
+    display: block;
+}
+
