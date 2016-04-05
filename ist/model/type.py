@@ -201,7 +201,6 @@ class Post(Base):
         # if len(self.image_ids) > 12:
         #     yield {'field': 'image_ids', 'error': 'Too many images'}
 
-
     class Meta:
         db_table = 'posts'
 

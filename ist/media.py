@@ -23,6 +23,8 @@ def media_view(request):
             return HTTPNotFound('File not found: %s' % path)
         width, height = resolution.split('x')
         src = os.path.join(dirname, '{}.{}'.format(parts[0], parts[2]))
+        if not os.path.exists(src):
+            return HTTPNotFound('File not found: %s' % path)
         images.generate_thumbnail(src, path, width=int(width), height=int(width))
 
     return FileResponse(path, request=request)

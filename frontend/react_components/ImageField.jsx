@@ -1,8 +1,8 @@
-var React = require('react');
-var ImgUp = require('./ImgUp.jsx');
-var FileUploadButton = require('./FileUploadButton.jsx');
+import React from 'react';
+import ImgUp from './ImgUp.jsx';
+import FileUploadButton from './FileUploadButton.jsx';
 
-var ImageField = React.createClass({
+export default React.createClass({
     getInitialState: function() {
         return {};
     },
@@ -53,5 +53,3 @@ var ImageField = React.createClass({
             this.props.onChange();
     }
 });
-
-module.exports = ImageField;

@@ -1,8 +1,8 @@
-var React = require('react');
-var Comments = require('./Comments.jsx');
-var Commenter = require('./Commenter.jsx');
+import React from 'react';
+import Comments from './Comments.jsx';
+import Commenter from './Commenter.jsx';
 
-var CommentPanel = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -29,5 +29,3 @@ var CommentPanel = React.createClass({
     }
 
 });
-
-module.exports = CommentPanel;

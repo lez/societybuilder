@@ -1,8 +1,8 @@
-var randomString = require('random-string');
-var React = require('react');
-var Commenter = require('./Commenter.jsx');
+import randomString from 'random-string';
+import React from 'react';
+import Commenter from './Commenter.jsx';
 
-var Gallery = React.createClass({
+export default React.createClass({
   MIN_WIDTH: 800,
   MIN_HEIGHT: 520,
   COMMENTS_WIDTH: 310,
@@ -111,5 +111,3 @@ var Gallery = React.createClass({
     if (e.keyCode == 27) this.close(e); // ESC
   }
 });
-
-module.exports = Gallery;

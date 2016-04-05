@@ -1,7 +1,7 @@
-var React = require('react');
-var ImageField = require('./ImageField.jsx');
+import React from 'react';
+import ImageField from './ImageField.jsx';
 
-var RestImageField = React.createClass({
+export default React.createClass({
     getInitialState: function() {
         return {};
     },
@@ -38,5 +38,3 @@ var RestImageField = React.createClass({
     }
 
 });
-
-module.exports = RestImageField;

@@ -1,10 +1,10 @@
-var React = require('react');
-var UserName = require('./UserName.jsx');
-var UserThumbnail = require('./UserThumbnail.jsx');
-var Thumbnail = require('./Thumbnail.jsx');
-var Commenter = require('./Commenter.jsx');
+import React from 'react';
+import UserName from './UserName.jsx';
+import UserThumbnail from './UserThumbnail.jsx';
+import Thumbnail from './Thumbnail.jsx';
+import Commenter from './Commenter.jsx';
 
-var Comment = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -50,8 +50,6 @@ var Comment = React.createClass({
     },
 
     handleEdit: function () {
-        alert('edit comment: TODO');
+        alert('edit comment: yess');
     }
 });
-
-module.exports = Comment;

@@ -1,7 +1,7 @@
-var React = require('react');
-var Thumbnail = require('./Thumbnail.jsx');
+import React from 'react';
+import Thumbnail from './Thumbnail.jsx';
 
-var Images = React.createClass({
+export default React.createClass({
     render: function () {
         var imgs = [];
         for (var i = 0; i < this.props.images.length; i++) {
@@ -14,5 +14,3 @@ var Images = React.createClass({
         </div>;
     }
 });
-
-module.exports = Images;

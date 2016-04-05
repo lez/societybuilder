@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var FileUploadButton = React.createClass({
+export default React.createClass({
     getInitialState: function() {
         return {};
     },
@@ -38,5 +38,3 @@ var FileUploadButton = React.createClass({
         this.reset(node);
     }
 });
-
-module.exports = FileUploadButton;

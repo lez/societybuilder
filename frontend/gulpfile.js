@@ -8,34 +8,21 @@ var reactify = require('reactify');
 var streamify = require('gulp-streamify');
 var gutil = require('gulp-util');
 var browserSync = require('browser-sync').create();
-
+var babelify = require('babelify');
 
 var JS_DEST_DIR = '../ist/static/js/compiled';
 var JS_BUNDLE = 'app.js';
-var JS_ENTRYPOINTS = ['react_components/App.jsx'];
+var JS_ENTRYPOINT = 'App.jsx';
 
 var CSS_DEST_DIR = '../ist/static/style';
 var CSS_BUNDLE = 'bundle.css';
 var CSS_FILES = ['react_components/*.css', 'common_css/*.css', '../ist/static/fontello/css/is-codes.css'];
 
-//gulp.task('transform', function() {
-//    gulp.src('react_components/App.jsx')
-//        .pipe(react())
-//        .pipe(gulp.dest('dist'));
-//});
-
-gulp.task('prod', function(){
-    gulp.src('react_components/App.jsx')
-      .pipe(react())
-      .pipe(concat('dist/app.min.js'))
-      .pipe(gulp.dest('.'));
-});
-
 
 gulp.task('watch_js', function() {
   var watcher = watchify(browserify({
-        entries: JS_ENTRYPOINTS,
-        transform: [reactify],
+        entries: [JS_ENTRYPOINT],
+        transform: [babelify.configure({presets: ['es2015', 'react']})],
         debug: false,
         cache: {},
         packageCache: {},

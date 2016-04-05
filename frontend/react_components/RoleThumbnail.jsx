@@ -1,8 +1,8 @@
-var React = require('react');
-var PageThumbnail = require('./PageThumbnail.jsx');
-var UserThumbnail = require('./UserThumbnail.jsx');
+import React from 'react';
+import PageThumbnail from './PageThumbnail.jsx';
+import UserThumbnail from './UserThumbnail.jsx';
 
-var RoleThumbnail = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -21,4 +21,3 @@ var RoleThumbnail = React.createClass({
     }
 });
 
-module.exports = RoleThumbnail;

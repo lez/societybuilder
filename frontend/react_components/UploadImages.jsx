@@ -1,8 +1,8 @@
-var React = require('react');
-var ImgUp = require('./ImgUp.jsx');
-var randomString = require('random-string');
+import React from 'react';
+import ImgUp from './ImgUp.jsx';
+import randomString from 'random-string';
 
-var UploadImages = React.createClass({
+export default React.createClass({
 
     render: function () {
 
@@ -22,5 +22,3 @@ var UploadImages = React.createClass({
 
 });
 
-
-module.exports = UploadImages;

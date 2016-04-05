@@ -1,24 +1,36 @@
-Strings = require('../common_js/Strings');
+import Strings from './common_js/Strings';
 
-var internet_state = {
-    Poster: require('./Poster.jsx'),
-    Post: require('./Post.jsx'),
-    Test: require('./Test.jsx'),
-    Commenter: require('./Commenter.jsx'),
-    ImageField: require('./ImageField.jsx'),
-    Comment: require('./Comment.jsx'),
-    Comments: require('./Comments.jsx'),
-    CommentPanel: require('./CommentPanel.jsx'),
-    Thumbnail: require('./Thumbnail.jsx'),
-    UserThumbnail: require('./UserThumbnail.jsx'),
-    PageThumbnail: require('./PageThumbnail.jsx'),
-    RoleThumbnail: require('./RoleThumbnail.jsx'),
-    RestImageField: require('./RestImageField.jsx'),
-    RestTextField: require('./RestTextField.jsx'),
+import Poster from './react_components/Poster.jsx';
+import Post from './react_components/Post.jsx';
+import Test from './react_components/Test.jsx';
+import Commenter from './react_components/Commenter.jsx';
+import ImageField from './react_components/ImageField.jsx';
+import Comment from './react_components/Comment.jsx';
+import Comments from './react_components/Comments.jsx';
+import CommentPanel from './react_components/CommentPanel.jsx';
+import Thumbnail from './react_components/Thumbnail.jsx';
+import UserThumbnail from './react_components/UserThumbnail.jsx';
+import PageThumbnail from './react_components/PageThumbnail.jsx';
+import RoleThumbnail from './react_components/RoleThumbnail.jsx';
+import RestImageField from './react_components/RestImageField.jsx';
+import RestTextField from './react_components/RestTextField.jsx';
 
-    reducer: function (state, action) {
-        return action.active;
-    },
+
+window.IS = {
+    Poster: Poster,
+    Post: Post,
+    Test: Test,
+    Commenter: Commenter,
+    ImageField: ImageField,
+    Comment: Comment,
+    Comments: Comments,
+    CommentPanel: CommentPanel,
+    Thumbnail: Thumbnail,
+    UserThumbnail: UserThumbnail,
+    PageThumbnail: PageThumbnail,
+    RoleThumbnail: RoleThumbnail,
+    RestImageField: RestImageField,
+    RestTextField: RestTextField,
 
     addAnyReactElement: function (react_class, element, attr) {
         var React = require('react');
@@ -52,7 +64,7 @@ var internet_state = {
 
             this.clearErrors(element);
             if (result.errors !== undefined) {
-                for(var i=0; i<result.errors.length; i++) {
+                for (var i = 0; i < result.errors.length; i++) {
                     this.displayError(element, result.errors[i]);
                 }
                 return;
@@ -99,10 +111,10 @@ var internet_state = {
         }.bind(this));
     },
 
-    displayError: function(element, error_with_field) {
+    displayError: function (element, error_with_field) {
         var error = error_with_field.error;
         var field = error_with_field.field;
-        var container = jQuery(element).find('#'+field+'_error').find('span.error');
+        var container = jQuery(element).find('#' + field + '_error').find('span.error');
         if (container.length == 0) {
             alert(error + '; field=' + field);
         } else {
@@ -126,9 +138,3 @@ var internet_state = {
         });
     }
 };
-
-IS = internet_state;
-
-//var redux = require('redux');
-//IS.store = redux.createStore(IS.reducer);
-//IS.store.subscribe(function () {console.log(IS.store.getState());});

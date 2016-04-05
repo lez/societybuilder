@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var UserName = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -11,5 +11,3 @@ var UserName = React.createClass({
         </span>;
     }
 });
-
-module.exports = UserName;

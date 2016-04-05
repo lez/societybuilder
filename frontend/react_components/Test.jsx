@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var Test = React.createClass({
+export default React.createClass({
     getInitialState: function() {
         return {
             count: this.props.initialCount
@@ -17,5 +17,3 @@ var Test = React.createClass({
         </div>;
     }
 });
-
-module.exports = Test;

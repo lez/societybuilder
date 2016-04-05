@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var Video = React.createClass({
+export default React.createClass({
 
     render: function () {
         var remove_video = this.props.onRemoveVideo;
@@ -27,5 +27,3 @@ var Video = React.createClass({
         );
     }
 });
-
-module.exports = Video;

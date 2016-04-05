@@ -1,5 +1,5 @@
-var React = require('react');
-var Util = require('../common_js/util.js');
+import React from 'react';
+import Util from '../common_js/util.js';
 
 var dimensions = {
     micro: '15x15',
@@ -8,7 +8,7 @@ var dimensions = {
     large: '100x100'
 };
 
-var Thumbnail = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -31,5 +31,3 @@ var Thumbnail = React.createClass({
         </div>
     }
 });
-
-module.exports = Thumbnail;

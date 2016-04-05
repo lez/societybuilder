@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var UploadedImg = React.createClass({
+export default React.createClass({
 
     render: function () {
         return <span className="UploadedImg">
@@ -8,5 +8,3 @@ var UploadedImg = React.createClass({
         </span>;
     }
 });
-
-module.exports = UploadedImg;

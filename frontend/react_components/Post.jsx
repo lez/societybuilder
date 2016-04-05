@@ -1,12 +1,12 @@
-var React = require('react');
-var RoleThumbnail = require('./RoleThumbnail.jsx');
-var UserName = require('./UserName.jsx');
-var Images = require('./Images.jsx');
-var Poster = require('./Poster.jsx');
-var CommentPanel = require('./CommentPanel.jsx');
-var Time = require('../common_js/Time.js');
+import React from 'react';
+import RoleThumbnail from './RoleThumbnail.jsx';
+import UserName from './UserName.jsx';
+import Images from './Images.jsx';
+import Poster from './Poster.jsx';
+import CommentPanel from './CommentPanel.jsx';
+import Time from '../common_js/Time.js';
 
-var Post = React.createClass({
+export default React.createClass({
     getInitialState: function() {
         return {};
     },
@@ -73,5 +73,3 @@ var Post = React.createClass({
         this.setState({'editing': 1});
     }
 });
-
-module.exports = Post;

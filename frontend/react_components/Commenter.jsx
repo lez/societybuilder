@@ -1,11 +1,10 @@
-var randomString = require('random-string');
-var React = require('react');
-var ImgUp = require('./ImgUp.jsx');
-var UserThumbnail = require('./UserThumbnail.jsx');
-var FileUploadButton = require('./FileUploadButton.jsx');
+import randomString from 'random-string';
+import React from 'react';
+import ImgUp from './ImgUp.jsx';
+import UserThumbnail from './UserThumbnail.jsx';
+import FileUploadButton from './FileUploadButton.jsx';
 
-
-var Commenter = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {
             'image': null,
@@ -36,7 +35,7 @@ var Commenter = React.createClass({
     },
 
     upload: function (file) {
-        f = file;
+        var f = file;
         if (f) {
             f.key = randomString({length: 16});
             this.setState({'file': f});
@@ -50,6 +49,7 @@ var Commenter = React.createClass({
     },
 
     handleUploadComplete: function (image, thumbnail, image_id) {
+        alert('upl comp');
         var file = this.state.file;
         file.thumbnail = thumbnail;
         file.id = image_id;
@@ -105,5 +105,3 @@ var Commenter = React.createClass({
         });
     }
 });
-
-module.exports = Commenter;

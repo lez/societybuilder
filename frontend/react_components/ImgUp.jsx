@@ -1,22 +1,24 @@
-var React = require('react');
-var Upload = require('../components/upload.js');
-var UploadedImg = require('./UploadedImg.jsx');
+import React from 'react'
+import Upload from '../components/upload.js'
+import UploadedImg from './UploadedImg.jsx'
+import Strings from '../common_js/Strings.js'
 
-var ImgUp = React.createClass({
+export default React.createClass({
 
     getInitialState: function () {
-        return {"percent": 0};
+        return {};
     },
 
     render: function () {
+        var thumb;
         if (this.props.file.thumbnail)
-            var thumb = <UploadedImg thumbnail={this.props.file.thumbnail}/>;
+            thumb = <UploadedImg thumbnail={this.props.file.thumbnail}/>;
         else
-            var thumb = <canvas width="60" height="60" ref="canvas"/>;
+            thumb = <canvas width="60" height="60" ref="canvas"/>;
 
         return <div className="ImgUp">
             <span className="percentage">{this.stateString()}</span>
-            {this.props.handleImageDelete ? <a href="#" onClick={this.delete} className="delete_button"><i className="icon-cancel"></i></a> : null}
+            {this.props.onImageDelete ? <a href="#" onClick={this.handleImageDelete} className="delete_button"><i className="icon-cancel"></i></a> : null}
             <span id="preview" ref="preview" className="thumb">
                 {thumb}
             </span>
@@ -35,11 +37,11 @@ var ImgUp = React.createClass({
         return '';
     },
 
-    delete: function (e) {
+    handleImageDelete: function (e) {
         if (this.upload) {
             this.upload.abort();
         }
-        this.props.handleImageDelete(this.props.file);
+        this.props.onImageDelete(this.props.file);
         e.preventDefault();
     },
 
@@ -50,7 +52,7 @@ var ImgUp = React.createClass({
             this.setState({'percent': progress.percent})
         }.bind(this));
         this.upload.on('error', function (a, b) {
-            alert('hiba a képek feltöltésénél!');
+            alert(Strings.error_image_upload);
         });
         this.upload.on('end', function (a, b) {
             this.setState({'percent': 100, 'finished': true});
@@ -72,5 +74,3 @@ var ImgUp = React.createClass({
         }
     }
 });
-
-module.exports = ImgUp;

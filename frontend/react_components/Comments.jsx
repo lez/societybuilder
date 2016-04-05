@@ -1,8 +1,8 @@
-var React = require('react');
-var Comment = require('./Comment.jsx');
-var randomstring = require('random-string');
+import React from 'react';
+import Comment from './Comment.jsx';
+import randomstring from 'random-string';
 
-var Comments = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -20,5 +20,3 @@ var Comments = React.createClass({
     }
 
 });
-
-module.exports = Comments;

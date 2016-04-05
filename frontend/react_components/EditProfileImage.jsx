@@ -1,5 +1,5 @@
-var React = require('react');
-var ImageField = require('./ImageField.jsx');
+import React from 'react';
+import ImageField from './ImageField.jsx';
 
 // old way:
 // props: user

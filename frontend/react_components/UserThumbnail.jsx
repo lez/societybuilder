@@ -1,7 +1,7 @@
-var React = require('react');
-var Thumbnail = require('./Thumbnail.jsx');
+import React from 'react';
+import Thumbnail from './Thumbnail.jsx';
 
-var UserThumbnail = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -17,5 +17,3 @@ var UserThumbnail = React.createClass({
         }
     }
 });
-
-module.exports = UserThumbnail;

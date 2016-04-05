@@ -1,12 +1,12 @@
-var randomString = require('random-string');
-var React = require('react');
-var UploadImages = require('./UploadImages.jsx');
-var Video = require('./Video.jsx');
-var Strings = require('../common_js/Strings.js');
-var FileUploadButton = require('./FileUploadButton.jsx');
-var RoleThumbnail = require('./RoleThumbnail.jsx');
+import randomString from 'random-string';
+import React from 'react';
+import UploadImages from './UploadImages.jsx';
+import Video from './Video.jsx';
+import Strings from '../common_js/Strings.js';
+import FileUploadButton from './FileUploadButton.jsx';
+import RoleThumbnail from './RoleThumbnail.jsx';
 
-var Poster = React.createClass({
+export default React.createClass({
     getInitialState: function () {
         if (this.props.editpost) {
             return {
@@ -147,5 +147,3 @@ var Poster = React.createClass({
         jQuery.ajax(args);
     }
 });
-
-module.exports = Poster;
