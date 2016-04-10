@@ -56,7 +56,8 @@ gulp.task('watch_css', function () {
 gulp.task('serve_browsersync', function () {
     // Proxy files, reload if js bundle changes
     browserSync.init({
-        proxy: 'cb.dev'
+        proxy: 'cb.dev',
+        browser: []
     });
     gulp.watch(JS_DEST_DIR + '/' + JS_BUNDLE).on("change", browserSync.reload);
 });
