@@ -22,7 +22,7 @@ var CSS_FILES = ['react_components/*.css', 'common_css/*.css', '../ist/static/fo
 gulp.task('watch_js', function() {
   var watcher = watchify(browserify({
         entries: [JS_ENTRYPOINT],
-        transform: [babelify.configure({presets: ['es2015', 'react']})],
+        transform: [babelify],
         debug: false,
         cache: {},
         packageCache: {},

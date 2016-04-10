@@ -16,9 +16,9 @@ def home(request):
         <posts posts="{posts}" user="{request.user}" />
     </frag>
 
-@view_config(route_name='test', renderer='string')
+@view_config(route_name='test', renderer='layout')
 def test(request):
-    return 'test'
+    return <react_post post={Post.select().order_by(-Post.id).get()} user={request.user} />
 
 @view_config(route_name='user_wall', renderer='layout')
 def user_wall(request):
