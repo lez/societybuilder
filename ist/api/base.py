@@ -58,7 +58,10 @@ class BaseCollectionRest(BaseRest):
 
         for key in self.cls.rest_all_fields():
             if key in self.request.POST:
-                fields[key] = self.request.POST[key]
+                value = self.request.POST[key]
+                if value == '':
+                    value = None
+                fields[key] = value
 
         self._pre_create(fields)
 

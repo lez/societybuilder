@@ -31,7 +31,7 @@ class Thumbnail extends React.Component {
 
 Thumbnail.propTypes = {
     size: PropTypes.string,
-    image: PropTypes.string.required
+    image: PropTypes.string.isRequired
 }
 
 export default Thumbnail

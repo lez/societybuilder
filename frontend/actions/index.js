@@ -9,7 +9,6 @@ export function commentDeleteStart(post_id, comment_id) {
 }
 
 export function commentDeleteEnd(post_id, comment_id) {
-    console.log('COMMENT_DELETE_END ', comment_id, post_id)
     return {
         type: 'COMMENT_DELETE_END',
         comment_id: comment_id,
@@ -32,9 +31,10 @@ export function commentDelete(post_id, comment_id) {
     }
 }
 
-export function addCommentStart() {
+export function addCommentStart(post_id) {
     return {
-        type: 'ADD_COMMENT_START'
+        type: 'ADD_COMMENT_START',
+        post_id: post_id
     }
 }
 
@@ -49,7 +49,7 @@ export function addCommentEnd(comment, post_id) {
 export function addComment(comment_data, post_id) {
 
     return (dispatch) => {
-        dispatch(addCommentStart())
+        dispatch(addCommentStart(post_id))
 
         let data = {
             ...comment_data,
@@ -72,7 +72,7 @@ export function addComment(comment_data, post_id) {
 export function finishEditComment(post_id, comment_id, comment_data) {
 
     return (dispatch) => {
-        dispatch(addCommentStart())
+        dispatch(addCommentStart(post_id))
 
         return jQuery.ajax({
             url: `/api/comment/${comment_id}`,

@@ -67,11 +67,15 @@ class Commenter extends React.Component {
         var data = {
             comment: this.refs.content.value
         }
-        if (this.props.comment.image.isUploading) {
-            alert('a kep meg feltoltes alatt!')
-            return
-        } else if (this.props.comment.image.id) {
-            data.image = this.props.comment.image.id
+        if (this.props.comment.image){
+            if (this.props.comment.image.isUploading) {
+                alert('a kep meg feltoltes alatt!')
+                return
+            } else if (this.props.comment.image.id) {
+                data.image = this.props.comment.image.id
+            } else {
+                data.image = ''
+            }
         } else {
             data.image = ''
         }
