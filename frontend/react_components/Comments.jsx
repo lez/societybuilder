@@ -1,22 +1,28 @@
-import React from 'react';
-import Comment from './Comment.jsx';
-import randomstring from 'random-string';
+import React from 'react'
+import Comment from './Comment.jsx'
+import Commenter from './Commenter.jsx'
 
 export default React.createClass({
-    getInitialState: function () {
-        return {}
-    },
-
     render: function () {
-
         return <div className="Comments">
-            {this.props.comments.map(function (comment) {
-                comment.key = randomstring(12);
-                var editable = (this.props.user && comment.user.id == this.props.user.id);
-
-                return <Comment comment={comment} key={comment.key} editable={editable}/>;
-            }.bind(this))}
-        </div>;
+            {this.props.comments.map(comment => {
+                if (comment.isEditing){
+                    return <Commenter
+                        key={this.props.post.commenterKey}
+                        user={this.props.user}
+                        isActive={!this.props.post.isAddingComment} // TODO rename to isSubmittingComment
+                        onUpload={this.props.onUpload}
+                        onDeleteCommentImage={this.props.onDeleteCommentImage}
+                        onAddComment={this.props.onAddComment}
+                        comment={comment}
+                        onFinishEditComment={this.props.onFinishEditComment}
+                        onDeleteEditCommentImage={this.props.onDeleteEditCommentImage}
+                    />
+                }
+                let editable = (this.props.user && comment.user.id == this.props.user.id)
+                return <Comment comment={comment} key={comment.id} editable={editable} onCommentDelete={() => this.props.onCommentDelete(comment.id)} onEditComment={() => this.props.onEditComment(comment.id)}/>
+            })}
+        </div>
     }
 
 });

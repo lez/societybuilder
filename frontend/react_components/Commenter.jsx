@@ -1,107 +1,95 @@
-import randomString from 'random-string';
-import React from 'react';
-import ImgUp from './ImgUp.jsx';
-import UserThumbnail from './UserThumbnail.jsx';
-import FileUploadButton from './FileUploadButton.jsx';
+import _ from 'lodash'
+import React, { PropTypes } from 'react'
 
-export default React.createClass({
-    getInitialState: function () {
-        return {
-            'image': null,
-            'key': randomString(8),
-            'submitting': false
-        }
-    },
+import ImgUp from './ImgUp.jsx'
+import UserThumbnail from './UserThumbnail.jsx'
+import FileUploadButton from './FileUploadButton.jsx'
 
-    render: function () {
-        var image = this.state.image;
-        var file = this.state.file;
-        var key = this.state.key;
+class Commenter extends React.Component {
 
-        return <div className="Commenter clearfix" key={key}>
+    render() {
+        let has_image = !_.isEmpty(this.props.comment.image)
+        let default_value = this.props.comment.comment
+        return <div className="Commenter clearfix">
             <UserThumbnail user={this.props.user} />
             <div className="middle_column">
                 <textarea
                     className="inputtext"
-                    disabled={this.state.submitting}
+                    disabled={!this.props.isActive}
                     onChange={this.updateBoxHeight}
                     onKeyDown={this.checkSubmit}
                     ref="content"
+                    defaultValue={default_value}
                 />
-                {file ? <ImgUp file={file} onImageDelete={this.handleImageDelete} onUploadComplete={this.handleUploadComplete} /> : null}
+                {has_image && <ImgUp image={this.props.comment.image} onImageDelete={this.handleImageDelete} />}
             </div>
-            {file ? null : <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton>}
-        </div>;
-    },
+            {!has_image && <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton>}
+        </div>
+    }
 
-    upload: function (file) {
-        var f = file;
-        if (f) {
-            f.key = randomString({length: 16});
-            this.setState({'file': f});
+    upload = (file) => {
+        if (file) {
+            if (this.props.comment.isEditing && this.props.comment.id)
+                this.props.onUpload(file)
+            else
+                this.props.onUpload(file)
         }
-        this.refs.content.focus();
-    },
+        this.refs.content.focus()
+    }
 
-    handleImageDelete: function (image) {
-        this.setState({'file': null, 'image': null});
-        this.refs.content.focus();
-    },
+    handleImageDelete = () => {
+        this.refs.content.focus()
+        if (this.props.comment.isEditing)
+            this.props.onDeleteEditCommentImage(this.props.comment.id)
+        else
+            this.props.onDeleteCommentImage()
+    }
 
-    handleUploadComplete: function (image, thumbnail, image_id) {
-        alert('upl comp');
-        var file = this.state.file;
-        file.thumbnail = thumbnail;
-        file.id = image_id;
-        this.setState({'file': file});
-    },
-
-    checkSubmit: function (e) {
+    checkSubmit = (e) => {
         // send comment with ENTER
         if (e.keyCode == 13) {
             e.preventDefault();
             this.submit();
         }
-    },
+    }
 
-    updateBoxHeight: function (e) {
+    updateBoxHeight = (e) => {
         var content = this.refs.content;
         if (content.scrollHeight > content.clientHeight) {
             var new_height = content.scrollHeight + 12;
             if (new_height > 500) new_height = 500;
             content.style.height = new_height + "px";
         }
-    },
-
-    submit: function () {
-        if (this.state.submitting) return false;
-        this.setState({'submitting': true});
-        var data = {
-            comment: this.refs.content.value,
-            item_type: 'post',
-            item_id: this.props.post.id
-        };
-        if (this.state.file && this.state.file.id)
-            data.image = this.state.file.id;
-
-        jQuery.ajax({
-            url: '/api/comment',
-            type: 'POST',
-            data: data,
-            success: function (result) {
-                if (this.props.append) {
-                    this.props.append(result);
-//            element.animate({'scrollTop': element[0].scrollHeight}, 200);
-                    this.replaceState(this.getInitialState());
-                    this.setState({'key': randomString(8)});
-                } else {
-                    document.location.reload();
-                }
-            }.bind(this),
-            error: function (result) {
-                alert('An error occured');
-                this.setState({'submitting': false});
-            }.bind(this)
-        });
     }
-});
+
+    submit = () => {
+        if (!this.props.isActive) return false
+        var data = {
+            comment: this.refs.content.value
+        }
+        if (this.props.comment.image.isUploading) {
+            alert('a kep meg feltoltes alatt!')
+            return
+        } else if (this.props.comment.image.id) {
+            data.image = this.props.comment.image.id
+        } else {
+            data.image = ''
+        }
+
+        if (this.props.comment.isEditing)
+            this.props.onFinishEditComment(this.props.comment.id, data)
+        else
+            this.props.onAddComment(data)
+    }
+}
+
+Commenter.propTypes = {
+    onDeleteCommentImage: PropTypes.func,
+    onDeleteEditCommentImage: PropTypes.func,
+    onAddComment: PropTypes.func,
+    onFinishEditComment: PropTypes.func,
+    comment: PropTypes.object,
+    onUpload: PropTypes.func
+}
+
+export default Commenter

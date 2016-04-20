@@ -1,31 +1,36 @@
-import React from 'react';
-import Comments from './Comments.jsx';
-import Commenter from './Commenter.jsx';
+import React from 'react'
+import Comments from './Comments.jsx'
+import Commenter from './Commenter.jsx'
 
-export default React.createClass({
-    getInitialState: function () {
-        return {}
-    },
-
-    componentWillMount: function () {
-        this.setState({'comments': this.props.comments});
-    },
-
-    render: function () {
-
-        if (this.props.comments.length === 0 && !this.props.user) {
-            return null;
-        }
-
+class CommentPanel extends React.Component {
+    render() {
         return <div className="CommentPanel">
-            <Comments comments={this.state.comments} user={this.props.user}/>
-            {this.props.user ? <Commenter user={this.props.user} post={this.props.post} append={this.append}/> : null}
-        </div>;
-    },
-
-    append: function (comment) {
-        this.state.comments.push(comment);
-        this.setState({'comments': this.state.comments});
+            <Comments
+                comments={this.props.comments}
+                user={this.props.user}
+                onCommentDelete={this.props.onCommentDelete}
+                onAddComment={this.props.onAddComment}
+                isActive={!this.props.post.isAddingComment}
+                onUpload={this.props.onUpload}
+                onDeleteCommentImage={this.props.onDeleteCommentImage}
+                onEditComment={this.props.onEditComment}
+                onFinishEditComment={this.props.onFinishEditComment}
+                post={this.props.post}
+                onDeleteEditCommentImage={this.props.onDeleteEditCommentImage}
+            />
+            {!this.props.post.isEditingComment &&
+                <Commenter
+                    key={this.props.post.commenterKey}
+                    user={this.props.user}
+                    onAddComment={this.props.onAddComment}
+                    isActive={!this.props.post.isAddingComment}
+                    onUpload={this.props.onUpload}
+                    comment={this.props.post.newComment}
+                    onDeleteCommentImage={this.props.onDeleteCommentImage}
+               />
+            }
+        </div>
     }
+}
 
-});
+export default CommentPanel

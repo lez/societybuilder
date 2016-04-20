@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { PropTypes } from 'react'
 
-export default React.createClass({
+// this class is probably not needed at all
+class UploadedImg extends React.Component {
 
-    render: function () {
+    render() {
         return <span className="UploadedImg">
             <img width="100" height="100" ref="img" src={this.props.thumbnail}/>
-        </span>;
+        </span>
     }
-});
+}
+
+UploadedImg.propTypes = {
+    thumbnail: PropTypes.string
+}
+
+export default UploadedImg

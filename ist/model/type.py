@@ -162,7 +162,7 @@ class Post(Base):
         return False
 
     def get_comments(self):
-        return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type))
+        return list(Comment.select().where(Comment.item_id==self.id, Comment.item_type==self.item_type).order_by(Comment.id))
 
     def get_images(self):
         if not self.images:
@@ -389,4 +389,3 @@ def get_role(role_id):
     else:
         raise Exception('unknown role type: %s' % type)
     return role
-

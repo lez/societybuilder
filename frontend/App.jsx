@@ -1,3 +1,9 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+
 import Strings from './common_js/Strings'
 
 import Poster from './react_components/Poster.jsx';
@@ -15,30 +21,15 @@ import RoleThumbnail from './react_components/RoleThumbnail.jsx';
 import RestImageField from './react_components/RestImageField.jsx';
 import RestTextField from './react_components/RestTextField.jsx';
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import { rootReducer } from './reducers'
 
 
-let default_state = {
-    posts: {},
-    users: {},
-    pages: {},
-}
-
-const rigyusz = (state = default_state, action) => {
-    console.log(action.type)
-    switch (action.type) {
-        case 'POST':
-            let new_state = Object.assign({}, state);
-            new_state.posts[action.post.post.id] = action.post.post;
-            return new_state;
-        default:
-            return state
-    }
-}
-
-let store = createStore(rigyusz)
+const store = createStore(
+    rootReducer,
+    applyMiddleware(
+        thunk
+    )
+)
 
 window.IS = {
     Poster: Poster,
@@ -56,20 +47,22 @@ window.IS = {
     RestImageField: RestImageField,
     RestTextField: RestTextField,
 
-    store: store, 
+    store: store,
 
     init: () => {
-        store.subscribe(() => 
-            console.log(store.getState())
+        store.subscribe(() =>
+            console.log('STATE', store.getState())
         )
     },
 
     addAnyReactElement: function (react_class, element, attr) {
-
         if (react_class === Post) {
-            this.store.dispatch({type: 'POST', post: attr})
+            this.store.dispatch({type: 'POST', post: attr.post})
+            this.store.dispatch({type: 'ME', user: attr.user}) // FIXME only once
         }
-        ReactDOM.render(React.createElement(react_class, attr), element)
+        let react_element = React.createElement(react_class, attr)
+        ReactDOM.render(<Provider store={this.store}>{react_element}</Provider>, element)
+
     },
 
     // create page, signup, etc. (pyxl forms)

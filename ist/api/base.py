@@ -106,7 +106,10 @@ class BaseItemRest(BaseRest):
             for key in self.request.POST:
                 if key in self.cls.rest_editable_fields:
                     modified = True
-                    setattr(item, key, self.request.POST[key])
+                    value = self.request.POST[key]
+                    if value == '':
+                        value = None
+                    setattr(item, key, value)
                 else:
                     raise HTTPBadRequest(body=json.dumps({'error': 'invalid field', 'field': key}))
 
