@@ -12,7 +12,7 @@ class CommentPanel extends React.Component {
                 onAddComment={this.props.onAddComment}
                 isActive={!this.props.post.isAddingComment}
                 onUpload={this.props.onUpload}
-                onDeleteCommentImage={this.props.onDeleteCommentImage}
+                onDeleteImage={this.props.onDeleteImage}
                 onEditComment={this.props.onEditComment}
                 onFinishEditComment={this.props.onFinishEditComment}
                 post={this.props.post}
@@ -26,7 +26,7 @@ class CommentPanel extends React.Component {
                     isActive={!this.props.post.isAddingComment}
                     onUpload={this.props.onUpload}
                     comment={this.props.post.newComment}
-                    onDeleteCommentImage={this.props.onDeleteCommentImage}
+                    onDeleteImage={this.props.onDeleteImage}
                />
             }
         </div>

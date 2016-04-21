@@ -149,10 +149,11 @@ export function upload(post_id, selector, file_input) {
     }
 }
 
-export function deleteCommentImage(post_id){
+export function deleteImage(post_id, selector){
     return {
-        type: 'DELETE_COMMENT_IMAGE',
-        post_id: post_id
+        type: 'DELETE_IMAGE',
+        post_id: post_id,
+        selector: selector
     }
 }
 

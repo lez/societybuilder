@@ -24,7 +24,7 @@ function posts(state = {}, action) {
         case 'UPLOAD_PROGRESS':
         case 'UPLOAD_END':
         case 'DELETE_EDIT_COMMENT_IMAGE':
-        case 'DELETE_COMMENT_IMAGE':
+        case 'DELETE_IMAGE':
             return Object.assign({}, state, {[action.post_id]: post(state[action.post_id], action)})
     default:
         return state
@@ -33,7 +33,7 @@ function posts(state = {}, action) {
 
 function select_image(obj, selector) {
     let selected = eval(`obj.${selector}`)
-    if (selected.image === undefined){
+    if (!selected.image) {
         selected.image = {}
     }
     return selected.image
@@ -71,12 +71,19 @@ function post(state = {}, action) {
                 isAddingComment: true
             }
         case 'ADD_COMMENT_END':
-        case 'EDIT_COMMENT_END':
             return {
                 ...state,
                 comments: comments(state.comments, action),
                 isAddingComment: false,
                 newComment: {},
+                commenterKey: randomstring(12)
+            }
+        case 'EDIT_COMMENT_END':
+            return {
+                ...state,
+                comments: comments(state.comments, action),
+                isEditingComment: false,
+                isAddingComment: false,
                 commenterKey: randomstring(12)
             }
         case 'UPLOAD_START':
@@ -104,13 +111,15 @@ function post(state = {}, action) {
                 image.thumbnail = action.thumbnail
                 return newstate
             }
-        case 'DELETE_COMMENT_IMAGE':
-            return {
-                ...state,
-                newComment: {
-                    ...state.newComment,
-                    image: {}
-                }
+        case 'DELETE_IMAGE':
+            {
+                let newstate = {...state}
+                let image = select_image(newstate, action.selector)
+                delete image.percent
+                delete image.isUploading
+                delete image.id
+                delete image.thumbnail
+                return newstate
             }
 
         default:

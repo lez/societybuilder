@@ -7,7 +7,7 @@ import Images from './Images.jsx'
 import Poster from './Poster.jsx'
 import CommentPanel from './CommentPanel.jsx'
 import Time from '../common_js/Time.js'
-import { commentDelete, addComment, editPost, upload, deleteCommentImage, editComment, finishEditComment, deleteEditCommentImage } from '../actions'
+import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, deleteEditCommentImage } from '../actions'
 
 class Post extends React.Component {
 
@@ -55,7 +55,7 @@ class Post extends React.Component {
                     onAddComment={this.props.onAddComment}
                     onCommentDelete={this.props.onCommentDelete}
                     onUpload={this.props.onUpload}
-                    onDeleteCommentImage={this.props.onDeleteCommentImage}
+                    onDeleteImage={this.props.onDeleteImage}
                     onEditComment={this.props.onEditComment}
                     onFinishEditComment={this.props.onFinishEditComment}
                     onDeleteEditCommentImage={this.props.onDeleteEditCommentImage}
@@ -108,8 +108,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onUpload: (selector, file_input) => {
             dispatch(upload(ownProps.post.id, selector, file_input))
         },
-        onDeleteCommentImage: () => {
-            dispatch(deleteCommentImage(ownProps.post.id))
+        onDeleteImage: (selector) => {
+            dispatch(deleteImage(ownProps.post.id, selector))
         },
         onDeleteEditCommentImage: (comment_id) => {
             dispatch(deleteEditCommentImage(ownProps.post.id, comment_id))

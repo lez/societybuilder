@@ -12,7 +12,7 @@ export default React.createClass({
                         user={this.props.user}
                         isActive={!this.props.post.isAddingComment} // TODO rename to isSubmittingComment
                         onUpload={this.props.onUpload}
-                        onDeleteCommentImage={this.props.onDeleteCommentImage}
+                        onDeleteImage={this.props.onDeleteImage}
                         onAddComment={this.props.onAddComment}
                         comment={comment}
                         onFinishEditComment={this.props.onFinishEditComment}

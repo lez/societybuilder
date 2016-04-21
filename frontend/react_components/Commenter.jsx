@@ -42,7 +42,7 @@ class Commenter extends React.Component {
         if (this.props.comment.isEditing)
             this.props.onDeleteEditCommentImage(this.props.comment.id)
         else
-            this.props.onDeleteCommentImage()
+            this.props.onDeleteImage('newComment')
     }
 
     checkSubmit = (e) => {
@@ -88,7 +88,7 @@ class Commenter extends React.Component {
 }
 
 Commenter.propTypes = {
-    onDeleteCommentImage: PropTypes.func,
+    onDeleteImage: PropTypes.func,
     onDeleteEditCommentImage: PropTypes.func,
     onAddComment: PropTypes.func,
     onFinishEditComment: PropTypes.func,
