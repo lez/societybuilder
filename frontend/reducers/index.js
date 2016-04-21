@@ -35,9 +35,15 @@ function post(state = {}, action) {
     console.log(action.type)
     switch (action.type) {
         case 'EDIT_POST_END':
-            return Object.assign({}, state, {content: action.content})
+            return {
+                ...state,
+                content: action.content
+            }
         case 'EDIT_POST':
-            return Object.assign({}, state, {isEditing: true})
+            return {
+                ...state,
+                isEditing: true
+            }
         case 'COMMENT_DELETE_START':
         case 'COMMENT_DELETE_END':
         case 'DELETE_EDIT_COMMENT_IMAGE':
@@ -153,8 +159,8 @@ function comment(state = {}, action) {
 function me(state = {}, action) {
     switch (action.type) {
         case 'ME':
-            return Object.assign({}, action.user)
+            return {...action.user}
         default:
             return state
-    }   
+    }
 }
