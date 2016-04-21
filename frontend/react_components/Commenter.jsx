@@ -32,7 +32,15 @@ class Commenter extends React.Component {
                 {has_image && <ImgUp image={this.props.comment.image} onImageDelete={this.handleImageDelete} />}
             </div>
             {!has_image && <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton>}
+            {this.props.comment.isEditing && 
+                <span><a href="#" onClick={this.handleCancel}>cancel</a></span>
+            }
         </div>
+    }
+
+    handleCancel = (e) => {
+        e.preventDefault()
+        this.props.onCancelEditComment(this.props.comment.id)
     }
 
     upload = (file) => {
@@ -95,7 +103,8 @@ Commenter.propTypes = {
     onAddComment: PropTypes.func,
     onFinishEditComment: PropTypes.func,
     comment: PropTypes.object,
-    onUpload: PropTypes.func
+    onUpload: PropTypes.func.isRequired,
+    onCancelEditComment: PropTypes.func
 }
 
 export default Commenter

@@ -17,6 +17,7 @@ function posts(state = {}, action) {
         case 'EDIT_POST_END':
         case 'EDIT_POST':
         case 'EDIT_COMMENT':
+        case 'CANCEL_EDIT_COMMENT':
         case 'EDIT_COMMENT_END':
         case 'ADD_COMMENT_START':
         case 'ADD_COMMENT_END':
@@ -84,6 +85,13 @@ function post(state = {}, action) {
                 isAddingComment: false,
                 commenterKey: randomstring(12)
             }
+        case 'CANCEL_EDIT_COMMENT':
+            return {
+                ...state,
+                comments: comments(state.comments, action),
+                isEditingComment: false,
+                commenterKey: randomstring(12)
+            }
         case 'UPLOAD_START':
             {
                 let newstate = {...state}
@@ -132,6 +140,7 @@ function comments(state = [], action) {
         case 'COMMENT_DELETE_START':
         case 'EDIT_COMMENT':
         case 'EDIT_COMMENT_END':
+        case 'CANCEL_EDIT_COMMENT':
             return state.map((comm) => {
                 if (comm.id === action.comment_id)
                     return comment(comm, action)
@@ -153,12 +162,26 @@ function comment(state = {}, action) {
                 isDeleting: true
             }
         case 'EDIT_COMMENT':
+            if (state.image === null) {
+                state.image = {}
+            }
             return {
                 ...state,
-                isEditing: true
+                isEditing: true,
+                orig_image: {...state.image}
             }
         case 'EDIT_COMMENT_END':
             return action.comment_data
+        case 'CANCEL_EDIT_COMMENT':
+            {
+                let ret = {
+                    ...state,
+                    isEditing: false,
+                    image: state.orig_image
+                }
+                delete ret.orig_image
+                return ret
+            }
         default:
             return state
     }

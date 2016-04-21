@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React from 'react'
 import UserName from './UserName.jsx'
 import UserThumbnail from './UserThumbnail.jsx'
@@ -13,7 +14,9 @@ class Comment extends React.Component {
                 <UserName user={this.props.comment.user}/>
                 {this.props.comment.comment}
                 <br/>
-                {this.props.comment.image && <Thumbnail image={this.props.comment.image.thumbnail} size="large"/>}
+                {this.props.comment.image && !_.isEmpty(this.props.comment.image) &&
+                    <Thumbnail image={this.props.comment.image.thumbnail} size="large"/>
+                }
                 {this.props.editable &&
                     <div>
                         <div className="DeleteCommentButton">
