@@ -9,9 +9,14 @@ export const rootReducer = combineReducers({
 function posts(state = {}, action) {
     switch (action.type) {
         case 'POST':
-            action.post.newComment = {}
-            action.post.commenterKey = randomstring(12)
-            return Object.assign({}, state, {[action.post.id]: action.post})
+            return {
+                ...state,
+                [action.post.id]: {
+                    ...action.post,
+                    newComment: {},
+                    commenterKey: randomstring(12)
+                }
+            }
         case 'COMMENT_DELETE_START':
         case 'COMMENT_DELETE_END':
         case 'EDIT_POST_END':
@@ -25,7 +30,10 @@ function posts(state = {}, action) {
         case 'UPLOAD_PROGRESS':
         case 'UPLOAD_END':
         case 'DELETE_IMAGE':
-            return Object.assign({}, state, {[action.post_id]: post(state[action.post_id], action)})
+            return {
+                ...state,
+                [action.post_id]: post(state[action.post_id], action)
+            }
     default:
         return state
     }
