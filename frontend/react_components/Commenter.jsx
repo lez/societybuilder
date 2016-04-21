@@ -40,7 +40,7 @@ class Commenter extends React.Component {
     handleImageDelete = () => {
         this.refs.content.focus()
         if (this.props.comment.isEditing)
-            this.props.onDeleteEditCommentImage(this.props.comment.id)
+            this.props.onDeleteImage(`comments.find(function(c){return c.id===${this.props.comment.id}})`)
         else
             this.props.onDeleteImage('newComment')
     }

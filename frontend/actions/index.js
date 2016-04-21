@@ -156,11 +156,3 @@ export function deleteImage(post_id, selector){
         selector: selector
     }
 }
-
-export function deleteEditCommentImage(post_id, comment_id){
-    return {
-        type: 'DELETE_EDIT_COMMENT_IMAGE',
-        post_id: post_id,
-        comment_id: comment_id
-    }
-}

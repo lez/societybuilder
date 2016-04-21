@@ -23,7 +23,6 @@ function posts(state = {}, action) {
         case 'UPLOAD_START':
         case 'UPLOAD_PROGRESS':
         case 'UPLOAD_END':
-        case 'DELETE_EDIT_COMMENT_IMAGE':
         case 'DELETE_IMAGE':
             return Object.assign({}, state, {[action.post_id]: post(state[action.post_id], action)})
     default:
@@ -54,7 +53,6 @@ function post(state = {}, action) {
             }
         case 'COMMENT_DELETE_START':
         case 'COMMENT_DELETE_END':
-        case 'DELETE_EDIT_COMMENT_IMAGE':
             return {
                 ...state,
                 comments: comments(state.comments, action)
@@ -134,7 +132,6 @@ function comments(state = [], action) {
         case 'COMMENT_DELETE_START':
         case 'EDIT_COMMENT':
         case 'EDIT_COMMENT_END':
-        case 'DELETE_EDIT_COMMENT_IMAGE':
             return state.map((comm) => {
                 if (comm.id === action.comment_id)
                     return comment(comm, action)
@@ -150,11 +147,6 @@ function comments(state = [], action) {
 
 function comment(state = {}, action) {
     switch (action.type) {
-        case 'DELETE_EDIT_COMMENT_IMAGE':
-            return {
-                ...state,
-                image: {}
-            }
         case 'COMMENT_DELETE_START':
             return {
                 ...state,

@@ -7,7 +7,7 @@ import Images from './Images.jsx'
 import Poster from './Poster.jsx'
 import CommentPanel from './CommentPanel.jsx'
 import Time from '../common_js/Time.js'
-import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, deleteEditCommentImage } from '../actions'
+import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment } from '../actions'
 
 class Post extends React.Component {
 
@@ -110,9 +110,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onDeleteImage: (selector) => {
             dispatch(deleteImage(ownProps.post.id, selector))
-        },
-        onDeleteEditCommentImage: (comment_id) => {
-            dispatch(deleteEditCommentImage(ownProps.post.id, comment_id))
         },
         onEditComment: (comment_id) => {
             dispatch(editComment(ownProps.post.id, comment_id))

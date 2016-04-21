@@ -16,7 +16,6 @@ export default React.createClass({
                         onAddComment={this.props.onAddComment}
                         comment={comment}
                         onFinishEditComment={this.props.onFinishEditComment}
-                        onDeleteEditCommentImage={this.props.onDeleteEditCommentImage}
                     />
                 }
                 let editable = (this.props.user && comment.user.id == this.props.user.id)

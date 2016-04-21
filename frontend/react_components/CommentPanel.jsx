@@ -16,7 +16,6 @@ class CommentPanel extends React.Component {
                 onEditComment={this.props.onEditComment}
                 onFinishEditComment={this.props.onFinishEditComment}
                 post={this.props.post}
-                onDeleteEditCommentImage={this.props.onDeleteEditCommentImage}
             />
             {!this.props.post.isEditingComment &&
                 <Commenter
