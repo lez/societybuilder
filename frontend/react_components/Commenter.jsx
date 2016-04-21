@@ -17,7 +17,7 @@ class Commenter extends React.Component {
 
     render() {
         let has_image = !_.isEmpty(this.props.comment.image)
-        let default_value = this.props.comment.comment
+
         return <div className="Commenter clearfix">
             <UserThumbnail user={this.props.user} />
             <div className="middle_column">
@@ -27,7 +27,7 @@ class Commenter extends React.Component {
                     onChange={this.updateBoxHeight}
                     onKeyDown={this.checkSubmit}
                     ref="content"
-                    defaultValue={default_value}
+                    defaultValue={this.props.comment.comment}
                 />
                 {has_image && <ImgUp image={this.props.comment.image} onImageDelete={this.handleImageDelete} />}
             </div>
