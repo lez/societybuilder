@@ -12,10 +12,8 @@ class Poster extends React.Component {
         super(props)
         this.state = {}
         if (props.editpost) {
-            this.state.content = props.editpost.content
             this.state.images = props.editpost.images
         } else {
-            this.state.content = ''
             this.state.images = []
         }
     }
@@ -27,24 +25,18 @@ class Poster extends React.Component {
     render() {
         let max_imgs = this.getMaxImgs()
 
+        let default_value = this.props.editpost ? this.props.editpost.content : ''
+
         return <div className="Poster clearfix">
             <RoleThumbnail role={this.props.role} />
             <div className="wrapper">
                 <div>
-                    {this.state.changed ?
-                        <textarea
-                            className="content"
-                            onChange={this.updateTextArea}
-                            ref="content"
-                        />
-                        :
-                        <textarea
-                            className="content"
-                            onChange={this.updateTextArea}
-                            value={this.state.content}
-                            ref="content"
-                        />
-                    }
+                    <textarea
+                        className="content"
+                        onChange={this.updateTextArea}
+                        ref="content"
+                        defaultValue={default_value}
+                    />
                 </div>
                 <UploadImages
                     images={this.state.images}
