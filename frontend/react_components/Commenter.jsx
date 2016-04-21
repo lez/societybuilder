@@ -7,6 +7,14 @@ import FileUploadButton from './FileUploadButton.jsx'
 
 class Commenter extends React.Component {
 
+    constructor(props) {
+        super(props)
+        if (this.props.comment.isEditing)
+            this.selector = `comments.find(function(c){return c.id===${this.props.comment.id}})`  // whoa
+        else
+            this.selector = 'newComment'
+    }
+
     render() {
         let has_image = !_.isEmpty(this.props.comment.image)
         let default_value = this.props.comment.comment
@@ -29,20 +37,14 @@ class Commenter extends React.Component {
 
     upload = (file) => {
         if (file) {
-            if (this.props.comment.isEditing)
-                this.props.onUpload(`comments.find(function(c){return c.id===${this.props.comment.id}})`, file)  // whoa
-            else
-                this.props.onUpload('newComment', file)
+            this.props.onUpload(this.selector, file)
         }
         this.refs.content.focus()
     }
 
     handleImageDelete = () => {
         this.refs.content.focus()
-        if (this.props.comment.isEditing)
-            this.props.onDeleteImage(`comments.find(function(c){return c.id===${this.props.comment.id}})`)
-        else
-            this.props.onDeleteImage('newComment')
+        this.props.onDeleteImage(this.selector)
     }
 
     checkSubmit = (e) => {
