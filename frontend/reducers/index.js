@@ -13,7 +13,9 @@ function posts(state = {}, action) {
                 ...state,
                 [action.post.id]: {
                     ...action.post,
-                    newComment: {},
+                    newComment: {
+                        image: {}
+                    },
                     commenterKey: randomstring(12)
                 }
             }
@@ -40,11 +42,7 @@ function posts(state = {}, action) {
 }
 
 function select_image(obj, selector) {
-    let selected = eval(`obj.${selector}`)
-    if (!selected.image) {
-        selected.image = {}
-    }
-    return selected.image
+    return eval(`obj.${selector}`)
 }
 
 function post(state = {}, action) {
@@ -82,7 +80,9 @@ function post(state = {}, action) {
                 ...state,
                 comments: comments(state.comments, action),
                 isAddingComment: false,
-                newComment: {},
+                newComment: {
+                    image: {}
+                },
                 commenterKey: randomstring(12)
             }
         case 'EDIT_COMMENT_END':

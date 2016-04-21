@@ -10,9 +10,9 @@ class Commenter extends React.Component {
     constructor(props) {
         super(props)
         if (this.props.comment.isEditing)
-            this.selector = `comments.find(function(c){return c.id===${this.props.comment.id}})`  // whoa
+            this.selector = `comments.find(function(c){return c.id===${this.props.comment.id}}).image`  // whoa
         else
-            this.selector = 'newComment'
+            this.selector = 'newComment.image'
     }
 
     render() {
