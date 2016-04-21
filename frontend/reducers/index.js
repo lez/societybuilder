@@ -31,6 +31,14 @@ function posts(state = {}, action) {
     }
 }
 
+function select_image(obj, selector) {
+    let selected = eval(`obj.${selector}`)
+    if (selected.image === undefined){
+        selected.image = {}
+    }
+    return selected.image
+}
+
 function post(state = {}, action) {
     console.log(action.type)
     switch (action.type) {
@@ -72,34 +80,29 @@ function post(state = {}, action) {
                 commenterKey: randomstring(12)
             }
         case 'UPLOAD_START':
-            return {
-                ...state,
-                newComment: {
-                    image: {
-                        isUploading: true,
-                        percent: 0
-                    }
-                }
+            {
+                let newstate = {...state}
+                let image = select_image(newstate, action.selector)
+                image.isUploading = true
+                image.percent = 0
+                return newstate
             }
         case 'UPLOAD_PROGRESS':
-            return {
-                ...state,
-                newComment: {
-                    image: {
-                        ...state.newComment.image,
-                        percent: action.percent
-                    }
-                }
+            {
+                let newstate = {...state}
+                let image = select_image(newstate, action.selector)
+                image.percent = action.percent
+                return newstate
             }
         case 'UPLOAD_END':
-            return {
-                ...state,
-                newComment: {
-                    image: {
-                        id: action.image_id,
-                        thumbnail: action.thumbnail
-                    }
-                }
+            {
+                let newstate = {...state}
+                let image = select_image(newstate, action.selector)
+                delete image.percent
+                delete image.isUploading
+                image.id = action.image_id
+                image.thumbnail = action.thumbnail
+                return newstate
             }
         case 'DELETE_COMMENT_IMAGE':
             return {
@@ -139,10 +142,14 @@ function comments(state = [], action) {
 function comment(state = {}, action) {
     switch (action.type) {
         case 'DELETE_EDIT_COMMENT_IMAGE':
-        case 'COMMENT_DELETE_START':
             return {
                 ...state,
                 image: {}
+            }
+        case 'COMMENT_DELETE_START':
+            return {
+                ...state,
+                isDeleting: true
             }
         case 'EDIT_COMMENT':
             return {

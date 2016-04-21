@@ -29,10 +29,10 @@ class Commenter extends React.Component {
 
     upload = (file) => {
         if (file) {
-            if (this.props.comment.isEditing && this.props.comment.id)
-                this.props.onUpload(file)
+            if (this.props.comment.isEditing)
+                this.props.onUpload(`comments.find(function(c){return c.id===${this.props.comment.id}})`, file)  // whoa
             else
-                this.props.onUpload(file)
+                this.props.onUpload('newComment', file)
         }
         this.refs.content.focus()
     }

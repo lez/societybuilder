@@ -105,8 +105,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onEditPost: (post_id) => {
             dispatch(editPost(ownProps.post.id))
         },
-        onUpload: (file_input) => {
-            dispatch(upload(file_input, ownProps.post.id))
+        onUpload: (selector, file_input) => {
+            dispatch(upload(ownProps.post.id, selector, file_input))
         },
         onDeleteCommentImage: () => {
             dispatch(deleteCommentImage(ownProps.post.id))

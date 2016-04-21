@@ -110,37 +110,40 @@ export function editComment(post_id, comment_id) {
     }
 }
 
-export function uploadStart(file_input, post_id) {
+export function uploadStart(post_id, selector, file_input) {
     return {
         type: 'UPLOAD_START',
         file_input: file_input,
-        post_id: post_id
+        post_id: post_id,
+        selector: selector
     }
 }
 
-export function uploadProgress(percent, post_id) {
+export function uploadProgress(post_id, selector, percent) {
     return {
         type: 'UPLOAD_PROGRESS',
         percent: percent,
-        post_id: post_id
+        post_id: post_id,
+        selector: selector
     }
 }
 
-export function uploadEnd(image_id, thumbnail, post_id) {
+export function uploadEnd(post_id, selector, image_id, thumbnail) {
     return {
         type: 'UPLOAD_END',
         image_id: image_id,
         thumbnail: thumbnail,
-        post_id: post_id
+        post_id: post_id,
+        selector: selector
     }
 }
 
-export function upload(file_input, post_id) {
+export function upload(post_id, selector, file_input) {
     return dispatch => {
-        dispatch(uploadStart(file_input, post_id))
+        dispatch(uploadStart(post_id, selector, file_input))
 
-        let onUploadProgress = (percent) => dispatch(uploadProgress(percent, post_id))
-        let onUploadEnd = (image_id, thumbnail) => dispatch(uploadEnd(image_id, thumbnail, post_id))
+        let onUploadProgress = (percent) => dispatch(uploadProgress(post_id, selector, percent))
+        let onUploadEnd = (image_id, thumbnail) => dispatch(uploadEnd(post_id, selector, image_id, thumbnail))
         let uploader = new Uploader(file_input, onUploadProgress, onUploadEnd)
         // todo: upload should be cancellable
     }
