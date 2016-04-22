@@ -1,3 +1,4 @@
+import randomstring from 'random-string'
 import Uploader from '../components/uploader'
 
 export function commentDeleteStart(post_id, comment_id) {
@@ -149,11 +150,39 @@ export function upload(post_id, selector, file_input) {
     }
 }
 
+export function initPostImage(post_id, key) {
+    return {
+        type: 'INIT_POST_IMAGE',
+        post_id: post_id,
+        key: key
+    }
+}
+
+export function addPostImage(post_id, file) {
+    return dispatch => {
+        let key = randomstring(12)
+        dispatch(initPostImage(post_id, key))
+        let selector = `images.find(function(img){return img.key==='${key}'})`
+        let onUploadProgress = (percent) => dispatch(uploadProgress(post_id, selector, percent))
+        let onUploadEnd = (image_id, thumbnail) => dispatch(uploadEnd(post_id, selector, image_id, thumbnail))
+        let uploader = new Uploader(file, onUploadProgress, onUploadEnd)
+        // todo: upload should be cancellable
+    }
+}
+
 export function deleteImage(post_id, selector){
     return {
         type: 'DELETE_IMAGE',
         post_id: post_id,
         selector: selector
+    }
+}
+
+export function deletePostImage(post_id, key){
+    return {
+        type: 'DELETE_POST_IMAGE',
+        post_id: post_id,
+        key: key
     }
 }
 

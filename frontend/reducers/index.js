@@ -32,9 +32,19 @@ function posts(state = {}, action) {
         case 'UPLOAD_PROGRESS':
         case 'UPLOAD_END':
         case 'DELETE_IMAGE':
+        case 'DELETE_POST_IMAGE':
+        case 'INIT_POST_IMAGE':
             return {
                 ...state,
                 [action.post_id]: post(state[action.post_id], action)
+            }
+        case 'INIT_POSTER':
+            return {
+                ...state,
+                new: {
+                    images: [],
+                    id: 'new'
+                }
             }
     default:
         return state
@@ -135,7 +145,25 @@ function post(state = {}, action) {
                 delete image.thumbnail
                 return newstate
             }
-
+        case 'DELETE_POST_IMAGE':
+            {
+                return {
+                    ...state,
+                    images: state.images.filter(img=>img.key!==action.key)
+                }
+            }
+        case 'INIT_POST_IMAGE':
+            return {
+                ...state,
+                images: [
+                    ...state.images,
+                    {
+                        isUploading: true,
+                        percent: 0,
+                        key: action.key // if this is not here, a key element will appear anyway... wtf. so it seems better to provide it
+                    }
+                ]
+            }
         default:
             return state
     }

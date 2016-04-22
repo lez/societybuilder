@@ -50,7 +50,7 @@ class Commenter extends React.Component {
         this.refs.content.focus()
     }
 
-    handleImageDelete = () => {
+    handleImageDelete = (image) => {
         this.refs.content.focus()
         this.props.onDeleteImage(this.selector)
     }

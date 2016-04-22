@@ -1,5 +1,5 @@
 import React from 'react'
-import { dispatch, connect } from 'react-redux'
+import { connect } from 'react-redux'
 
 import RoleThumbnail from './RoleThumbnail.jsx'
 import UserName from './UserName.jsx'
@@ -39,7 +39,7 @@ class Post extends React.Component {
                  }
             </div>
             {post.isEditing ?
-                <Poster user={this.props.user} editpost={post} role={post.role} />
+                <Poster user={this.props.user} post={post} role={post.role} />
                 :
                 <div>
                     <div className="content">{post.content}</div>

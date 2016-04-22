@@ -60,6 +60,10 @@ window.IS = {
             this.store.dispatch({type: 'POST', post: attr.post})
             this.store.dispatch({type: 'ME', user: attr.user}) // FIXME only once
         }
+        if (react_class === Poster) {
+            this.store.dispatch({type: 'INIT_POSTER'})
+            attr.post = store.getState().posts.new
+        }
         let react_element = React.createElement(react_class, attr)
         ReactDOM.render(<Provider store={this.store}>{react_element}</Provider>, element)
 

@@ -10,7 +10,6 @@ class ImgUp extends React.Component {
         let image = this.props.image
         let thumb
 
-        console.log('IMAGE', image)
         if (image.thumbnail)
             thumb = <UploadedImg thumbnail={image.thumbnail}/>
         else if (image.isUploading)
@@ -33,7 +32,7 @@ class ImgUp extends React.Component {
         // if (this.upload) {
         //     this.upload.abort() // TODO: this.upload is not here anymore, but we should call abort on it.
         // }
-        this.props.onImageDelete()
+        this.props.onImageDelete(this.props.image)
     }
 }
 
