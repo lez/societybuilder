@@ -11,14 +11,11 @@ import { addPostImage, deletePostImage } from '../actions'
 
 class Poster extends React.Component {
 
-    state = {}
+    max_imgs = 12
 
-    getMaxImgs() {
-        return 12
-    }
     render() {
         let post = this.props.post
-        let max_imgs = this.getMaxImgs()
+        let max_imgs = this.max_imgs
 
         let default_value = post.content ? post.content : ''
 
@@ -59,8 +56,8 @@ class Poster extends React.Component {
     }
 
     handleUploadStart = (files) => {
-        if (this.props.post.images.length + files.length > this.getMaxImgs()) {
-            alert(`Only ${this.getMaxImgs()} images are allowed`)
+        if (this.props.post.images.length + files.length > this.max_imgs) {
+            alert(`Only ${this.max_imgs} images are allowed`)
             return
         }
         // files is of FileList type
