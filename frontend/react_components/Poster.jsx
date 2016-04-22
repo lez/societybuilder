@@ -28,6 +28,7 @@ class Poster extends React.Component {
                         onChange={this.updateTextArea}
                         ref="content"
                         defaultValue={default_value}
+                        onKeyDown={this.checkSubmit}
                     />
                 </div>
                 <UploadImages
@@ -70,6 +71,14 @@ class Poster extends React.Component {
     handleDeleteImage = (image) => {
         console.log(image)
         this.props.onDeleteImage(image.key)
+    }
+
+    checkSubmit = (e) => {
+        // send comment with CTRL+Enter
+        if (e.ctrlKey && e.keyCode == 13) {
+            e.preventDefault()
+            this.submit()
+        }
     }
 
     updateTextArea = () => {
