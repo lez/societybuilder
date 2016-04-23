@@ -1,3 +1,4 @@
+import re
 from cornice.resource import resource
 
 from ist.api.page import BaseFullRest
@@ -17,6 +18,8 @@ class PostRest(BaseFullRest):
             fields['wall'] = self.request.user.wall_id
         if 'role' not in fields:
             fields['role'] = self.request.user.role_id
+
+        fields['content'] = re.sub('\n{3,}', '\n\n', fields['content'].strip())
 
     def _pre_delete(self, post):
         for c in Comment.select().where(Comment.item_type=='post').where(Comment.item_id==post.id):

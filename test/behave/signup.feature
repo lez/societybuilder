@@ -194,6 +194,11 @@ Feature: REST API
       And The post is on the wall of the page
 #FIX  And the post is the first on my wall
 
+  Scenario: whitespaces are stripped from the beginning and end
+    Given I am signed in
+     When I post " hello world " on my wall
+     Then I get a 200 OK
+      And I can view the post with content "hello world"
 
 # comments
   Scenario: comment on a post

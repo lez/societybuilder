@@ -9,6 +9,21 @@ import CommentPanel from './CommentPanel.jsx'
 import Time from '../common_js/Time.js'
 import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment } from '../actions'
 
+// swaps newlines to <br/>
+class Content extends React.Component {
+    render() {
+        console.log('children', this.props.children)
+        let lines = this.props.children.split('\n')
+        let elements = []
+        for (let x of lines) {
+            elements.push(x)
+            elements.push(<br/>)
+        }
+        elements.pop()
+        return <div className="content">{elements}</div>
+    }
+}
+
 class Post extends React.Component {
 
     render() {
@@ -42,7 +57,7 @@ class Post extends React.Component {
                 <Poster user={this.props.user} post={post} role={post.role} />
                 :
                 <div>
-                    <div className="content">{post.content}</div>
+                    <Content>{post.content}</Content>
                     <Images images={post.images} />
                 </div>
             }
