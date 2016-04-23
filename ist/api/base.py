@@ -59,7 +59,7 @@ class BaseCollectionRest(BaseRest):
         for key in self.cls.rest_all_fields():
             if key in self.request.POST:
                 value = self.request.POST[key]
-                if value == '':
+                if value == '' and getattr(self.cls, key).null:
                     value = None
                 fields[key] = value
 
@@ -110,7 +110,7 @@ class BaseItemRest(BaseRest):
                 if key in self.cls.rest_editable_fields:
                     modified = True
                     value = self.request.POST[key]
-                    if value == '':
+                    if value == '' and getattr(self.cls, key).null:
                         value = None
                     setattr(item, key, value)
                 else:
