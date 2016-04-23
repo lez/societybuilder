@@ -5,7 +5,7 @@
   width: 500px;
 }
 
-.Post .UserName {
+.Post .RoleLink {
     margin-bottom: 8px;
 }
 
@@ -58,4 +58,10 @@
 .Post .Images .Thumbnail {
     margin-right: 3px;
     float: left;
+}
+
+.Post .arrow {
+    font-size: 0.8em;
+    padding-left: 8px;
+    padding-right: 4px;
 }

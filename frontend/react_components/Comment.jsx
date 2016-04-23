@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React from 'react'
-import UserName from './UserName.jsx'
+import RoleLink from './RoleLink.jsx'
 import UserThumbnail from './UserThumbnail.jsx'
 import Thumbnail from './Thumbnail.jsx'
 import Commenter from './Commenter.jsx'
@@ -11,7 +11,7 @@ class Comment extends React.Component {
         return <div className="Comment clearfix">
             <div className="float_left"><UserThumbnail user={this.props.comment.user}/></div>
             <div className="comment_body float_left">
-                <UserName user={this.props.comment.user}/>
+                <RoleLink user={this.props.comment.user}/>
                 {this.props.comment.comment}
                 <br/>
                 {this.props.comment.image && !_.isEmpty(this.props.comment.image) &&

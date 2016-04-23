@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import RoleThumbnail from './RoleThumbnail.jsx'
-import UserName from './UserName.jsx'
+import RoleLink from './RoleLink.jsx'
 import Images from './Images.jsx'
 import Poster from './Poster.jsx'
 import CommentPanel from './CommentPanel.jsx'
@@ -31,12 +31,18 @@ class Post extends React.Component {
         let show_edit = (this.props.user && this.props.user.id == post.author && ! post.isEditing)
         let show_commentpanel = this.props.comments && this.props.comments.length > 0 || this.props.user
 
+        let wall_id = post.wall.user ? `user:${post.wall.user.id}` : `page:${post.wall.page.id}`
+        let guest_post = wall_id !== post.role.id
+
         return <div className="Post">
             <div className="header clearfix">
                 <RoleThumbnail role={post.role} size="medium"/>
                 <div className="post_data">
                     <div>
-                        {post.role.user ? <UserName user={post.role.user} /> : <span className="UserName"><a href={'/' + post.role.page.permalink}>{post.role.page.name}</a></span>}
+                        <RoleLink role={post.role} />
+                        {guest_post &&
+                            [<span className="arrow"><i className="icon-right-dir"></i></span>, <RoleLink role={post.wall} />]
+                        }
                     </div>
                     <div>
                         <span className="TimeStamp"><a href={post.permalink}>{Time.human(post.created)}</a></span>
