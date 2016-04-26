@@ -6,6 +6,7 @@ import RoleLink from './RoleLink.jsx'
 import Images from './Images.jsx'
 import Poster from './Poster.jsx'
 import CommentPanel from './CommentPanel.jsx'
+import CreatedModified from './CreatedModified.jsx'
 import Time from '../common_js/Time.js'
 import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment } from '../actions'
 
@@ -45,7 +46,7 @@ class Post extends React.Component {
                         }
                     </div>
                     <div>
-                        <span className="TimeStamp"><a href={post.permalink}>{Time.human(post.created)}</a></span>
+                        <span className="TimeStamp"><a href={post.permalink}><CreatedModified created={post.created} modified={post.modified}/></a></span>
                     </div>
                 </div>
                 {show_edit &&
