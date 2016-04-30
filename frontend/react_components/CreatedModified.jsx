@@ -8,7 +8,7 @@ class CreatedModified extends React.Component {
             <a href={this.props.href}>
                 {Time.human(this.props.created)}
                 {this.props.modified &&
-                    [' - módositva ', Time.human(this.props.modified)]
+                    [' - módosítva ', Time.human(this.props.modified)]
                 }
             </a>
         </span>

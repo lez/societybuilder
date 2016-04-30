@@ -8,30 +8,31 @@ var Time = {
         var delta = current - timestamp;
 
         if (delta < 30){
-            return 'epp most';
+            return 'épp most';
         }
         if (delta < 60){
-            return 'fel perce';
+            return 'fél perce';
         }
         if (delta < 120){
             return 'egy perce';
         }
         if (delta < 3600){
-            return '' + parseInt(delta/60) + ' perce';
+            return `${parseInt(delta/60)} perce`;
         }
         if (delta < 86400){
-            return '' + parseInt(delta/3600) + ' oraja';
+            return `${parseInt(delta/3600)} órája`;
         }
         if (delta < (86400*2)){
             return 'tegnap';
         }
         if (delta < (86400*3)){
-            return 'tegnapelott';
+            return 'tegnapelőtt';
         }
         if (delta < (86400*6)){
-            return '' + parseInt(delta/3600/24) + ' napja';
+            return `${parseInt(delta/3600/24)} napja`;
         }
-        return strftime('%B %d.', new Date(timestamp));
+        return strftime('%b %d', new Date(timestamp));
     }
 };
+
 module.exports = Time
