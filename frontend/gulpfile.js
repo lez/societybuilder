@@ -3,6 +3,7 @@ var react = require('gulp-react');
 var concat = require('gulp-concat');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
+var gulp_browserify = require('gulp-browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
@@ -18,6 +19,29 @@ var CSS_DEST_DIR = '../ist/static/style';
 var CSS_BUNDLE = 'bundle.css';
 var CSS_FILES = ['react_components/*.css', 'common_css/*.css', '../ist/static/fontello/css/is-codes.css'];
 
+// Compile javascript files, for production
+gulp.task('build_js', function() {
+    gulp.src(JS_ENTRYPOINT)
+        .pipe(gulp_browserify(
+            {
+                transform: [babelify],
+                debug: false,
+                cache: {},
+                packageCache: {},
+                fullPaths: true
+            }
+        ))
+        .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+        .pipe(concat(JS_BUNDLE))
+        .pipe(gulp.dest(JS_DEST_DIR));
+});
+
+gulp.task('build_css', function () {
+    gulp.src(CSS_FILES)
+        .on('error', gutil.log.bind(gutil, 'CSS error'))
+        .pipe(concat(CSS_BUNDLE))
+        .pipe(gulp.dest(CSS_DEST_DIR));
+});
 
 gulp.task('watch_js', function() {
   var watcher = watchify(browserify({
