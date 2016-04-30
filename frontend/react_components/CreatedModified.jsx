@@ -4,18 +4,21 @@ import Time from '../common_js/Time.js'
 class CreatedModified extends React.Component {
 
     render() {
-        return <span>
-            {Time.human(this.props.created)}
-            {this.props.modified &&
-                [' - módositva ', Time.human(this.props.modified)]
-            }
+        return <span className="CreatedModified">
+            <a href={this.props.href}>
+                {Time.human(this.props.created)}
+                {this.props.modified &&
+                    [' - módositva ', Time.human(this.props.modified)]
+                }
+            </a>
         </span>
     }
 }
 
 Comment.propTypes = {
     created: PropTypes.number.isRequired,
-    modified: PropTypes.number
+    modified: PropTypes.number,
+    href: PropTypes.string
 }
 
 export default CreatedModified

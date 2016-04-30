@@ -34,3 +34,13 @@
 .Comment .RoleLink {
     margin-right: 6px;
 }
+
+.Comment .CreatedModified a {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.Comment .CreatedModified {
+    line-height: 22px;
+}

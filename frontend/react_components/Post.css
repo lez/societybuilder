@@ -43,11 +43,12 @@
     display: block;
 }
 
-.Post .TimeStamp a {
+.Post .header .CreatedModified a {
     color: #999;
     text-decoration: none;
 }
-.Post .TimeStamp:hover a {
+
+.Post .header .CreatedModified:hover a {
     color: #888;
 }
 

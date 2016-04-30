@@ -46,7 +46,7 @@ class Post extends React.Component {
                         }
                     </div>
                     <div>
-                        <span className="TimeStamp"><a href={post.permalink}><CreatedModified created={post.created} modified={post.modified}/></a></span>
+                        <CreatedModified created={post.created} modified={post.modified}/>
                     </div>
                 </div>
                 {show_edit &&
