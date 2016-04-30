@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+cd $(dirname $(readlink -m $0))
+echo "Building docker images for Society Builder"
+
+cd docker/base
+docker build --force-rm -t sb-base:latest .
+
+cd ../pynode
+docker build --force-rm -t sb-pynode:latest .
+
+cd ../..
+docker build --force-rm -t sb-app:latest .
+
+echo "Successfully built Society Builder docker images:"
+docker images
