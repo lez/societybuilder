@@ -37,6 +37,18 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
 	xz-utils \
 	zlib1g-dev
 
+
+echo "[*] setting up database"
+mv /root/pg_*.conf /etc/postgresql/9.4/main/
+chmod 644 /etc/postgresql/9.4/main/*
+/etc/init.d/postgresql start
+(sleep 1;echo -e "is\nis\n") | su - postgres -c "createuser -P is"
+su - postgres -c "createdb is"
+
+echo "[*] adding user"
+useradd -m is
+bash -c "echo -ne \"is\nis\n\"" | passwd is
+
 sed -i s/PermitRootLogin\ without-password/PermitRootLogin\ yes/ /etc/ssh/sshd_config
 bash -c "echo -ne \"a\na\n\"" | passwd
 echo -e "\e[1;33mSociety Builder\e[0m development enironment\n" > /etc/motd
