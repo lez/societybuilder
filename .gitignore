@@ -9,3 +9,6 @@ node_modules
 *.swp
 *.swo
 pyramid.log
+docker/pynode/Python-3.5.1.tar.xz
+docker/pynode/get-pip.py
+docker/pynode/node-v6.0.0-linux-x64.tar.xz

@@ -1,16 +1,38 @@
 #!/bin/bash -e
+if [[ $# != 1 ]]; then
+    echo "Usage: $0 <stage> [<stage>...]"
+    echo
+    echo "supported stages: all base pynode app-dev"
+    exit 1
+elif [[ $1 != 'all' &&  $1 != 'base' && $1 != 'pynode' && $1 != 'app-dev' ]]; then
+    echo invalid stage: $1
+    exit 2
+fi
 
-cd $(dirname $(readlink -m $0))
+BASE_DIR=$(dirname $(readlink -m $0))
 echo "Building docker images for Society Builder"
 
-cd docker/base
-docker build --force-rm -t sb-base:latest .
+if [[ $1 = 'base' || $1 = 'all' ]]; then
+    echo Building sb-base:latest
+    cd $BASE_DIR/docker/base
+    docker build --force-rm -t sb-base:latest .
+fi
 
-cd ../pynode
-docker build --force-rm -t sb-pynode:latest .
+if [[ $1 = 'pynode' || $1 = 'all' ]]; then
+    echo Building sb-pynode:latest
+    cd $BASE_DIR/docker/pynode
+    [[ -f node-v6.0.0-linux-x64.tar.xz ]] || wget https://nodejs.org/dist/v6.0.0/node-v6.0.0-linux-x64.tar.xz
+    [[ -f Python-3.5.1.tar.xz ]] || wget https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tar.xz
+    [[ -f get-pip.py ]] || wget https://bootstrap.pypa.io/get-pip.py
+    docker build --force-rm -t sb-pynode:latest .
+fi
 
-cd ../..
-docker build --force-rm -t sb-app:latest .
+if [[ $1 = 'app-dev' || $1 = 'all' ]]; then
+    echo Building sb-app:latest
+    cd $BASE_DIR
+    docker build --force-rm -t sb-app:latest .
+fi
 
 echo "Successfully built Society Builder docker images:"
 docker images
+exit 0
