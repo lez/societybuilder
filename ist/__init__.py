@@ -10,9 +10,9 @@ ROOT = os.path.dirname(__path__[0])
 
 default_settings = {
     'peewee.debug': False,
-    'peewee.database': 'is',
-    'peewee.username': 'is',
-    'peewee.password': 'is',
+    'peewee.database': 'sb',
+    'peewee.username': 'sb',
+    'peewee.password': 'sb',
     'peewee.host': '127.0.0.1',
     'peewee.port': 5432,
 }

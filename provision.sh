@@ -2,9 +2,7 @@
 
 echo "[*] building frontend"
 cd /src/frontend
-/usr/local/bin/npm install
-# FIXME node ./node_modules/gulp/bin/gulp.js build_js
-# FIXME node ./node_modules/gulp/bin/gulp.js build_css
+npm install
 
 echo "[*] installing python dependencies"
 cd /src

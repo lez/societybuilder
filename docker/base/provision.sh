@@ -15,42 +15,43 @@ debconf-set-selections <<< 'locales locales/locales_to_be_generated multiselect 
 
 echo "[*] installing packages"
 DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no \
-	apt-utils \
-	bzip2 \
-	curl \
-	g++ \
-	gcc \
-	git \
-	imagemagick \
-	libssl-dev \
-	locales \
-	make \
-	man \
-	mytop \
-	nginx \
-	openssh-server \
-	postgresql \
-	redis-server \
-	syslog-ng \
-	vim \
-	wget \
-	xz-utils \
-	zlib1g-dev
+    apt-utils \
+    bzip2 \
+    curl \
+    g++ \
+    gcc \
+    git \
+    imagemagick \
+    libssl-dev \
+    locales \
+    make \
+    man \
+    mytop \
+    nginx \
+    openssh-server \
+    postgresql \
+    postgresql-server-dev-9.4 \
+    redis-server \
+    syslog-ng \
+    vim \
+    wget \
+    xz-utils \
+    zlib1g-dev
 
 
 echo "[*] setting up database"
 mv /root/pg_*.conf /etc/postgresql/9.4/main/
 chmod 644 /etc/postgresql/9.4/main/*
 /etc/init.d/postgresql start
-(sleep 1;echo -e "is\nis\n") | su - postgres -c "createuser -P is"
-su - postgres -c "createdb is"
+(sleep 1;echo -e "sb\nsb\n") | su - postgres -c "createuser -P sb"
+su - postgres -c "createdb sb"
 
 echo "[*] adding user"
-useradd -m is
-bash -c "echo -ne \"is\nis\n\"" | passwd is
+useradd -m sb
+bash -c "echo -ne \"sb\nsb\n\"" | passwd sb  # TODO move to dev / prod provision
 
 sed -i s/PermitRootLogin\ without-password/PermitRootLogin\ yes/ /etc/ssh/sshd_config
-bash -c "echo -ne \"a\na\n\"" | passwd
+bash -c "echo -ne \"a\na\n\"" | passwd  # TODO move to dev / prod provision
 echo -e "\e[1;33mSociety Builder\e[0m development enironment\n" > /etc/motd
 
 echo "[*] Done."
