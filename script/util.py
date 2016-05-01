@@ -29,14 +29,14 @@ def bootstrap(ini_filename=None):
 
     return env, registry, settings
 
-
-def reset_db(settings):
+def reset_schema(settings):
     if len(sys.argv) > 1 and sys.argv[1] == 'production.ini':
         raise Exception("I don't work in production environment")
    
-    Popen(['psql', '-U', settings['peewee.database']], stdin=PIPE).communicate(
+    Popen(['psql', '-U', settings['peewee.username']], stdin=PIPE).communicate(
                      input=b'drop schema public cascade; create schema public;')
 
+def create_tables():
     User.create_table()
     print('User table created')
     AuthToken.create_table()
@@ -49,6 +49,10 @@ def reset_db(settings):
     print('Page table created')
     Comment.create_table()
     print('Comment table created') 
+
+def reset_db(settings):
+    reset_schema(settings)
+    create_tables()
 
 def start_test_server():
 
