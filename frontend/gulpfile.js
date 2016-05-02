@@ -87,4 +87,4 @@ gulp.task('serve_browsersync', function () {
 });
 
 
-gulp.task('default', ['watch_js', 'watch_css', 'serve_browsersync']);
+gulp.task('default', ['build_css', 'watch_js', 'watch_css', 'serve_browsersync']);

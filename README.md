@@ -11,6 +11,23 @@ Developing this software must be a joyful experience.
 
 The goal is to create effective communication means for groups
 
+## Installing the development environment ##
+
+git clone https://github.com/lez/societybuilder
+cd societybuilder
+./build all
+docker run -i sb-app
+
+ssh into the box
+
+cd /src/frontend
+gulp
+
+cd /src
+pserve development.ini --reload
+
+you can visit the site (most probably http://172.17.0.2)
+
 ## Technology stack ##
 
  * python

@@ -44,6 +44,7 @@ mv /root/pg_*.conf /etc/postgresql/9.4/main/
 chmod 644 /etc/postgresql/9.4/main/*
 /etc/init.d/postgresql start
 su - postgres -c "createdb sb"
+/etc/init.d/postgresql stop
 
 echo "[*] adding user"
 useradd -m sb -s /bin/bash
