@@ -2,9 +2,9 @@
 if [[ $# != 1 ]]; then
     echo "Usage: $0 <stage> [<stage>...]"
     echo
-    echo "supported stages: all base pynode app-dev"
+    echo "supported stages: all base pynode app-dev app-prod"
     exit 1
-elif [[ $1 != 'all' &&  $1 != 'base' && $1 != 'pynode' && $1 != 'app-dev' ]]; then
+elif [[ $1 != 'all' &&  $1 != 'base' && $1 != 'pynode' && $1 != 'app-dev' && $1 != 'app-prod' ]]; then
     echo invalid stage: $1
     exit 2
 fi
@@ -28,9 +28,19 @@ if [[ $1 = 'pynode' || $1 = 'all' ]]; then
 fi
 
 if [[ $1 = 'app-dev' || $1 = 'all' ]]; then
-    echo Building sb-app:latest
+    echo Building sb-app-dev:latest
     cd $BASE_DIR
-    docker build --force-rm -t sb-app:latest .
+    ln -s -f docker/dev/Dockerfile .
+    docker build --force-rm -t sb-app-dev:latest .
+    rm Dockerfile
+fi
+
+if [[ $1 = 'app-prod' ]]; then
+    echo Building sb-app-prod:latest
+    cd $BASE_DIR
+    ln -s -f docker/prod/Dockerfile .
+    docker build --force-rm -t sb-app-prod:latest .
+    rm Dockerfile
 fi
 
 echo "Successfully built Society Builder docker images:"

@@ -1,0 +1,4 @@
+ist/media/tmp/*
+frontend/node_modules
+docker/pynode/*
+pyramid.log

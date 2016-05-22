@@ -1,9 +1,10 @@
 #!/bin/bash -e
+PATH=/node/current/bin:$PATH
 
-echo "[*] installing gulp"
+echo "[*] installing gulp globally"
 npm install -g gulp
 
-echo "[*] installing npm packages for the frontend"
+echo "[*] installing frontend dependencies"
 cd /src/frontend
 npm install
 
@@ -22,6 +23,7 @@ sed -i s/PermitRootLogin\ without-password/PermitRootLogin\ yes/ /etc/ssh/sshd_c
 
 /etc/init.d/postgresql start
 (sleep 1;echo -e "sb\nsb\n") | su - postgres -c "createuser -P sb"
+/etc/init.d/postgresql stop
 
 echo "[*] creating database tables"
 cd /src/

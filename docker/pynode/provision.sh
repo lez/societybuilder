@@ -1,8 +1,7 @@
 #!/bin/bash -e
 
 echo "[*] installing node.js"
-ln -s /node/node-v6.0.0-linux-x64/bin/node /usr/local/bin/node
-ln -s /node/node-v6.0.0-linux-x64/bin/npm /usr/local/bin/npm
+ln -s /node/node-v6.0.0-linux-x64 /node/current
 
 echo "[*] installing python"
 cd /root/Python-3.5.1
