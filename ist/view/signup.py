@@ -14,7 +14,7 @@ from pyxl.html import *
 def signup_page(request):
     return <signupbox />
 
-@view_config(route_name='hello', renderer='layout', request_method='GET')
+@view_config(route_name='hello', renderer='layout', request_method='GET', permission='user')
 def hello_page(request):
     return <div id="hello">
         Welcome, {request.user.login}!

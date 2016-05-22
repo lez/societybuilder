@@ -4,11 +4,14 @@ from ist.model.base import ApiEncoder
 from ..react import render
 from ..util import *
 
+from react.exceptions import ReactRenderingError
+
 from pyxl.element import x_element
 from pyxl import html
 
 import json
 import datetime
+import traceback
 
 # helpers
 class x_jsx(x_element):
@@ -17,7 +20,7 @@ class x_jsx(x_element):
 
     def render(self):
         if not hasattr(self, '_react_path'):
-            raise AttributeError('_react_path is a mandatory member of x_jsx*')  # TODO fix this antipattern
+            raise AttributeError('_react_path is a mandatory member of x_jsx*')
 
         self._react_classname = self._react_path.split('.')[0]
         self._react_id = random_string(10)
@@ -28,10 +31,18 @@ class x_jsx(x_element):
             attr=ApiEncoder().encode(self.__attributes__)
         )
 
+        try:
+            content = render(self._react_path, self.__attributes__)
+        except ReactRenderingError as e:
+            print('ERROR RENDERING')
+            print(e)
+            content = ''
+
         return <frag>
-            <div id="{self._react_id}" class="{'wrap_'+self._react_classname.lower()}">{html.rawhtml(render(self._react_path, self._attr))}</div>
+            <div id="{self._react_id}" class="{'wrap_'+self._react_classname.lower()}">{html.rawhtml(content)}</div>
             <script type="text/javascript">{html.rawhtml(render_react_element + "\n")}</script>
         </frag>
+
 
 
 class x_react_commenter(x_jsx):

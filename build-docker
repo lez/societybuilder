@@ -2,11 +2,8 @@
 if [[ $# != 1 ]]; then
     echo "Usage: $0 <stage> [<stage>...]"
     echo
-    echo "supported stages: all base pynode app-dev app-prod"
+    echo "supported stages: all base pynode dev prod"
     exit 1
-elif [[ $1 != 'all' &&  $1 != 'base' && $1 != 'pynode' && $1 != 'app-dev' && $1 != 'app-prod' ]]; then
-    echo invalid stage: $1
-    exit 2
 fi
 
 BASE_DIR=$(dirname $(readlink -m $0))
@@ -15,7 +12,7 @@ echo "Building docker images for Society Builder"
 if [[ $1 = 'base' || $1 = 'all' ]]; then
     echo Building sb-base:latest
     cd $BASE_DIR/docker/base
-    docker build --force-rm -t sb-base:latest .
+    time docker build --force-rm -t sb-base:latest .
 fi
 
 if [[ $1 = 'pynode' || $1 = 'all' ]]; then
@@ -24,22 +21,30 @@ if [[ $1 = 'pynode' || $1 = 'all' ]]; then
     [[ -f node-v6.0.0-linux-x64.tar.xz ]] || wget https://nodejs.org/dist/v6.0.0/node-v6.0.0-linux-x64.tar.xz
     [[ -f Python-3.5.1.tar.xz ]] || wget https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tar.xz
     [[ -f get-pip.py ]] || wget https://bootstrap.pypa.io/get-pip.py
-    docker build --force-rm -t sb-pynode:latest .
+    time docker build --force-rm -t sb-pynode:latest .
 fi
 
-if [[ $1 = 'app-dev' || $1 = 'all' ]]; then
-    echo Building sb-app-dev:latest
+if [[ $1 = 'dev' || $1 = 'all' ]]; then
+    echo Building sb-dev:latest
     cd $BASE_DIR
     ln -s -f docker/dev/Dockerfile .
-    docker build --force-rm -t sb-app-dev:latest .
+    time docker build --force-rm -t sb-dev:latest .
     rm Dockerfile
 fi
 
-if [[ $1 = 'app-prod' ]]; then
-    echo Building sb-app-prod:latest
+if [[ $1 = 'prod' ]]; then
+    echo Building sb-prod:latest
     cd $BASE_DIR
     ln -s -f docker/prod/Dockerfile .
-    docker build --force-rm -t sb-app-prod:latest .
+    time docker build --force-rm -t sb-prod:latest .
+    rm Dockerfile
+fi
+
+if [[ $1 = 'prod-test' ]]; then
+    echo Building sb-prod-test:latest
+    cd $BASE_DIR
+    ln -s -f docker/prod/Dockerfile .
+    time docker build --force-rm -t sb-prod-test:latest .
     rm Dockerfile
 fi
 

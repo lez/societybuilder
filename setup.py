@@ -14,9 +14,9 @@ requires = [
     'waitress',
     ]
 
-setup(name='InternetState',
+setup(name='SocietyBuilder',
       version='0.0',
-      description='InternetState community building platform',
+      description='Society Builder social platform',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",

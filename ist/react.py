@@ -5,11 +5,19 @@ import os
 from json import JSONDecoder
 from ist.model.base import ApiEncoder
 
-# TODO: control from .ini files
-settings.configure(RENDER=False) # in production: True
+def includeme(config):
+
+    app_settings = config.get_settings()
+
+    print('RENDER', app_settings['react.render'])
+    if app_settings['react.render']:
+        settings.configure(RENDER=True, RENDER_URL=app_settings['react.render_url'])
+    else:
+        settings.configure(RENDER=False)
+
 
 def render(jsx_path, props):
-    # dirty hack so that JSONEncoder can encode props
+    # dirty and expensive hack so that JSONEncoder can encode props
     props = JSONDecoder().decode(ApiEncoder().encode(props))
 
     return render_component(os.path.join(ROOT, 'frontend', 'react_components', jsx_path), props).markup

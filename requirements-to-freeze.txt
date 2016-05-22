@@ -1,0 +1,20 @@
+#$ pip install -r requirements-to-freeze.txt --upgrade
+#Installing collected packages: six, enum34, ipaddress, ...
+#
+#$ pip freeze > requirements.txt
+#
+
+behave  # dev only
+cornice
+git+git://github.com/lez/pyxl3.git
+pasteuwsgi  # prod only
+peewee
+psycopg2
+pyramid
+pyramid-redis-sessions
+react
+requests
+Unidecode
+uwsgi   # prod only
+waitress  # dev only
+-e .

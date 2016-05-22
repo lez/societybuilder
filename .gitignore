@@ -4,7 +4,7 @@ ist/static/style/bundle.css
 ist/media
 __pycache__
 .idea
-InternetState.egg-info
+SocietyBuilder.egg-info
 node_modules
 *.swp
 *.swo
@@ -12,3 +12,6 @@ pyramid.log
 docker/pynode/Python-3.5.1.tar.xz
 docker/pynode/get-pip.py
 docker/pynode/node-v6.0.0-linux-x64.tar.xz
+uwsgi.log
+uwsgi.pid
+/Dockerfile

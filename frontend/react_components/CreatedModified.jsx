@@ -15,7 +15,7 @@ class CreatedModified extends React.Component {
     }
 }
 
-Comment.propTypes = {
+CreatedModified.propTypes = {
     created: PropTypes.number.isRequired,
     modified: PropTypes.number,
     href: PropTypes.string

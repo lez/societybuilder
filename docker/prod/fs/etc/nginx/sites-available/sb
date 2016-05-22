@@ -1,0 +1,11 @@
+server {
+    listen          80;
+    access_log      off;
+    error_log       /var/log/nginx/http.error.log;
+
+    charset         utf-8;
+    location / {
+        uwsgi_pass  unix:///var/run/uwsgi/uwsgi.sock;
+        include     uwsgi_params;
+    }
+}

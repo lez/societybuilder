@@ -31,6 +31,6 @@ def store_file(request):
     image.path = 'tmp/%s.%s' % (random_string(), image.extension)
     os.makedirs(os.path.dirname(image.real_path), exist_ok=True)
     image.save()
-    os.rename(tmpname, image.real_path)
+    shutil.move(tmpname, image.real_path)
     return {'success': 1, 'image_id': image.id, 'thumbnail': image.uri(thumbnail='100x100')}
 

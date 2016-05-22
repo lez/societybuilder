@@ -16,6 +16,7 @@ debconf-set-selections <<< 'locales locales/locales_to_be_generated multiselect 
 echo "[*] installing packages"
 DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no \
     apt-utils \
+    build-essential \
     bzip2 \
     curl \
     g++ \
@@ -31,6 +32,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     openssh-server \
     postgresql \
     postgresql-server-dev-9.4 \
+    psmisc \
     redis-server \
     syslog-ng \
     vim \
@@ -38,6 +40,8 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     xz-utils \
     zlib1g-dev
 
+echo "[*] removing default nginx site"
+rm /etc/nginx/sites-enabled/default
 
 echo "[*] setting up database"
 mv /root/pg_*.conf /etc/postgresql/9.4/main/

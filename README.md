@@ -13,7 +13,7 @@ Another goal is to keep the developing experience joyful.
 git clone https://github.com/lez/societybuilder
 cd societybuilder
 ./build all
-docker run --volume=$(pwd):/src -i sb-app-dev
+docker run --volume=$(pwd):/src -i sb-dev
 ```
 
 Once the environment is up and running, run gulp to (re)build the js and css bundles.

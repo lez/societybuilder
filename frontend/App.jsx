@@ -62,7 +62,7 @@ window.IS = {
         }
         if (react_class === Poster) {
             this.store.dispatch({type: 'INIT_POSTER'})
-            attr.post = store.getState().posts.new
+            attr.post = this.store.getState().posts.new
         }
         let react_element = React.createElement(react_class, attr)
         ReactDOM.render(<Provider store={this.store}>{react_element}</Provider>, element)

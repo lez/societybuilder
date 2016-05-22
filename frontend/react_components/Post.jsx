@@ -13,7 +13,6 @@ import { commentDelete, addComment, editPost, upload, deleteImage, editComment, 
 // swaps newlines to <br/>
 class Content extends React.Component {
     render() {
-        console.log('children', this.props.children)
         let lines = this.props.children.split('\n')
         let elements = []
         for (let x of lines) {

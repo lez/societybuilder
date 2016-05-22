@@ -1,12 +1,14 @@
 import os
+
 from pyramid.config import Configurator
+from pyramid.settings import asbool
 
 from ist.model.type import User, Page
 from ist.util import l
 from .view import notfound, notfound_api, forbidden, forbidden_api
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
-ROOT = os.path.dirname(__path__[0])
+ROOT = os.path.abspath(os.path.dirname(__path__[0]))
 
 default_settings = {
     'peewee.debug': False,
@@ -17,16 +19,25 @@ default_settings = {
     'peewee.port': 5432,
 }
 
+bool_settings = {
+    'peewee.debug',
+    'react.render'
+}
+
 def main(global_settings, **settings):
 
     for key in default_settings:
         settings[key] = settings.get(key, default_settings[key])
+
+    for key in bool_settings:
+        settings[key] = asbool(settings.get(key, False))
 
     config = Configurator(settings=settings,
                           authentication_policy=IsAuthenticationPolicy(),
                           authorization_policy=IsAuthorizationPolicy())
 
     config.include('ist.model.base')
+    config.include('ist.react')
     config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
     config.add_renderer(name='api', factory='ist.renderer.ApiRenderer')
     config.add_renderer(name='layout', factory='ist.renderer.LayoutRenderer')
