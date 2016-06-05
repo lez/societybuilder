@@ -2,12 +2,13 @@
 
 cat > /etc/apt/sources.list << __EOF
 deb http://ftp.de.debian.org/debian jessie main contrib non-free
+deb http://ftp.de.debian.org/debian jessie-backports main
 deb http://security.debian.org/ jessie/updates main contrib non-free
 __EOF
 
 echo "[*] updating package list"
 apt-get update
-apt-get upgrade
+apt-get -y upgrade
 
 # pre-configure locale
 debconf-set-selections <<< 'locales locales/default_environment_locale select   en_US.UTF-8'
@@ -40,7 +41,11 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     xz-utils \
     zlib1g-dev
 
-echo "[*] removing default nginx site"
+echo "[*] installing certbot (from backports)"
+DEBIAN_FRONTEND=noninteractive apt-get install -y -t jessie-backports -o APT::Install-Recommends=no \
+    certbot
+
+echo "[*] removing default nginx site config"
 rm /etc/nginx/sites-enabled/default
 
 echo "[*] setting up database"
@@ -53,6 +58,6 @@ su - postgres -c "createdb sb"
 echo "[*] adding user"
 useradd -m sb -s /bin/bash
 
-echo -e "\e[1;33mSociety Builder\e[0m development enironment\n" > /etc/motd
+echo -e "\e[1;33mSociety Builder\e[0m development environment\n" > /etc/motd
 
 echo "[*] Done."
