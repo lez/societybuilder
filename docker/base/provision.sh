@@ -24,6 +24,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     gcc \
     git \
     imagemagick \
+    jq \
     libssl-dev \
     locales \
     make \
@@ -36,6 +37,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     psmisc \
     redis-server \
     syslog-ng \
+    tree \
     vim \
     wget \
     xz-utils \
