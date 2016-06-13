@@ -60,6 +60,7 @@ def main(global_settings, **settings):
     # static
     config.add_route('media', '/media/{subpath:.*}')
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_static_view('.well-known', '.well-known', cache_max_age=3600)  # for certbot
     config.add_route('favicon', '/favicon.ico')
     config.add_route('upload', '/upload')
 
