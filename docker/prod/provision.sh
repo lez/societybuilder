@@ -11,5 +11,11 @@ echo "[*] installing frontend dependencies"
 cd /src/frontend
 npm install
 
-echo "[i] start with \`docker run --env DB_PASSWD=sb --env ROOT_PASSWD=a --env SB_PASSWD=sb --volume=\$(pwd):/src --name sb-prod-test -i sb-prod-test\`"
+echo "[*] building js"
+gulp build_js
+
+echo "[*] building css"
+gulp build_css
+
+echo "[i] start with \`docker run --env DB_PASSWD=sb --env ROOT_PASSWD=a --env SB_PASSWD=sb --hostname prod --name prod -i sb-prod\`"
 echo "[*] Done."
