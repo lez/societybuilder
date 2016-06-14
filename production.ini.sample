@@ -9,7 +9,7 @@ pyramid.debug_all = false
 
 pyramid.default_locale_name = en
 
-redis.sessions.url = redis://localhost:6379/0
+redis.sessions.url = redis://127.0.0.1:6379/0
 redis.sessions.secret = SECKRETMEN
 redis.sessions.timeout = 1800
 redis.sessions.cookie_name = session
@@ -24,7 +24,7 @@ redis.sessions.deserialize = pickle.loads
 
 peewee.database = sb
 peewee.username = sb
-peewee.password = sb
+peewee.password = DB_PASSWD
 peewee.host = 127.0.0.1
 peewee.port = 5432
 peewee.debug = false
