@@ -1,14 +1,9 @@
 server {
-    listen          80;
+    listen          80 default_server;
     access_log      /var/log/nginx/http.access.log;
     error_log       /var/log/nginx/http.error.log;
-    server_name     jovilag.net;
-
-    charset         utf-8;
-    location / {
-        uwsgi_pass  unix:///var/run/uwsgi/uwsgi.sock;
-        include     uwsgi_params;
-    }
+    server_name     _;
+    return          301 https://$host$request_uri;
 }
 
 server {
