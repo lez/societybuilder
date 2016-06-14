@@ -1,7 +1,26 @@
 server {
     listen          80;
-    access_log      off;
+    access_log      /var/log/nginx/http.access.log;
     error_log       /var/log/nginx/http.error.log;
+    server_name     jovilag.net;
+
+    charset         utf-8;
+    location / {
+        uwsgi_pass  unix:///var/run/uwsgi/uwsgi.sock;
+        include     uwsgi_params;
+    }
+}
+
+server {
+    listen          443 ssl;
+    access_log      /var/log/nginx/access.log;
+    error_log       /var/log/nginx/error.log;
+    server_name     www.jovilag.net;
+
+    ssl_certificate     /etc/letsencrypt/live/www.jovilag.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.jovilag.net/privkey.pem;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
 
     charset         utf-8;
     location / {
