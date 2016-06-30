@@ -33,7 +33,6 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     nginx \
     openssh-server \
     postgresql \
-    postgresql-server-dev-9.4 \
     psmisc \
     redis-server \
     syslog-ng \
@@ -49,13 +48,6 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -t jessie-backports -o APT::In
 
 echo "[*] removing default nginx site config"
 rm /etc/nginx/sites-enabled/default
-
-echo "[*] setting up database"
-mv /root/pg_*.conf /etc/postgresql/9.4/main/
-chmod 644 /etc/postgresql/9.4/main/*
-/etc/init.d/postgresql start
-su - postgres -c "createdb sb"
-/etc/init.d/postgresql stop
 
 echo "[*] adding user"
 useradd -m sb -s /bin/bash
