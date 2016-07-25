@@ -2,7 +2,8 @@
 PATH=/node/current/bin:$PATH
 
 echo "[*] setting up database"
-apt-get install postgresql-server-dev-9.4
+DEBIAN_FRONTEND=noninteractive apt-get -y install postgresql-server-dev-9.4
+/etc/init.d/postgresql start
 mv /root/pg_*.conf /etc/postgresql/9.4/main/
 chmod 644 /etc/postgresql/9.4/main/*
 su - postgres -c "createdb sb"
