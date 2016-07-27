@@ -54,6 +54,7 @@ rm /etc/nginx/sites-enabled/default
 echo "[*] adding user"
 useradd -m sb -s /bin/bash
 echo "sb ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+cp /root/.bashrc /home/sb/ && chown sb.sb /home/sb/.bashrc
 
 echo -e "\e[1;33mSociety Builder\e[0m development environment\n" > /etc/motd
 
