@@ -1,0 +1,2 @@
+#!/bin/bash
+PYTHONPATH=/src python /src/script/$1.py $2.ini

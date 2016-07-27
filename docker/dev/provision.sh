@@ -26,7 +26,7 @@ sed -i s/PermitRootLogin\ without-password/PermitRootLogin\ yes/ /etc/ssh/sshd_c
 
 echo "[*] creating database tables"
 cd /src/
-python script/create_tables.py development.ini
+PYTHONPATH=/src python script/create_tables.py development.ini
 /etc/init.d/postgresql stop
 
 echo "[*] Done."

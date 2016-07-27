@@ -1,7 +1,7 @@
 #!/bin/bash
 
 umask 022
-PATH=/node/current/bin:$PATH
+PATH=/node/current/bin:/src/bin:$PATH
 
 #/etc/init.d/syslog-ng start
 /etc/init.d/redis-server start
@@ -21,7 +21,7 @@ if [[ ! -f /INITIALIZED ]]; then
     echo -e "$SB_PASSWD\n$SB_PASSWD\n" | passwd sb
     echo "[*] creating database tables"
     sed s/DB_PASSWD/$DB_PASSWD/ < production.ini.sample > production.ini
-    python script/create_tables.py production.ini
+    sb create_tables production
     touch /INITIALIZED
 fi
 
