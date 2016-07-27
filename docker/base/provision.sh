@@ -30,6 +30,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     make \
     man \
     mytop \
+    net-tools \
     nginx \
     openssh-server \
     postgresql \
