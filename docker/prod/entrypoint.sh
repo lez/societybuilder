@@ -5,7 +5,6 @@ PATH=/node/current/bin:$PATH
 
 #/etc/init.d/syslog-ng start
 /etc/init.d/redis-server start
-/etc/init.d/postgresql start
 cd /root/python-react/examples/basic_rendering
 node render_server.js 2>&1 >/var/log/react.log &
 mkdir -p /var/run/uwsgi
@@ -20,7 +19,6 @@ if [[ ! -f /INITIALIZED ]]; then
     echo "[*] setting up credentials"
     echo -e "$ROOT_PASSWD\n$ROOT_PASSWD\n" | passwd
     echo -e "$SB_PASSWD\n$SB_PASSWD\n" | passwd sb
-    (sleep 1; echo -e "$DB_PASSWD\n$DB_PASSWD\n") | su - postgres -c "createuser -P sb"
     echo "[*] creating database tables"
     sed s/DB_PASSWD/$DB_PASSWD/ < production.ini.sample > production.ini
     python script/create_tables.py production.ini
