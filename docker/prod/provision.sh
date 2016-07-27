@@ -5,7 +5,7 @@ echo "[*] installing python dependencies"
 cd /src
 pip install -r requirements.txt
 echo "import pyxl.codec.register" > /usr/local/lib/python3.5/site-packages/pyxl.pth
-pip install -e .
+pip install .
 
 echo "[*] installing frontend dependencies"
 cd /src/frontend
