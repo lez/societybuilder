@@ -20,9 +20,8 @@ if [[ ! -f /INITIALIZED ]]; then
     echo "[*] setting up credentials"
     echo -e "$ROOT_PASSWD\n$ROOT_PASSWD\n" | passwd
     echo -e "$SB_PASSWD\n$SB_PASSWD\n" | passwd sb
-    echo "[*] creating database tables"
+    echo "[*] creating database config"
     sed s/DB_PASSWD/$DB_PASSWD/ < production.ini.sample > production.ini
-    sb create_tables production
     touch /INITIALIZED
 fi
 
