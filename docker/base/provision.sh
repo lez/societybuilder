@@ -35,6 +35,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     postgresql \
     psmisc \
     redis-server \
+    sudo \
     syslog-ng \
     tree \
     vim \
@@ -51,6 +52,7 @@ rm /etc/nginx/sites-enabled/default
 
 echo "[*] adding user"
 useradd -m sb -s /bin/bash
+echo "sb ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 echo -e "\e[1;33mSociety Builder\e[0m development environment\n" > /etc/motd
 
