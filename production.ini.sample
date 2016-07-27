@@ -25,7 +25,7 @@ redis.sessions.deserialize = pickle.loads
 peewee.database = sb
 peewee.username = sb
 peewee.password = DB_PASSWD
-peewee.host = 127.0.0.1
+peewee.host = postgres
 peewee.port = 5432
 peewee.debug = false
 
