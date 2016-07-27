@@ -7,3 +7,4 @@ ADD . /src
 RUN /src/docker/prod/provision.sh
 
 ENTRYPOINT /src/docker/prod/entrypoint.sh
+EXPOSE 80, 443
