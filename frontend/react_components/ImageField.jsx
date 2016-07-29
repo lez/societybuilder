@@ -1,55 +1,72 @@
 import React from 'react';
-import ImgUp from './ImgUp.jsx';
 import FileUploadButton from './FileUploadButton.jsx';
-
-export default React.createClass({
-    getInitialState: function() {
-        return {};
-    },
-
-    render: function() {
-        var x, image;
-
-        if (this.state.image) {
-            image = this.state.image;
-        } else if (this.props.image) {
-            image = this.props.image;
-        }
-
-        if (this.state.file) {
-            x =  <ImgUp file={this.state.file} onImageDelete={null} onUploadComplete={this.onUploadComplete} />
-        }
-        else if (image){
-            x = <img src={image.thumbnail} width="100" height="100" />;
-        }
-        else
-        {
+import { connect } from 'react-redux'
+import { uploadAny } from '../actions'
+class ImageField extends React.Component {
+    render() {
+        let x
+        if (!this.props.image) {
+            console.log('ez van')
             x = <div><i className="demo-icon icon-user-add"></i><div className="kepalairas">Add Profile Photo</div></div>
         }
+        else if (this.props.image.isUploading) {
+            console.log('most ez van')
+            x =  <span>upload percent {this.props.image.percent}</span>
+        }
+        else {
+            console.log('most meg ez van')
+            x = <img src={this.props.image.thumbnail} width="100" height="100" />
+        }
+
         return <div className="ImageField">
             <FileUploadButton upload={this.upload}>
                 {x}
             </FileUploadButton>
             <input type="hidden" name={this.props.name} value={this.field_value()}/>
-        </div>;
-    },
+        </div>
+    }
 
-    field_value: function () {
-        if (this.state.image)
-            return this.state.image.id;
+    field_value = () => {
         if (this.props.image)
             return this.props.image.id;
-        return '';
-    },
-
-    upload: function(file) {
-        this.setState({'file': file});
-    },
-
-    onUploadComplete: function(image, thumbnail, image_id) {
-        var img = {'thumbnail':thumbnail, 'id': image_id};
-        this.setState({'image': img, 'file': null});
-        if (this.props.onChange)
-            this.props.onChange();
+        return ''
     }
-});
+
+    upload = (file) => {
+        if (file) {
+            this.props.onUploadAny(this.props.name, file)
+            this.props.onChange()  // FIXME: too early, but it will do for now
+        }
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+    let name = ownProps.name
+    let ret
+    if (state.upload && state.upload[name]){
+        ret = state.upload[name]
+    } else {
+        if (ownProps.image)
+            ret = ownProps.image
+        else
+            ret = null
+    }
+    return {
+        image: ret
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        onUploadAny: (selector, file_input) => {
+            dispatch(uploadAny(selector, file_input))
+        },
+    }
+}
+
+ImageField = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ImageField)
+
+export default ImageField

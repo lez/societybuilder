@@ -23,7 +23,7 @@ function upload(state = {}, action) {
                 let newstate = {...state}
                 newstate[action.selector] = {
                     ...newstate[action.selector],
-                    percent: action.image_id,
+                    percent: action.percent,
                 }
                 return newstate
             }

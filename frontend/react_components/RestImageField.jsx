@@ -3,6 +3,7 @@ import ImageField from './ImageField.jsx'
 
 class RestImageField extends React.Component {
 
+    // FIXME: image_id as a variable
     state = {}
 
     // props: url, field, initial value (image), reload (bool)
@@ -18,13 +19,13 @@ class RestImageField extends React.Component {
         return (this.props.reload === true)
     }
 
-    submit(event) {
+    submit = (event) => {
         event.preventDefault()
-        var restimagefield = this.refs.main
+        let restimagefield = this.refs.main
 
         // never be afraid of a tiny boilerplate
-        var val = jQuery(restimagefield).find('input[name="image_id"]').val()
-        var data = {}
+        let val = jQuery(restimagefield).find('input[name="image_id"]').val()
+        let data = {}
         data[this.props.field] = val
         IS.submitRest(this.props.url, data, this.reload_after_edit() ? null : this.done)
     }
@@ -38,22 +39,6 @@ class RestImageField extends React.Component {
     }
 
 }
-
-// const mapStateToProps = (state, ownProps) => {
-//     console.log(state.me)
-//     return {
-//         image: state.me.image
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch, ownProps) => {
-//     return {}
-// }
-
-// RestImageField = connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-// )(RestImageField)
 
 export default RestImageField
 
