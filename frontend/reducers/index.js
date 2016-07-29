@@ -3,8 +3,43 @@ import randomstring from 'random-string'
 
 export const rootReducer = combineReducers({
     posts: posts,
-    me: me
+    me: me,
+    upload: upload,
 })
+
+function upload(state = {}, action) {
+    switch (action.type) {
+        case 'UPLOAD_ANY_START':
+            {
+                let newstate = {...state}
+                newstate[action.selector] = {
+                    isUploading: true,
+                    percent: 0
+                }
+                return newstate
+            }
+        case 'UPLOAD_ANY_PROGRESS':
+            {
+                let newstate = {...state}
+                newstate[action.selector] = {
+                    ...newstate[action.selector],
+                    percent: action.image_id,
+                }
+                return newstate
+            }
+        case 'UPLOAD_ANY_END':
+            {
+                let newstate = {...state}
+                newstate[action.selector] = {
+                    id: action.image_id,
+                    thumbnail: action.thumbnail
+                }
+                return newstate
+            }
+    default:
+        return state
+    }
+}
 
 function posts(state = {}, action) {
     switch (action.type) {

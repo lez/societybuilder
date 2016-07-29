@@ -139,12 +139,50 @@ export function uploadEnd(post_id, selector, image_id, thumbnail) {
     }
 }
 
+export function uploadAnyStart(selector, file_input) {
+    return {
+        type: 'UPLOAD_ANY_START',
+        file_input: file_input,
+        selector: selector
+    }
+}
+
+export function uploadAnyProgress(selector, percent) {
+    return {
+        type: 'UPLOAD_ANY_PROGRESS',
+        percent: percent,
+        selector: selector
+    }
+}
+
+export function uploadAnyEnd(selector, image_id, thumbnail) {
+    return {
+        type: 'UPLOAD_ANY_END',
+        image_id: image_id,
+        thumbnail: thumbnail,
+        selector: selector
+    }
+}
+
 export function upload(post_id, selector, file_input) {
+    console.log('upload')
     return dispatch => {
         dispatch(uploadStart(post_id, selector, file_input))
 
         let onUploadProgress = (percent) => dispatch(uploadProgress(post_id, selector, percent))
         let onUploadEnd = (image_id, thumbnail) => dispatch(uploadEnd(post_id, selector, image_id, thumbnail))
+        let uploader = new Uploader(file_input, onUploadProgress, onUploadEnd)
+        // todo: upload should be cancellable
+    }
+}
+
+export function uploadAny(selector, file_input) {
+    console.log('uploadAny')
+    return dispatch => {
+        dispatch(uploadAnyStart(selector, file_input))
+
+        let onUploadProgress = (percent) => dispatch(uploadAnyProgress(selector, percent))
+        let onUploadEnd = (image_id, thumbnail) => dispatch(uploadAnyEnd(selector, image_id, thumbnail))
         let uploader = new Uploader(file_input, onUploadProgress, onUploadEnd)
         // todo: upload should be cancellable
     }
