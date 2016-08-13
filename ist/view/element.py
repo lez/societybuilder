@@ -100,11 +100,12 @@ class x_layout(x_element):
                 <script type="text/javascript" src="/static/js/jquery.min.js"></script>
                 <script type="text/javascript" src="/static/js/compiled/app.js"></script>
                 <link href="/static/style/bundle.css" media="all" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css?family=Denk+One" rel="stylesheet" />
                 <title>Title</title>
             </head>
             <body>
+                <site_header user="{user}" />
                 <div id="main">
-                    <site_header user="{user}" />
                     <sidebar user="{user}" />
                     {self.children()}
                 </div>
@@ -113,10 +114,13 @@ class x_layout(x_element):
 
 class x_site_header(x_element):
     def render(self, user):
-        return <div id="header">
-            <logo/>
-            <div id="jovilag">jóvilág</div>
-            <user_header user="{user}" />
+        return <div id="ribbon">
+            <div id="header">
+                <logo/>
+                <div id="jovilag">Jóvilág</div>
+                <span id="egyutt">Együtt építjük...</span>
+                <user_header user="{user}" />
+            </div>
         </div>
 
 class x_user_header(x_element):
@@ -178,7 +182,7 @@ class x_rightbar(x_element):
 
 class x_logo(x_element):
     def render(self):
-        return <span id="logo"><a href="/"><img src="/static/img/logo2.png" width="60" height="60"/></a></span>
+        return <span id="logo"><a href="/"><img src="/static/img/logo.png" width="172" height="100"/></a></span>
 
 class x_signupbox(x_element):
     def render(self):
