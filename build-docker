@@ -1,53 +1,95 @@
 #!/bin/bash -e
-if [[ $# != 1 ]]; then
-    echo "Usage: $0 <stage> [<stage>...]"
+
+usage()
+{
+    echo "Usage: $0 <stage> [--with-deps]"
     echo
-    echo "supported stages: all base pynode dev prod"
+    echo "supported stages: base pynode dev prod"
     exit 1
+}
+
+DEPS=0
+if [[ $# = 2 ]]; then
+    if [[ $2 = '--with-deps' ]]; then
+        DEPS=1
+    else
+        usage
+    fi
+fi
+
+if [[ $# = 0 || $# -gt 2 ]]; then
+    usage
+fi
+
+if [[ $1 != prod && $1 != dev && $1 != pynode && $1 != base ]]; then
+    usage
 fi
 
 BASE_DIR=$(dirname $(readlink -m $0))
 echo "Building docker images for Society Builder"
 
-if [[ $1 = 'base' || $1 = 'all' ]]; then
+build_base()
+{
     echo Building sb-base:latest
     cd $BASE_DIR/docker/base
     time docker build --force-rm -t sb-base:latest .
-fi
+}
 
-if [[ $1 = 'pynode' || $1 = 'all' ]]; then
+build_pynode()
+{
     echo Building sb-pynode:latest
     cd $BASE_DIR/docker/pynode
     [[ -f node-v6.0.0-linux-x64.tar.xz ]] || wget https://nodejs.org/dist/v6.0.0/node-v6.0.0-linux-x64.tar.xz
     [[ -f Python-3.5.1.tar.xz ]] || wget https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tar.xz
     [[ -f get-pip.py ]] || wget https://bootstrap.pypa.io/get-pip.py
     time docker build --force-rm -t sb-pynode:latest .
-fi
+}
 
-if [[ $1 = 'dev' || $1 = 'all' ]]; then
+build_dev()
+{
     echo Building sb-dev:latest
     cd $BASE_DIR
     ln -s -f docker/dev/Dockerfile .
     time docker build --force-rm -t sb-dev:latest .
     rm Dockerfile
-fi
+}
 
-if [[ $1 = 'prod' ]]; then
+build_prod()
+{
     echo Building sb-prod:latest
     cd $BASE_DIR
     ln -s -f docker/prod/Dockerfile .
     time docker build --force-rm -t sb-prod:latest .
     rm Dockerfile
+}
+
+if [[ $1 = 'base' ]]; then
+    build_base
 fi
 
-if [[ $1 = 'prod-test' ]]; then
-    echo Building sb-prod-test:latest
-    cd $BASE_DIR
-    ln -s -f docker/prod/Dockerfile .
-    time docker build --force-rm -t sb-prod-test:latest .
-    rm Dockerfile
+if [[ $1 = 'pynode' ]]; then
+    if [[ -n $DEPS ]]; then
+        build_base
+    fi
+    build_pynode
 fi
 
-echo "Successfully built Society Builder docker images:"
+if [[ $1 = 'dev' ]]; then
+    if [[ -n $DEPS ]]; then
+        build_base
+        build_pynode
+    fi
+    build_dev
+fi
+
+if [[ $1 = 'prod' ]]; then
+    if [[ -n $DEPS ]]; then
+        build_base
+        build_pynode
+    fi
+    build_prod
+fi
+
+echo "[*] Successfully built Society Builder docker images."
 docker images
 exit 0
