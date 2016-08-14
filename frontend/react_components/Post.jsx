@@ -12,11 +12,24 @@ import { commentDelete, addComment, editPost, upload, deleteImage, editComment, 
 
 // swaps newlines to <br/>
 class Content extends React.Component {
+    linkify(str, pattern) {
+        let url = str.replace(pattern, '$2')
+        return <a href={url} rel="nofollow">{url}</a>
+    }
+
     render() {
         let lines = this.props.children.split('\n')
         let elements = []
         for (let x of lines) {
-            elements.push(x)
+            let pattern = /(.*)(https?:\/\/[^ ]*)(.*)/
+            if (x.search(/https?:\/\//) >= 0){
+                let leftright = x.split(/https?:\/\/[^ ]*/)
+                elements.push(leftright[0])
+                elements.push(this.linkify(x, pattern))
+                elements.push(leftright[1])
+            } else {
+                elements.push(x)
+            }
             elements.push(<br/>)
         }
         elements.pop()
