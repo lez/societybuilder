@@ -18,4 +18,4 @@ def identify(path):
     return int(width), int(height), MIME_TYPES[props[1]]
 
 def generate_thumbnail(src, dst, *, width, height):
-    subprocess.Popen(['convert', src, '-strip', '-resize', '{}x{}^'.format(width, height), '-gravity', 'center', '-extent', '{}x{}'.format(width, height), dst]).communicate()
+    subprocess.check_call(['convert', src, '-strip', '-resize', '{}x{}^'.format(width, height), '-gravity', 'center', '-extent', '{}x{}'.format(width, height), dst])
