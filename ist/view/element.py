@@ -86,12 +86,12 @@ class x_sidebar(x_element):
     def render(self, user: User):
         return <div id="sidebar">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/page/all">All pages</a></li>
+                <li><a href="/">Főoldal</a></li>
+                <li><a href="/page/all">Összes oldal</a></li>
                 <if cond="{user}">
-                    <li><a href="/page/my">My pages</a></li>
-                    <li><a href="/{user.login}">Me</a></li>
-                    <li><a href="/page/create">Create page</a></li>
+                    <li><a href="/page/my">Saját oldalak</a></li>
+                    <li><a href="/{user.login}">Saját üzenőfal</a></li>
+                    <li><a href="/page/create">Új oldal</a></li>
                 </if>
             </ul>
         </div>
@@ -112,12 +112,12 @@ class x_signupbox(x_element):
     def render(self):
         js_string = "IS.submit(event, this, function(user){document.location = '/hello';});"
         return <div id="signupbox">
-            <p>Sign up for this site.</p><br/>
+            <p>Regisztráció</p><br/>
             <form data-url="/api/signup" id="signupbox" method="post" onsubmit={js_string} class="verticalform">
-                <field name="login" type="text" placeholder="login">Name:</field>
-                <field name="passwd" type="password" placeholder="password">Password:</field>
+                <field name="login" type="text" placeholder="login">Név:</field>
+                <field name="passwd" type="password" placeholder="jelszó">Jelszó:</field>
                 <field name="email" type="text" placeholder="email">Email:</field>
-                <p><input name="submit" type="submit" value="Sign up" /></p>
+                <p><input name="submit" type="submit" value="Regisztrálok" /></p>
             </form>
         </div>
 
@@ -137,8 +137,8 @@ class x_field(x_element):
 class x_signup_info(x_element):
     def render(self):
         return <div id="signup_info">
-            <p>Sign up, it's cool!</p>
-            <a href="/signup">Sign up</a>
+            <p>Csatlakozz a Jóvilág közösséghez!</p><br/>
+            <a href="/signup">Regisztráció</a>
         </div>
 
 class x_loginbox(x_element):
@@ -147,8 +147,8 @@ class x_loginbox(x_element):
         return <div id="loginbox">
             <form data-url="/api/login" id="login" method="post" onsubmit={js_string}>
                 <input name="login" type="text" placeholder="login" />
-                <input name="passwd" type="password" placeholder="password" />
-                <input name="submit" type="submit" value="Log in" />
+                <input name="passwd" type="password" placeholder="jelszó" />
+                <input name="submit" type="submit" value="Belépés" />
                 <p id="error">
                     <span class="error"></span>
                 </p>
@@ -166,9 +166,9 @@ class x_createpage(x_element):
         js_string = "IS.submit(event, this, function(page){document.location = '/'+page.permalink;});"
         return <form data-url="/api/page" id="createpage" method="post" onsubmit={js_string} class="verticalform">
             <react_imagefield name="image" />
-            <field type="text" name="name" placeholder="Page name">Name</field>
-            <field type="text" name="description" placeholder="Short description">Description</field>
-            <input type="submit" name="submit" value="Create Page" />
+            <field type="text" name="name" placeholder="téma, helység, cég...">Név</field>
+            <field type="text" name="description" placeholder="Tömör leírás">Leírás</field>
+            <input type="submit" name="submit" value="Új oldal" />
         </form>
 
 class x_posts(x_element):

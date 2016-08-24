@@ -12,7 +12,7 @@ module.exports = function () {
         this.browser.visit('/', function () {
             this.browser.fill('#loginbox input[name="login"]', 'komakoma')
                         .fill('#loginbox input[name="passwd"]', 'komakoma')
-                        .pressButton('Log in', callback)
+                        .pressButton('Belépés', callback)
         }.bind(this));
 
     });
@@ -22,7 +22,7 @@ module.exports = function () {
 
         this.browser.fill('#loginbox input[name="login"]', 'komakoma')
                     .fill('#loginbox input[name="passwd"]', 'komakoma')
-                    .pressButton('Log in', callback);
+                    .pressButton('Belépés', callback);
 
     });
 
@@ -80,7 +80,7 @@ module.exports = function () {
         this.browser.visit('/page/create', function () {
             this.browser.fill('input[name="name"]', name)
                         .fill('input[name="description"]', description)
-                        .pressButton('Create Page', function() {
+                        .pressButton('Új oldal', function() {
                             this.browser.assert.success();
                             //this.browser.assert.url(/\/page\/(.*)\/show/);
                             //this.page_id = this.browser.url.match(/\/page\/(.*)\/show/)[1];

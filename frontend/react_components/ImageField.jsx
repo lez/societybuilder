@@ -6,7 +6,7 @@ class ImageField extends React.Component {
     render() {
         let x
         if (!this.props.image) {
-            x = <div><i className="demo-icon icon-user-add"></i><div className="kepalairas">Add Profile Photo</div></div>
+            x = <div><i className="demo-icon icon-user-add"></i><div className="kepalairas">Kép feltöltése</div></div>
         }
         else if (this.props.image.isUploading) {
             x =  <span>upload percent {this.props.image.percent}</span>
