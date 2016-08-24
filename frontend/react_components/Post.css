@@ -54,6 +54,7 @@
 
 .Post .Images {
     display: block;
+    margin-top: 8px;
 }
 
 .Post .Images .Thumbnail {

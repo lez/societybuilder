@@ -198,3 +198,15 @@ class x_breadcrumb(x_element):
                 &lt; {self.children()}
             </a>
         </div>
+
+class x_page(x_element):
+    def render(self, page: Page):
+        return <div class="page">\
+            <a href="/{page.permalink}">
+                <if cond="{page.image}">
+                    <img src="{page.image.uri(thumbnail='100x100')}"/>
+                </if>
+                <br/>
+                {page.name}
+            </a>
+        </div>

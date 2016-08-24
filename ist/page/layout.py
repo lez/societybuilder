@@ -77,11 +77,11 @@ def page_edit(request):
 
 @view_config(route_name='showallpages', renderer='layout')
 def show_all_pages(request):
-    pages = Page.select()
+    pages = Page.select().where(Page.image != None)
 
-    a = <ul/>
+    a = <div class="pages"/>
     for page in pages:
-        a.append_children([<li><a href="/{page.permalink}">{page.name}</a></li>])
+        a.append_children([<page page="{page}"/>])
 
     return a
 
@@ -89,8 +89,8 @@ def show_all_pages(request):
 def show_my_pages(request):
     pages = request.user.pages()
 
-    a = <ul/>
+    a = <div class="pages"/>
     for page in pages:
-        a.append_children([<li><a href="/{page.permalink}">{page.name}</a></li>])
+        a.append_children([<page page="{page}"/>])
 
     return a

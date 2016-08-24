@@ -18,7 +18,7 @@ def media_view(request):
         if len(parts) != 3:
             return HTTPNotFound('File not found: %s' % path)
         resolution = parts[1]
-        if resolution not in ['30x30', '60x60', '100x100', '200x200', '300x300']:
+        if resolution not in ['30x30', '60x60', '100x100', '200x200', '300x300']:  # TODO refactor this out, make constants
             l.debug('invalid resolution: %s' % resolution)
             return HTTPNotFound('File not found: %s' % path)
         width, height = resolution.split('x')
