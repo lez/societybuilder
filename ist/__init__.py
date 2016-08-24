@@ -1,4 +1,5 @@
 import os
+ROOT = os.path.abspath(os.path.dirname(__path__[0]))
 
 from pyramid.config import Configurator
 from pyramid.settings import asbool
@@ -8,7 +9,6 @@ from ist.util import l
 from .view import notfound, notfound_api, forbidden, forbidden_api
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
-ROOT = os.path.abspath(os.path.dirname(__path__[0]))
 
 default_settings = {
     'peewee.debug': False,

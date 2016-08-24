@@ -5,6 +5,8 @@ import os
 from json import JSONDecoder
 from ist.model.base import ApiEncoder
 
+# Server side react rendering
+
 def includeme(config):
 
     app_settings = config.get_settings()

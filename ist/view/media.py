@@ -4,11 +4,11 @@ from pyramid.response import FileResponse
 from pyramid.view import view_config
 from ist import images
 from ist.model.type import MEDIA_DIR
-from .util import *
+from ist.util import *
 
 @view_config(route_name='media')
 def media_view(request):
-    path = os.path.join(os.path.dirname(__file__), MEDIA_DIR, request.matchdict['subpath'])
+    path = os.path.join(MEDIA_DIR, request.matchdict['subpath'])
     if not os.path.exists(path):
         # try to generate thumbnail
         dirname = os.path.dirname(path)

@@ -244,9 +244,7 @@ class Comment(Base):
             (('item_type', 'item_id', 'id'), True),
         )
 
-
-MEDIA_ROOT = ist.__path__[0]
-MEDIA_DIR = 'media'
+MEDIA_DIR = os.path.join(ist.ROOT, 'ist', 'media')
 
 class Image(Base):
     created = IntegerField(default=time.time)
@@ -270,17 +268,17 @@ class Image(Base):
 
     @property
     def real_path(self):
-        return os.path.join(MEDIA_ROOT, MEDIA_DIR, self.path)
+        return os.path.join(MEDIA_DIR, self.path)
 
     def uri(self, *, thumbnail=None):
         if not thumbnail:
-            return os.path.join('/', MEDIA_DIR, self.path)
+            return os.path.join('/media', self.path)
         else:
             dirname = os.path.dirname(self.path)
             filename = os.path.basename(self.path)
             base, ext = os.path.splitext(filename)
             thumbnail_filename = base + '.' + thumbnail + ext
-            return os.path.join('/', MEDIA_DIR, dirname, thumbnail_filename)
+            return os.path.join('/media', dirname, thumbnail_filename)
 
     def json(self):
         return {
