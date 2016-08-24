@@ -165,7 +165,6 @@ export function uploadAnyEnd(selector, image_id, thumbnail) {
 }
 
 export function upload(post_id, selector, file_input) {
-    console.log('upload')
     return dispatch => {
         dispatch(uploadStart(post_id, selector, file_input))
 
@@ -177,7 +176,6 @@ export function upload(post_id, selector, file_input) {
 }
 
 export function uploadAny(selector, file_input) {
-    console.log('uploadAny')
     return dispatch => {
         dispatch(uploadAnyStart(selector, file_input))
 

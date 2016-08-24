@@ -8,7 +8,6 @@ class RestImageField extends React.Component {
 
     // props: url, field, initial value (image), reload (bool)
     render() {
-        console.log(this.props)
         return <div className="RestImageField" ref="main">
             <ImageField image={this.props.image} onChange={this.onChange} name="image_id"/>
             {this.state.changed ? <button onClick={this.submit}>Csere</button> : null}

@@ -69,7 +69,6 @@ class Poster extends React.Component {
     }
 
     handleDeleteImage = (image) => {
-        console.log(image)
         this.props.onDeleteImage(image.key)
     }
 

@@ -6,15 +6,12 @@ class ImageField extends React.Component {
     render() {
         let x
         if (!this.props.image) {
-            console.log('ez van')
             x = <div><i className="demo-icon icon-user-add"></i><div className="kepalairas">Add Profile Photo</div></div>
         }
         else if (this.props.image.isUploading) {
-            console.log('most ez van')
             x =  <span>upload percent {this.props.image.percent}</span>
         }
         else {
-            console.log('most meg ez van')
             x = <img src={this.props.image.thumbnail} width="100" height="100" />
         }
 
