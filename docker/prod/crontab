@@ -1,0 +1,2 @@
+# renew letsencrypt certificates
+46 02 * * * /usr/bin/certbot renew --quiet --post-hook "/etc/init.d/nginx reload"

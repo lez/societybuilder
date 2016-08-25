@@ -17,5 +17,8 @@ gulp build_js
 echo "[*] building css"
 gulp build_css
 
+echo "[*] setting up periodic letsencrypt cert renewal"
+crontab /src/docker/prod/crontab
+
 echo "[i] start with \`docker run --env DB_PASSWD=sb --env ROOT_PASSWD=a --env SB_PASSWD=sb --hostname prod --name prod -i sb-prod\`"
 echo "[*] Done."

@@ -19,6 +19,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     apt-utils \
     build-essential \
     bzip2 \
+    cron \
     curl \
     g++ \
     gcc \
