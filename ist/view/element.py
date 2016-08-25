@@ -118,7 +118,7 @@ class x_site_header(x_element):
             <div id="header">
                 <logo/>
                 <div id="jovilag">Jóvilág</div>
-                <span id="egyutt">Együtt építjük...</span>
+                <span id="egyutt">Együtt építjük</span>
                 <user_header user="{user}" />
             </div>
         </div>
