@@ -25,6 +25,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     git \
     imagemagick \
     jq \
+    less \
     libssl-dev \
     locales \
     make \
