@@ -31,8 +31,4 @@ uwsgi --ini-paste-logged production.ini
 
 echo Society Builder in production...
 
-read;exit
-
-while true; do
-    read
-done
+while :; do sleep 3600; done
