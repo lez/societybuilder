@@ -41,7 +41,7 @@ class x_site_header(x_element):
         return <div id="ribbon">
             <div id="header">
                 <logo/>
-                <div id="jovilag">Jóvilág</div>
+                <div id="jovilag"><a href="/">Jóvilág</a></div>
                 <span id="egyutt">Együtt építjük</span>
                 <user_header user="{user}" />
             </div>
