@@ -25,9 +25,7 @@ alias gra='git rebase --abort'
 alias grs='git rebase --skip'
 
 
-
-
-
+############################ This was for Society Builder ################################
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -133,13 +131,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
-
-
-
-
-
-
-
-
-
+# make sure production is always distinct
+if [ $(whoami) = 'root' -a -d /etc/letsencrypt/live/www.jovilag.hu ]; then
+    PS1="JOVILAG> $PS1"
+fi
