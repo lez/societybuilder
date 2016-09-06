@@ -6,6 +6,7 @@ PATH=/node/current/bin:/src/bin:$PATH
 #/etc/init.d/syslog-ng start
 mkdir -p /var/log/nginx /var/log/redis
 /etc/init.d/redis-server start
+/etc/init.d/cron start
 cd /root/python-react/examples/basic_rendering
 node render_server.js 2>&1 >/var/log/react.log &
 mkdir -p /var/run/uwsgi
