@@ -46,7 +46,8 @@
 #profilemenu {
     display: flex;
     flex-direction: row-reverse;
-    border: 1px solid #eaeaea;
+    border: 1px solid #88a6ee;
+    background: #68a6ee;
     border-radius: 2px;
     padding: 3px 10px 3px 3px;
 }
