@@ -8,10 +8,7 @@ var Time = {
         var delta = current - timestamp;
 
         if (delta < 30){
-            return 'épp most';
-        }
-        if (delta < 60){
-            return 'fél perce';
+            return 'az imént';
         }
         if (delta < 120){
             return 'egy perce';

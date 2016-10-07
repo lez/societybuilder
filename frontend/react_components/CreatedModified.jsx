@@ -7,7 +7,7 @@ class CreatedModified extends React.Component {
         return <span className="CreatedModified">
             <a href={this.props.href}>
                 {Time.human(this.props.created)}
-                {this.props.modified &&
+                {(this.props.modified > this.props.created +1) &&
                     [' - módosítva ', Time.human(this.props.modified)]
                 }
             </a>

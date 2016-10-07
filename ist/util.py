@@ -43,8 +43,9 @@ def relative_time(old):
     def day(secs):
         return int(secs/86400)
 
+    # XXX should be on client only or the terms need sync
     l = [
-        (30, 'epp most', None),
+        (30, 'az imént', None),
         (60, 'fel perce', None),
         (120, 'epp egy perce', None),
         (3600, 'perce', minute),
