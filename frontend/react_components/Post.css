@@ -50,6 +50,11 @@
 .Post .header .CreatedModified a {
     color: #999;
     text-decoration: none;
+    font-size: 13px;
+}
+
+.Post .post_created_modified {
+    margin-top: 3px;
 }
 
 .Post .header .CreatedModified:hover a {

@@ -57,7 +57,7 @@ class Post extends React.Component {
                             [<span className="arrow"><i className="icon-right-dir"></i></span>, <RoleLink role={post.wall} />]
                         }
                     </div>
-                    <div>
+                    <div className="post_created_modified">
                         <CreatedModified created={post.created} modified={post.modified}/>
                     </div>
                 </div>
