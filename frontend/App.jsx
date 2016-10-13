@@ -145,6 +145,9 @@ window.IS = {
         var error = error_with_field.error;
         var field = error_with_field.field;
         var container = jQuery(element).find('#' + field + '_error').find('span.error');
+        if (Strings.translation[error]) {
+            error = Strings.translation[error]
+        }
         if (container.length == 0) {
             alert(error + '; field=' + field);
         } else {
