@@ -144,11 +144,11 @@ window.IS = {
     displayError: function (element, error_with_field) {
         var error = error_with_field.error;
         var field = error_with_field.field;
-        var container = jQuery(element).find('#' + field + '_error').find('span.error');
+        var container = jQuery(element).find('span#'+field+'_error');
         if (Strings.translation[error]) {
             error = Strings.translation[error]
         }
-        if (container.length == 0) {
+        if (container.length != 1) {
             alert(error + '; field=' + field);
         } else {
             container.html(error);

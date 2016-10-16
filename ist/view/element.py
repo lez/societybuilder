@@ -127,10 +127,7 @@ class x_field(x_element):
             <p>
                 <label for="{name}">{self.children()}</label>
                 <input id="{name}" name="{name}" type="{type}" placeholder="{placeholder}" />
-            </p>
-            <p id="{name}_error">
-                <span></span>
-                <span class="error"></span>
+                <span id="{name}_error" class="error"></span>
             </p>
         </frag>
 
