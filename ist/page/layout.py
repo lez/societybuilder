@@ -9,9 +9,15 @@ from pyxl.html import *
 
 @view_config(route_name='createpage', renderer='layout', permission='user')
 def create_page(request):
-    return <createpage />
-
-# hozz létre egy oldalt az együttesednek, témádnak, cégednek, akárcsak más közösségi oldalakon. A leírásból legyen egyértelmű, miről szól az oldal.
+    return <div id="createpage">
+        <h1>Oldal létrehozása</h1>
+        <br/>
+        <p>Hozz létre egy oldalt az témádnak, csoportodnak, ügyednek, vagy bárminek aminek szeretnél egy fórumot.</p>
+        <br/>
+        <br/>
+         #A leírásból legyen egyértelmű, miről szól az oldal.
+        <createpage />
+    </div>
 
 
 @view_config(route_name='page_wall', renderer='layout')

@@ -163,9 +163,9 @@ class x_createpage(x_element):
         js_string = "IS.submit(event, this, function(page){document.location = '/'+page.permalink;});"
         return <form data-url="/api/page" id="createpage" method="post" onsubmit={js_string} class="verticalform">
             <react_imagefield name="image" />
-            <field type="text" name="name" placeholder="téma, helység, cég...">Név</field>
+            <field type="text" name="name" placeholder="téma, helység, cég...">Oldal neve</field>
             <field type="text" name="description" placeholder="Tömör leírás">Leírás</field>
-            <input type="submit" name="submit" value="Új oldal" />
+            <input type="submit" name="submit" value="Oldal létrehozása" />
         </form>
 
 class x_posts(x_element):
