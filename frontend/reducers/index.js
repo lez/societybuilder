@@ -69,6 +69,7 @@ function posts(state = {}, action) {
         case 'DELETE_IMAGE':
         case 'DELETE_POST_IMAGE':
         case 'INIT_POST_IMAGE':
+        case 'FLAG_CONTENT':
             return {
                 ...state,
                 [action.post_id]: post(state[action.post_id], action)
@@ -81,8 +82,8 @@ function posts(state = {}, action) {
                     id: 'new'
                 }
             }
-    default:
-        return state
+        default:
+            return state
     }
 }
 
@@ -93,6 +94,20 @@ function select_image(obj, selector) {
 function post(state = {}, action) {
     console.log(action.type)
     switch (action.type) {
+        case 'FLAG_CONTENT':
+            if (action.content_type == 'post')
+                return {
+                    ...state,
+                    isFlagging: action.flag,
+                }
+            else if (action.content_type == 'comment')
+                return {
+                    ...state,
+                    comments: comments(state.comments, action),
+                }
+            else
+                alert('programming error: not a valid content type: ' + action.content_type);
+
         case 'EDIT_POST_END':
             return {
                 ...state,
@@ -199,6 +214,7 @@ function post(state = {}, action) {
                     }
                 ]
             }
+
         default:
             return state
     }
@@ -212,6 +228,7 @@ function comments(state = [], action) {
         case 'EDIT_COMMENT':
         case 'EDIT_COMMENT_END':
         case 'CANCEL_EDIT_COMMENT':
+        case 'FLAG_CONTENT':
             return state.map((comm) => {
                 if (comm.id === action.comment_id)
                     return comment(comm, action)
@@ -227,6 +244,11 @@ function comments(state = [], action) {
 
 function comment(state = {}, action) {
     switch (action.type) {
+        case 'FLAG_CONTENT':
+            return {
+                ...state,
+                isFlagging: action.flag,
+            }
         case 'COMMENT_DELETE_START':
             return {
                 ...state,

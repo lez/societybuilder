@@ -1,0 +1,23 @@
+.MedicFlag {
+    position: absolute;
+    left: 510px;
+    top: 0px;
+    width: 260px;
+    padding: 10px;
+    border: 1px solid #DBBD5C;
+    background: #F0E4BC;
+}
+
+.MedicFlag textarea {
+    width: 240px;
+}
+
+.MedicFlagCaption {
+    font-size: 10px;
+    padding-left: 3px;
+}
+
+.MedicFlagCancel {
+    float: right;
+    margin-top: 12px;
+}

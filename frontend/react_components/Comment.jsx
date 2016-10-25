@@ -1,15 +1,25 @@
 import _ from 'lodash'
-import React from 'react'
+import React, { PropTypes } from 'react'
 import RoleLink from './RoleLink.jsx'
+import FlagMenu from './FlagMenu.jsx'
 import UserThumbnail from './UserThumbnail.jsx'
 import Thumbnail from './Thumbnail.jsx'
 import Commenter from './Commenter.jsx'
+import MedicFlag from './MedicFlag.jsx'
+import ForbidFlag from './ForbidFlag.jsx'
 import CreatedModified from './CreatedModified.jsx'
 
 class Comment extends React.Component {
 
     render() {
+
         return <div className="Comment clearfix">
+            {this.props.comment.isFlagging == 'medic' &&
+                <MedicFlag content={this.props.comment.comment} onCancel={this.handleCancelFlagging}/>
+            }
+            {this.props.comment.isFlagging == 'forbid' &&
+                <ForbidFlag onCancel={this.handleCancelFlagging}/>
+            }
             <div className="float_left"><UserThumbnail user={this.props.comment.user}/></div>
             <div className="comment_body">
                 <RoleLink user={this.props.comment.user}/>
@@ -21,6 +31,7 @@ class Comment extends React.Component {
                 <br/>
                 <CreatedModified created={this.props.comment.created} modified={this.props.comment.modified}/>
             </div>
+
             {this.props.editable &&
                 <div className="buttons">
                     <div className="DeleteCommentButton">
@@ -31,6 +42,14 @@ class Comment extends React.Component {
                     </div>
                 </div>
             }
+
+            {this.props.flaggable &&
+                <FlagMenu
+                    onClickMedic={this.handleMedic}
+                    onClickForbid={this.handleForbid}
+                />
+            }
+
         </div>
     }
 
@@ -45,6 +64,30 @@ class Comment extends React.Component {
         e.preventDefault()
         this.props.onEditComment()
     }
+
+    handleMedic = (e) => {
+        e.preventDefault()
+        this.props.onFlagContent('comment', 'medic', this.props.comment.id)
+    }
+
+    handleForbid = (e) => {
+        e.preventDefault()
+        this.props.onFlagContent('comment', 'forbid', this.props.comment.id)
+    }
+
+    handleCancelFlagging = (e) => {
+        e.preventDefault()
+        this.props.onFlagContent('comment', null, this.props.comment.id)
+    }
+}
+
+Comment.propTypes = {
+    editable: PropTypes.bool.isRequired,
+    flaggable: PropTypes.bool.isRequired,
+    comment: PropTypes.object.isRequired,
+    onCommentDelete: PropTypes.func.isRequired,
+    onEditComment: PropTypes.func.isRequired,
+    onFlagContent: PropTypes.func.isRequired,
 }
 
 export default Comment

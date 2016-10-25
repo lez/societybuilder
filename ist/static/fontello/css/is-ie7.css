@@ -24,3 +24,9 @@
 .icon-down { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe80b;&nbsp;'); }
 .icon-right-dir { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe80c;&nbsp;'); }
 .icon-lock-open-alt { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe80d;&nbsp;'); }
+.icon-share3 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe80e;&nbsp;'); }
+.icon-share1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe80f;&nbsp;'); }
+.icon-share4 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf081;&nbsp;'); }
+.icon-medkit { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf0fa;&nbsp;'); }
+.icon-share2 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf14d;&nbsp;'); }
+.icon-hand-paper-o { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf256;&nbsp;'); }

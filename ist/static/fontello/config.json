@@ -89,6 +89,42 @@
       "css": "right-dir",
       "code": 59404,
       "src": "websymbols"
+    },
+    {
+      "uid": "13b9eebfea581ad8e756ee7a18a7cba8",
+      "css": "share2",
+      "code": 61773,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "wh8nbtrxjl2f67dpybsww6mri0xcaklm",
+      "css": "share3",
+      "code": 59406,
+      "src": "typicons"
+    },
+    {
+      "uid": "d4824d88566b0ac66d2cdcff3408690b",
+      "css": "share4",
+      "code": 61569,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "d5937c5767642d0336ad599af0e9c992",
+      "css": "share1",
+      "code": 59407,
+      "src": "elusive"
+    },
+    {
+      "uid": "abf08be829659c02d1f9a711daefa8ce",
+      "css": "hand-paper-o",
+      "code": 62038,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "46120eb259799eab0dac0691137e5706",
+      "css": "medkit",
+      "code": 61690,
+      "src": "fontawesome"
     }
   ]
 }

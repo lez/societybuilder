@@ -1,6 +1,7 @@
 .Comment {
     padding: 3px;
     width: 450px;
+    position: relative;
 }
 
 .Comment img {
@@ -49,3 +50,8 @@
 .Comment .CreatedModified {
     line-height: 22px;
 }
+
+.Comment .FlagMenu {
+    float: right;
+}
+

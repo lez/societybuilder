@@ -19,8 +19,18 @@ export default React.createClass({
                         onCancelEditComment={this.props.onCancelEditComment}
                     />
                 }
-                let editable = (this.props.user && comment.user.id == this.props.user.id)
-                return <Comment comment={comment} key={comment.id} editable={editable} onCommentDelete={() => this.props.onCommentDelete(comment.id)} onEditComment={() => this.props.onEditComment(comment.id)}/>
+                let editable = this.props.user && comment.user.id == this.props.user.id
+                let flaggable = this.props.user && this.props.user.id != comment.user.id && ! comment.isFlagging
+
+                return <Comment
+                    comment={comment}
+                    key={comment.id}
+                    editable={editable}
+                    flaggable={flaggable}
+                    onCommentDelete={() => this.props.onCommentDelete(comment.id)}
+                    onEditComment={() => this.props.onEditComment(comment.id)}
+                    onFlagContent={this.props.onFlagContent}
+                />
             })}
         </div>
     }

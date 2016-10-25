@@ -1,0 +1,23 @@
+.ForbidFlag {
+    position: absolute;
+    left: 510px;
+    top: 0px;
+    width: 260px;
+    padding: 10px;
+    border: 1px solid #EBBD5C;
+    background: #FFE4BC;
+}
+
+.ForbidFlag textarea {
+    width: 240px;
+}
+
+.ForbidFlagCaption {
+    font-size: 10px;
+    padding-left: 3px;
+}
+
+.ForbidFlagCancel {
+    float: right;
+    margin-top: 12px;
+}

@@ -5,10 +5,13 @@ import RoleThumbnail from './RoleThumbnail.jsx'
 import RoleLink from './RoleLink.jsx'
 import Images from './Images.jsx'
 import Poster from './Poster.jsx'
+import MedicFlag from './MedicFlag.jsx'
+import FlagMenu from './FlagMenu.jsx'
+import ForbidFlag from './ForbidFlag.jsx'
 import CommentPanel from './CommentPanel.jsx'
 import CreatedModified from './CreatedModified.jsx'
 import Time from '../common_js/Time.js'
-import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment } from '../actions'
+import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment, flagContent } from '../actions'
 
 // swaps newlines to <br/>
 class PostContent extends React.Component {
@@ -42,6 +45,7 @@ class Post extends React.Component {
     render() {
         let post = this.props.post;
         let show_edit = (this.props.user && this.props.user.id == post.author && ! post.isEditing)
+        let show_flagmenu = (this.props.user && this.props.user.id != post.author) && ! post.isFlagging
         let show_commentpanel = this.props.comments && this.props.comments.length > 0 || this.props.user
 
         let wall_id = post.wall.user ? `user:${post.wall.user.id}` : `page:${post.wall.page.id}`
@@ -49,6 +53,14 @@ class Post extends React.Component {
 
         return <div className="Post">
             <div className="header clearfix">
+
+                {post.isFlagging == 'medic' &&
+                    <MedicFlag content={post.content} onCancel={this.handleCancelFlagging}/>
+                }
+                {post.isFlagging == 'forbid' &&
+                    <ForbidFlag onCancel={this.handleCancelFlagging}/>
+                }
+
                 <RoleThumbnail role={post.role} size="medium"/>
                 <div className="post_data">
                     <div>
@@ -70,7 +82,15 @@ class Post extends React.Component {
                             <a href="#" onClick={this.handleEdit}><i className="icon-edit"></i></a>
                         </div>
                     </div>
-                 }
+                }
+
+                {show_flagmenu &&
+                    <FlagMenu
+                        onClickMedic={this.handleMedic}
+                        onClickForbid={this.handleForbid}
+                    />
+                }
+
             </div>
             {post.isEditing ?
                 <Poster user={this.props.user} post={post} role={post.role} />
@@ -94,9 +114,25 @@ class Post extends React.Component {
                     onEditComment={this.props.onEditComment}
                     onFinishEditComment={this.props.onFinishEditComment}
                     onDeleteEditCommentImage={this.props.onDeleteEditCommentImage}
+                    onFlagContent={this.props.onFlagContent}
                 />
             }
         </div>
+    }
+
+    handleMedic = (e) => {
+        e.preventDefault()
+        this.props.onFlagContent('post', 'medic')
+    }
+
+    handleForbid = (e) => {
+        e.preventDefault()
+        this.props.onFlagContent('post', 'forbid')
+    }
+
+    handleCancelFlagging = (e) => {
+        e.preventDefault()
+        this.props.onFlagContent('post', null)
     }
 
     handleDelete = (e) => {
@@ -154,6 +190,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onCancelEditComment: (comment_id) => {
             dispatch(cancelEditComment(ownProps.post.id, comment_id))
+        },
+        onFlagContent: (content_type, flag, comment_id=null) => {
+            dispatch(flagContent(ownProps.post.id, content_type, flag, comment_id))
         },
     }
 }

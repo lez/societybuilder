@@ -229,3 +229,13 @@ export function cancelEditComment(post_id, comment_id){
         comment_id: comment_id
     }
 }
+
+export function flagContent(post_id, content_type, flag, comment_id){
+    return {
+        type: 'FLAG_CONTENT',
+        post_id: post_id,
+        content_type: content_type,
+        flag: flag,
+        comment_id: comment_id,
+    }
+}
