@@ -23,7 +23,7 @@ class Thumbnail extends React.Component {
             content = <img src={thumbnail}/>
         }
 
-        return <div className={"Thumbnail " + size}>
+        return <div className={"SbThumbnail " + size}>
             {content}
         </div>
     }

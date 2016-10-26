@@ -1,19 +1,19 @@
-.Thumbnail.large {
+.SbThumbnail.large {
     font-size: 100px;
     height: 100px;
 }
 
-.Thumbnail.medium {
+.SbThumbnail.medium {
     font-size: 60px;
     height: 60px;
 }
 
-.Thumbnail.small {
+.SbThumbnail.small {
     font-size: 30px;
     height: 30px;
 }
 
-.Thumbnail.micro {
+.SbThumbnail.micro {
     font-size: 15px;
     height: 15px;
 }

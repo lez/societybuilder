@@ -111,7 +111,7 @@
     border-collapse: collapse;
 }
 
-.Poster .Thumbnail {
+.Poster .SbThumbnail {
     float: left;
     position: absolute;
     margin-top: 10px;

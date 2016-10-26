@@ -25,7 +25,7 @@
     word-wrap: break-word;
 }
 
-.Post .header .Thumbnail {
+.Post .header .SbThumbnail {
     float: left;
 }
 
@@ -66,7 +66,7 @@
     margin-top: 8px;
 }
 
-.Post .Images .Thumbnail {
+.Post .Images .SbThumbnail {
     margin-right: 3px;
     float: left;
 }
