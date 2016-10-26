@@ -17,7 +17,7 @@
     float: left;
 }
 
-.Post .content {
+.Post .post-content {
     margin-top: 8px;
     white-space: pre-wrap;      /* CSS3 */
     white-space: -moz-pre-wrap; /* Firefox */

@@ -11,7 +11,7 @@ import Time from '../common_js/Time.js'
 import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment } from '../actions'
 
 // swaps newlines to <br/>
-class Content extends React.Component {
+class PostContent extends React.Component {
     linkify(str, pattern) {
         let url = str.replace(pattern, '$2')
         return <a href={url} rel="nofollow">{url}</a>
@@ -33,7 +33,7 @@ class Content extends React.Component {
             elements.push(<br/>)
         }
         elements.pop()
-        return <div className="content">{elements}</div>
+        return <div className="post-content">{elements}</div>
     }
 }
 
@@ -76,7 +76,7 @@ class Post extends React.Component {
                 <Poster user={this.props.user} post={post} role={post.role} />
                 :
                 <div>
-                    <Content>{post.content}</Content>
+                    <PostContent>{post.content}</PostContent>
                     <Images images={post.images} />
                 </div>
             }
