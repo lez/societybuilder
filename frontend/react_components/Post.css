@@ -1,8 +1,9 @@
 .Post {
   margin: 5px 0 5px 0;
-  border: 1px solid blueviolet;
+  border: 1px solid #4878be;
   padding: 10px;
   width: 500px;
+  background: white;
 }
 
 .Post .RoleLink {
