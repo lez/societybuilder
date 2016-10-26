@@ -44,7 +44,7 @@ class LayoutRenderer:
             rightbar = <rightbar user="{user}" />
 
         layout = <layout user="{user}">
-            <div id="content">
+            <div id="sb_content">
                 {content}
             </div>
             {rightbar}

@@ -29,7 +29,7 @@ class x_layout(x_element):
             </head>
             <body>
                 <site_header user="{user}" />
-                <div id="main">
+                <div id="sb_main">
                     <sidebar user="{user}" />
                     {self.children()}
                 </div>
@@ -39,7 +39,7 @@ class x_layout(x_element):
 class x_site_header(x_element):
     def render(self, user):
         return <div id="ribbon">
-            <div id="header">
+            <div id="sb_header">
                 <logo/>
                 <div id="jovilag"><a href="/">Jóvilág</a></div>
                 <span id="egyutt">Együtt építjük</span>
@@ -84,7 +84,7 @@ class x_profilemenu(x_element):
 
 class x_sidebar(x_element):
     def render(self, user: User):
-        return <div id="sidebar">
+        return <div id="sb_sidebar">
             <ul>
                 <li><a href="/">Főoldal</a></li>
                 <li><a href="/page/all">Összes oldal</a></li>
@@ -106,7 +106,7 @@ class x_rightbar(x_element):
 
 class x_logo(x_element):
     def render(self):
-        return <span id="logo"><a href="/"><img src="/static/img/logo.png" width="172" height="100"/></a></span>
+        return <span id="sb_logo"><a href="/"><img src="/static/img/logo.png" width="172" height="100"/></a></span>
 
 class x_signupbox(x_element):
     def render(self):
