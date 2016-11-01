@@ -25,9 +25,9 @@ class Comment extends React.Component {
                 <RoleLink user={this.props.comment.user}/>
                 {this.props.comment.comment}
 
-                {this.props.comment.image && !_.isEmpty(this.props.comment.image) &&
-                    [<br/>, <Thumbnail image={this.props.comment.image.thumbnail} size="large"/>]
-                }
+                {this.props.comment.image && !_.isEmpty(this.props.comment.image) && <br/>}
+                {this.props.comment.image && !_.isEmpty(this.props.comment.image) && <Thumbnail image={this.props.comment.image.thumbnail} size="large"/>}
+
                 <br/>
                 <CreatedModified created={this.props.comment.created} modified={this.props.comment.modified}/>
             </div>

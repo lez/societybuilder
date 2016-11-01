@@ -55,22 +55,21 @@ class Post extends React.Component {
             <div className="header clearfix">
 
                 {post.isFlagging == 'medic' &&
-                    <MedicFlag content={post.content} onCancel={this.handleCancelFlagging}/>
+                    <MedicFlag content={post.content} onCancel={this.handleCancelFlagging} />
                 }
                 {post.isFlagging == 'forbid' &&
-                    <ForbidFlag onCancel={this.handleCancelFlagging}/>
+                    <ForbidFlag onCancel={this.handleCancelFlagging} />
                 }
 
-                <RoleThumbnail role={post.role} size="medium"/>
+                <RoleThumbnail role={post.role} size="medium" />
                 <div className="post_data">
                     <div>
                         <RoleLink role={post.role} />
-                        {guest_post &&
-                            [<span className="arrow"><i className="icon-right-dir"></i></span>, <RoleLink role={post.wall} />]
-                        }
+                        {guest_post && <span className="arrow"><i className="icon-right-dir"></i></span>}
+                        {guest_post && <RoleLink role={post.wall} />}
                     </div>
                     <div className="post_created_modified">
-                        <CreatedModified created={post.created} modified={post.modified}/>
+                        <CreatedModified created={post.created} modified={post.modified} />
                     </div>
                 </div>
                 {show_edit &&
