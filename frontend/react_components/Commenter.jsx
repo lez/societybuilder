@@ -21,20 +21,20 @@ class Commenter extends React.Component {
         return <div className="Commenter clearfix">
             <UserThumbnail user={this.props.user} />
             <div className="middle_column">
-                <textarea
-                    className="inputtext"
-                    disabled={!this.props.isActive}
-                    onChange={this.updateBoxHeight}
-                    onKeyDown={this.checkSubmit}
-                    ref="content"
-                    defaultValue={this.props.comment.comment}
-                />
-                {has_image && <ImgUp image={this.props.comment.image} onImageDelete={this.handleImageDelete} />}
+                <div>
+                    <textarea
+                        className="inputtext"
+                        disabled={!this.props.isActive}
+                        onChange={this.updateBoxHeight}
+                        onKeyDown={this.checkSubmit}
+                        ref="content"
+                        defaultValue={this.props.comment.comment}
+                    />
+                </div>
+                {has_image && <div><ImgUp image={this.props.comment.image} onImageDelete={this.handleImageDelete} /></div>}
+                {this.props.comment.isEditing && <div><a href="#" onClick={this.handleCancel}>mégse</a></div>}
             </div>
             {!has_image && <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton>}
-            {this.props.comment.isEditing && 
-                <span><a href="#" onClick={this.handleCancel}>cancel</a></span>
-            }
         </div>
     }
 

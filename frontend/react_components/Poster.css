@@ -78,6 +78,7 @@
 
 .Poster .ImgUp {
     margin: 4px;
+    float: left;
 }
 
 .Poster .post-button {

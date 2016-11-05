@@ -4,19 +4,18 @@
     vertical-align: top;
     height: 100px;
     width: 100px;
-    float: left;
     margin: 4px;
 }
 
 .ImgUp .delete_button {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    z-index: 2;
     display: none;
 }
 
 .ImgUp:hover .delete_button
 {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 2;
     display: block;
 }
