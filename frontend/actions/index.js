@@ -230,12 +230,89 @@ export function cancelEditComment(post_id, comment_id){
     }
 }
 
-export function flagContent(post_id, content_type, flag, comment_id){
+export function flagContent(post_id, content_type, flag_type, comment_id){
     return {
         type: 'FLAG_CONTENT',
         post_id: post_id,
         content_type: content_type,
-        flag: flag,
+        flag_type: flag_type,
         comment_id: comment_id,
+    }
+}
+
+export function flagDeleteStart(post_id, flag_id) {
+    return {
+        type: 'FLAG_DELETE_START',
+        flag_id: flag_id,
+        post_id: post_id
+    }
+}
+
+export function flagDeleteEnd(post_id, flag_id) {
+    return {
+        type: 'FLAG_DELETE_END',
+        flag_id: flag_id,
+        post_id: post_id
+    }
+}
+
+export function flagDelete(post_id, flag_id) {
+
+    return (dispatch) => {
+        dispatch(flagDeleteStart(post_id, flag_id))
+
+        return jQuery.ajax({
+            url: `/api/flag/${flag_id}`,
+            type: 'DELETE'
+        })
+        .then((result) => {
+            dispatch(flagDeleteEnd(post_id, flag_id))
+        })
+    }
+}
+
+export function addFlagStart(post_id, content_type, content_id, flag_data) {
+    console.log('addFlagStart')
+    return {
+        type: 'ADD_FLAG_START',
+        post_id: post_id,
+        content_type: content_type,
+        content_id: content_id,
+        flag_data: flag_data
+    }
+}
+
+export function addFlagEnd(post_id, content_type, content_id, flag_data) {
+    console.log('addFlagEnd')
+    return {
+        type: 'ADD_FLAG_END',
+        post_id: post_id,
+        content_type: content_type,
+        content_id: content_id,
+        flag_data: flag_data,
+    }
+}
+
+export function addFlag(post_id, content_type, content_id, flag_data) {
+
+    return (dispatch) => {
+        console.log('addFlag')
+        dispatch(addFlagStart(post_id, content_type, content_id, flag_data))
+
+        let data = {
+            ...flag_data,
+            content_type: content_type,
+            content_id: content_id
+        }
+
+        return jQuery.ajax({
+            url: '/api/flag',
+            type: 'POST',
+            data: data
+        })
+        .then((result) => {
+            dispatch(addFlagEnd(post_id, content_type, content_id, result))
+        })
+        // TODO error handling
     }
 }

@@ -12,13 +12,27 @@ import CreatedModified from './CreatedModified.jsx'
 class Comment extends React.Component {
 
     render() {
+        let flag_button_active = this.props.comment.isFlagging && ! this.props.comment.flag  // TODO multiple flags
 
         return <div className="Comment clearfix">
             {this.props.comment.isFlagging == 'medic' &&
-                <MedicFlag content={this.props.comment.comment} onCancel={this.handleCancelFlagging}/>
+                <MedicFlag
+                    active={flag_button_active}
+                    content_type="comment"
+                    content_id={this.props.comment.id}
+                    content={this.props.comment.comment}
+                    onCancel={this.handleCancelFlagging}
+                    onSubmit={this.props.onSubmitFlag}
+                />
             }
             {this.props.comment.isFlagging == 'forbid' &&
-                <ForbidFlag onCancel={this.handleCancelFlagging}/>
+                <ForbidFlag
+                    active={flag_button_active}
+                    content_type="comment"
+                    content_id={this.props.comment.id}
+                    onCancel={this.handleCancelFlagging}
+                    onSubmit={this.props.onSubmitFlag}
+                />
             }
             <div className="float_left"><UserThumbnail user={this.props.comment.user}/></div>
             <div className="comment_body">
@@ -88,6 +102,7 @@ Comment.propTypes = {
     onCommentDelete: PropTypes.func.isRequired,
     onEditComment: PropTypes.func.isRequired,
     onFlagContent: PropTypes.func.isRequired,
+    onSubmitFlag: PropTypes.func.isRequired,
 }
 
 export default Comment

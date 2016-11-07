@@ -11,7 +11,7 @@ import ForbidFlag from './ForbidFlag.jsx'
 import CommentPanel from './CommentPanel.jsx'
 import CreatedModified from './CreatedModified.jsx'
 import Time from '../common_js/Time.js'
-import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment, flagContent } from '../actions'
+import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment, flagContent, addFlag } from '../actions'
 
 // swaps newlines to <br/>
 class PostContent extends React.Component {
@@ -50,15 +50,29 @@ class Post extends React.Component {
 
         let wall_id = post.wall.user ? `user:${post.wall.user.id}` : `page:${post.wall.page.id}`
         let guest_post = wall_id !== post.role.id
+        let flag_button_active = post.isFlagging && ! post.flag  // TODO multiple flags
 
         return <div className="Post">
             <div className="header clearfix">
 
                 {post.isFlagging == 'medic' &&
-                    <MedicFlag content={post.content} onCancel={this.handleCancelFlagging} />
+                    <MedicFlag
+                        content_type="post"
+                        content_id={post.id}
+                        content={post.content}
+                        onCancel={this.handleCancelFlagging}
+                        onSubmit={this.props.onSubmitFlag}
+                        active={flag_button_active}
+                    />
                 }
                 {post.isFlagging == 'forbid' &&
-                    <ForbidFlag onCancel={this.handleCancelFlagging} />
+                    <ForbidFlag
+                        content_type="post"
+                        content_id={post.id}
+                        onCancel={this.handleCancelFlagging}
+                        onSubmit={this.props.onSubmitFlag}
+                        active={flag_button_active}
+                    />
                 }
 
                 <RoleThumbnail role={post.role} size="medium" />
@@ -114,6 +128,7 @@ class Post extends React.Component {
                     onFinishEditComment={this.props.onFinishEditComment}
                     onDeleteEditCommentImage={this.props.onDeleteEditCommentImage}
                     onFlagContent={this.props.onFlagContent}
+                    onSubmitFlag={this.props.onSubmitFlag}
                 />
             }
         </div>
@@ -193,6 +208,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onFlagContent: (content_type, flag, comment_id=null) => {
             dispatch(flagContent(ownProps.post.id, content_type, flag, comment_id))
         },
+        onSubmitFlag: (content_type, content_id, flag_data) => {
+            dispatch(addFlag(ownProps.post.id, content_type, content_id, flag_data))
+        }
     }
 }
 

@@ -18,6 +18,7 @@ class CommentPanel extends React.Component {
                 post={this.props.post}
                 onCancelEditComment={this.props.onCancelEditComment}
                 onFlagContent={this.props.onFlagContent}
+                onSubmitFlag={this.props.onSubmitFlag}
             />
             {!this.props.post.isEditingComment &&
                 <Commenter

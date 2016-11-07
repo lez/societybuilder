@@ -360,6 +360,46 @@ class Page(Base):
     # FIXME: ValidationError
 
 
+# flags are "put" on content (which is a post or a comment)
+class Flag(Base):
+    MAX_LEN_NOTE = 500
+
+    owner = ForeignKeyField(User)
+    created_ts = IntegerField(null=False, default=time.time)
+    # modified = IntegerField(default=time.time)
+
+    flag_type = CharField(null=False, max_length=20)  # medic or forbid. fields have semantic variations based on this value
+    flag_reason = CharField(null=False, max_length=20)  # cinycal / offensive / offtopic / generalize...
+    content_type = CharField(null=False, max_length=20)  # post or comment
+    content_id = IntegerField(null=False)
+    content_visible = IntegerField(null=True)  # not used when flag_type=forbid
+    note = TextField(null=True)
+    fixed = TextField(null=True)  # based on the original content
+    original = TextField(null=True)  # the original content
+
+    rest_required_fields = {'flag_type', 'content_type', 'content_id', }
+    rest_optional_fields = { 'flag_reason', 'content_visible', 'note', 'fixed', 'original'}
+    rest_editable_fields = {}
+    rest_collection_name = 'flags'
+
+    def validate(self):
+        if self.note and len(self.note) > self.MAX_LEN_NOTE:
+            yield {'field': 'note', 'error': 'note is too long'}
+
+    def json(self):
+        return {
+            'id': self.id,
+            'flag_type': self.flag_type,
+            'flag_reason': self.flag_reason,
+            'content_type': self.content_type,
+            'content_id': self.content_id,
+            'content_visible': self.content_visible,
+            'note': self.note,
+            'fixed': self.fixed,
+            'created': self.created_ts,
+        }
+
+
 ImageProxy.initialize(Image)
 
 

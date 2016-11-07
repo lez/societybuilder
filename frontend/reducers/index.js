@@ -70,6 +70,8 @@ function posts(state = {}, action) {
         case 'DELETE_POST_IMAGE':
         case 'INIT_POST_IMAGE':
         case 'FLAG_CONTENT':
+        case 'ADD_FLAG_START':
+        case 'ADD_FLAG_END':
             return {
                 ...state,
                 [action.post_id]: post(state[action.post_id], action)
@@ -94,11 +96,11 @@ function select_image(obj, selector) {
 function post(state = {}, action) {
     console.log(action.type)
     switch (action.type) {
-        case 'FLAG_CONTENT':
+        case 'ADD_FLAG_END':
             if (action.content_type == 'post')
                 return {
                     ...state,
-                    isFlagging: action.flag,
+                    isFlagging: false,
                 }
             else if (action.content_type == 'comment')
                 return {
@@ -106,7 +108,36 @@ function post(state = {}, action) {
                     comments: comments(state.comments, action),
                 }
             else
-                alert('programming error: not a valid content type: ' + action.content_type);
+                alert('programming error: not a valid content type: ' + action.content_type)
+
+        case 'ADD_FLAG_START':
+            console.log('well here, ', action)
+            if (action.content_type == 'post')
+                return {
+                    ...state,
+                    flag: action.flag_data,
+                }
+            else if (action.content_type == 'comment')
+                return {
+                    ...state,
+                    comments: comments(state.comments, action),
+                }
+            else
+                alert('programming error: not a valid content type: ' + action.content_type)
+
+        case 'FLAG_CONTENT':
+            if (action.content_type == 'post')
+                return {
+                    ...state,
+                    isFlagging: action.flag_type,
+                }
+            else if (action.content_type == 'comment')
+                return {
+                    ...state,
+                    comments: comments(state.comments, action),
+                }
+            else
+                alert('programming error: not a valid content type: ' + action.content_type)
 
         case 'EDIT_POST_END':
             return {
@@ -235,6 +266,15 @@ function comments(state = [], action) {
                 else
                     return comm
             })
+        case 'ADD_FLAG_START':
+        case 'ADD_FLAG_END':
+            return state.map((comm) => {
+                if (comm.id === action.content_id)
+                    return comment(comm, action)
+                else
+                    return comm
+            })
+
         case 'ADD_COMMENT_END':
             return [...state, action.comment]
         default:
@@ -247,7 +287,18 @@ function comment(state = {}, action) {
         case 'FLAG_CONTENT':
             return {
                 ...state,
-                isFlagging: action.flag,
+                isFlagging: action.flag_type,
+            }
+        case 'ADD_FLAG_START':
+            console.log('well, ', action)
+            return {
+                ...state,
+                flag: action.flag_data,
+            }
+        case 'ADD_FLAG_END':
+            return {
+                ...state,
+                isFlagging: false,
             }
         case 'COMMENT_DELETE_START':
             return {

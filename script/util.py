@@ -49,6 +49,8 @@ def create_tables():
     print('Page table created')
     Comment.create_table()
     print('Comment table created') 
+    Flag.create_table()
+    print('Flag table created')
 
 def reset_db(settings):
     reset_schema(settings)

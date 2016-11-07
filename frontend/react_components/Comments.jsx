@@ -30,6 +30,7 @@ export default React.createClass({
                     onCommentDelete={() => this.props.onCommentDelete(comment.id)}
                     onEditComment={() => this.props.onEditComment(comment.id)}
                     onFlagContent={this.props.onFlagContent}
+                    onSubmitFlag={this.props.onSubmitFlag}
                 />
             })}
         </div>
