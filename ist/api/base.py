@@ -138,13 +138,14 @@ class BaseItemRest(BaseRest):
             with db.transaction():
                 self._pre_delete(item)
                 item.delete_instance()
-            return {}
+
+            return dict()
 
         except HTTPClientError as e:
             return e
 
     def _pre_delete(self, item):
-        # Override me to remove child instances as well
+        # Override me to do extra stuff like removing child instances as well
         ...
 
 class BaseFullRest(BaseItemRest, BaseCollectionRest):

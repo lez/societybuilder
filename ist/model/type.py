@@ -244,7 +244,7 @@ class Comment(Base):
             (('item_type', 'item_id', 'id'), True),
         )
 
-MEDIA_DIR = os.path.join(ist.ROOT, 'ist', 'media')
+MEDIA_DIR = os.path.join(ist.ROOT, 'ist', 'media')  # todo kiszervezni innen, kesobb configbol jojjon
 
 class Image(Base):
     created = IntegerField(default=time.time)

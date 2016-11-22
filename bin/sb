@@ -2,12 +2,16 @@
 
 BASE=$(dirname $(dirname $(readlink -e $0)))
 
-if [[ $1 = '-h' || $1 = '--help' ]]; then
+if [[ $# < 2 || $1 = '-h' || $1 = '--help' ]]; then
     echo "Usage: $0 <command> <production|development|testing> - runs given python script in given environment"
     echo
     echo "Commands: (see $BASE/script)"
-    ls $BASE/script | sed 's/\.py//g' | grep -v ^__pycache__$ | grep -v ^util$
+    for dir in $(ls $BASE/script | grep -v .pyc$ | grep -v __init__ | sed 's/\.py//g' | grep -v ^__pycache__$  | grep -v ^util$)
+    do
+        echo " * $dir"
+    done
     exit 0
 fi
 
-PYTHONPATH=/$BASE python $BASE/script/$1.py $2.ini
+cd $BASE
+PYTHONPATH=$BASE python3 script/$1.py $2.ini

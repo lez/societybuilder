@@ -33,16 +33,20 @@ def includeme(config):
 
 class Base(Model):
 
-    rest_editable_fields = set()
-    rest_optional_fields = set()
-    rest_required_fields = set()
+    rest_required_fields = set()  # these fields are mandatory when creating a new instance
+    rest_optional_fields = set()  # not mandatory, but valid fields
+    rest_editable_fields = set()  # these fields are editable over rest by default
 
     def is_editable_by(self, user):
         raise NotImplementedError()
 
     @classmethod
     def rest_all_fields(cls):
-        return list(set(cls.rest_editable_fields).union(set(cls.rest_optional_fields)).union(set(cls.rest_required_fields)))
+        return list(
+            set(cls.rest_required_fields)
+                .union(set(cls.rest_optional_fields))
+                .union(set(cls.rest_editable_fields))
+        )
 
     class Meta:
         database = db
