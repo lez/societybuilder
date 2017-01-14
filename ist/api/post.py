@@ -19,6 +19,7 @@ class PostRest(BaseFullRest):
         if 'role' not in fields:
             fields['role'] = self.request.user.role_id
 
+        # Maximum 1 consecutive empty line
         fields['content'] = re.sub('\n{3,}', '\n\n', fields['content'].strip())
 
     def _pre_delete(self, post):
