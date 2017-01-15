@@ -40,7 +40,7 @@ class MedicFlag extends React.Component {
         let flag_reason = ReactDOM.findDOMNode(this.refs.flag_reason).value
         let note = ReactDOM.findDOMNode(this.refs.note).value
         let fixed = ReactDOM.findDOMNode(this.refs.fixed).value
-        let content_visible = ReactDOM.findDOMNode(this.refs.content_visible).value
+        let content_visible = jQuery(ReactDOM.findDOMNode(this.refs.content_visible)).find('input').val() == 'on' ? 1 : 0
 
         let flag = {
             flag_type: 'medic',

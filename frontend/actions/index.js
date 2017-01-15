@@ -262,7 +262,7 @@ export function flagDelete(post_id, flag_id) {
         dispatch(flagDeleteStart(post_id, flag_id))
 
         return jQuery.ajax({
-            url: `/api/flag/${flag_id}`,
+            url: `/api/post/${post_id}/flag/${flag_id}`,
             type: 'DELETE'
         })
         .then((result) => {
@@ -299,14 +299,10 @@ export function addFlag(post_id, content_type, content_id, flag_data) {
         console.log('addFlag')
         dispatch(addFlagStart(post_id, content_type, content_id, flag_data))
 
-        let data = {
-            ...flag_data,
-            content_type: content_type,
-            content_id: content_id
-        }
+        let data = flag_data
 
         return jQuery.ajax({
-            url: '/api/flag',
+            url: `/api/post/${post_id}/flag`,
             type: 'POST',
             data: data
         })

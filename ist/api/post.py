@@ -1,8 +1,8 @@
 import re
 from cornice.resource import resource
 
-from ist.api.page import BaseFullRest
-from ist.model.type import Post, Comment, Image
+from ist.api.base import BaseFullRest, BaseSubFullRest
+from ist.model.type import Post, Comment, Image, Flag
 
 
 @resource(collection_path='/api/post', path='/api/post/{id}', renderer='api')
@@ -29,3 +29,13 @@ class PostRest(BaseFullRest):
             c.delete_instance()
         if post.images:
             Image.delete().where(Image.id << post.get_image_ids()).execute()
+
+
+@resource(collection_path='/api/post/{id}/flags', path='/api/post/{id}/flags/{sub_id}', renderer='api')
+class PostFlagRest(BaseSubFullRest):
+    def __init__(self, request):
+        super().__init__(request, Post, Flag)
+
+    def _pre_create(self, fields):
+        fields['owner'] = self.request.user.id
+

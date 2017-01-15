@@ -3,12 +3,17 @@ import time
 import re
 import os
 import ist
+
 from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy, BooleanField, CompositeKey, PrimaryKeyField
+from playhouse.postgres_ext import BinaryJSONField
 
 from .base import Base, ValidationError
 from ..util import *
 
 ImageProxy = Proxy()
+
+def time_int():
+    return int(time.time())
 
 class User(Base):
     login = CharField(unique=True, max_length=50)
@@ -17,9 +22,9 @@ class User(Base):
     email = CharField(unique=True, max_length=100)
     password_sha512 = CharField(max_length=132)
     salt = CharField(max_length=132)
-    created_ts = IntegerField(null=False, default=time.time)
+    created_ts = IntegerField(null=False, default=time_int)
     image = ForeignKeyField(ImageProxy, on_delete='CASCADE', null=True)
-    modified = IntegerField(default=time.time)
+    modified = IntegerField(default=time_int)
     about = TextField(null=True)
 
     rest_editable_fields = ('email', 'image', 'about')
@@ -130,7 +135,7 @@ class User(Base):
         }
 
 def _token_expire():
-    return int(time.time()) + 2 * 365 * 24 * 3600
+    return time_int() + 2 * 365 * 24 * 3600
 
 class AuthToken(Base):
     token = CharField(unique=True, max_length=100)
@@ -141,14 +146,15 @@ class AuthToken(Base):
         db_table = 'auth_tokens'
 
 class Post(Base):
-    created = IntegerField(default=time.time)
-    modified = IntegerField(default=time.time)
+    created = IntegerField(default=time_int)
+    modified = IntegerField(default=time_int)
     author = ForeignKeyField(User, on_delete='CASCADE')  # the user who is logged in when the post is sent
     wall = CharField(max_length=20)  # 'wall' is where posts are created.
     role = CharField(max_length=20)  # posts are created on behalf of a entity, called a 'role'. Role can be a user or a page.
     content = TextField(null=True)
     images = CharField()
     privacy = IntegerField(default=0)
+    flags = BinaryJSONField(default=[])
 
     item_type = 'post'
     rest_required_fields = {'content', 'images'}
@@ -191,7 +197,7 @@ class Post(Base):
             'wall': self.get_wall(),
             'role': self.get_role(),
             'author': self.author.id,
-            'permalink': ...,
+            'flags': self.flags,
         }
 
     def validate(self):
@@ -207,7 +213,7 @@ class Post(Base):
 class Comment(Base):
     item_id = IntegerField(null=False)
     item_type = CharField(null=False, max_length=8)
-    created = IntegerField(default=time.time)
+    created = IntegerField(default=time_int)
     user = ForeignKeyField(User, on_delete='CASCADE')
     comment = TextField(null=True)
     image = ForeignKeyField(ImageProxy, null=True)
@@ -247,7 +253,7 @@ class Comment(Base):
 MEDIA_DIR = os.path.join(ist.ROOT, 'ist', 'media')  # todo kiszervezni innen, kesobb configbol jojjon
 
 class Image(Base):
-    created = IntegerField(default=time.time)
+    created = IntegerField(default=time_int)
     user = ForeignKeyField(User, on_delete='CASCADE')
     orig_filename = CharField()
     mime = CharField(max_length=32)
@@ -290,7 +296,7 @@ class Image(Base):
         db_table = 'images'
 
 class Page(Base):
-    created = IntegerField(default=time.time)
+    created = IntegerField(default=time_int)
     modified = IntegerField(null=True)
     owner = ForeignKeyField(User)
     name = CharField(max_length=30)
@@ -362,38 +368,37 @@ class Page(Base):
 
 # flags are "put" on content (which is a post or a comment)
 class Flag(Base):
-    MAX_LEN_NOTE = 500
+    NOTE_MAX_LEN = 500
 
-    owner = ForeignKeyField(User)
-    created_ts = IntegerField(null=False, default=time.time)
-    # modified = IntegerField(default=time.time)
+    owner = IntegerField(null=False)
+    created_ts = IntegerField(null=False, default=time_int)
+    # modified = IntegerField(default=time_int)
 
     flag_type = CharField(null=False, max_length=20)  # medic or forbid. fields have semantic variations based on this value
     flag_reason = CharField(null=False, max_length=20)  # cinycal / offensive / offtopic / generalize...
-    content_type = CharField(null=False, max_length=20)  # post or comment
-    content_id = IntegerField(null=False)
     content_visible = IntegerField(null=True)  # not used when flag_type=forbid
     note = TextField(null=True)
     fixed = TextField(null=True)  # based on the original content
     original = TextField(null=True)  # the original content
 
-    rest_required_fields = {'flag_type', 'content_type', 'content_id', }
-    rest_optional_fields = { 'flag_reason', 'content_visible', 'note', 'fixed', 'original'}
+    rest_required_fields = {'flag_type'}
+    rest_optional_fields = {'flag_reason', 'content_visible', 'note', 'fixed', 'original'}
     rest_editable_fields = {}
     rest_collection_name = 'flags'
 
     def validate(self):
-        if self.note and len(self.note) > self.MAX_LEN_NOTE:
+        if self.content_visible == None and self.flag_type == 'medic':
+            yield {'field': 'content_visible', 'error': 'value missing'}
+        if self.note and len(self.note) > self.NOTE_MAX_LEN:
             yield {'field': 'note', 'error': 'note is too long'}
 
     def json(self):
         return {
             'id': self.id,
+            'owner': self.owner,
             'flag_type': self.flag_type,
             'flag_reason': self.flag_reason,
-            'content_type': self.content_type,
-            'content_id': self.content_id,
-            'content_visible': self.content_visible,
+            'content_visible': int(self.content_visible),
             'note': self.note,
             'fixed': self.fixed,
             'created': self.created_ts,

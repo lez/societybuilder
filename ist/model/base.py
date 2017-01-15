@@ -1,10 +1,14 @@
 import json
 import logging
-from peewee import Model, PostgresqlDatabase
+
+from peewee import Model
+from playhouse.postgres_ext import PostgresqlExtDatabase
+
 from pyramid.request import Request
+
 from ist.util import *
 
-db = PostgresqlDatabase(None)
+db = PostgresqlExtDatabase(None)
 
 class MyRequest(Request):
 
