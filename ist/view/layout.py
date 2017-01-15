@@ -29,7 +29,7 @@ def hello_page(request):
 @view_config(route_name='home', renderer='layout')
 def home(request):
     posts = Post.select().order_by(-Post.created)
-    return <frag>\
+    return <frag>
         <if cond={request.user}>
             <react_poster user="{request.user}" wall="{request.user.wall_id}" role="{request.user.role}" />
         </if>
@@ -45,7 +45,7 @@ def user_wall(request):
     login = request.matchdict['login']
     user = User.get_by_login(login)
     posts = user.posts()
-    return <frag>\
+    return <frag>
         <if cond={request.user}>
             <react_poster user="{request.user}" wall="{user.wall_id}" role="{request.user.role}" />
         </if>
