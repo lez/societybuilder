@@ -371,10 +371,10 @@ class Flag(Base):
     NOTE_MAX_LEN = 500
 
     owner = IntegerField(null=False)
-    created_ts = IntegerField(null=False, default=time_int)
+    created = IntegerField(null=False, default=time_int)
     # modified = IntegerField(default=time_int)
 
-    flag_type = CharField(null=False, max_length=20)  # medic or forbid. fields have semantic variations based on this value
+    flag_type = CharField(null=False, max_length=20)  # medic or forbid. other fields' semantics is based on this value
     flag_reason = CharField(null=False, max_length=20)  # cinycal / offensive / offtopic / generalize...
     content_visible = IntegerField(null=True)  # not used when flag_type=forbid
     note = TextField(null=True)
@@ -396,12 +396,13 @@ class Flag(Base):
         return {
             'id': self.id,
             'owner': self.owner,
+            'created': self.created,
             'flag_type': self.flag_type,
             'flag_reason': self.flag_reason,
             'content_visible': int(self.content_visible),
             'note': self.note,
             'fixed': self.fixed,
-            'created': self.created_ts,
+            'original': self.original,
         }
 
 

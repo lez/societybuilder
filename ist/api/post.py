@@ -31,7 +31,7 @@ class PostRest(BaseFullRest):
             Image.delete().where(Image.id << post.get_image_ids()).execute()
 
 
-@resource(collection_path='/api/post/{id}/flags', path='/api/post/{id}/flags/{sub_id}', renderer='api')
+@resource(collection_path='/api/post/{id}/flag', path='/api/post/{id}/flag/{sub_id}', renderer='api')
 class PostFlagRest(BaseSubFullRest):
     def __init__(self, request):
         super().__init__(request, Post, Flag)

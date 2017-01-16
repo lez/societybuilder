@@ -11,6 +11,7 @@ import ForbidFlag from './ForbidFlag.jsx'
 import CommentPanel from './CommentPanel.jsx'
 import CreatedModified from './CreatedModified.jsx'
 import Time from '../common_js/Time.js'
+import JsDiff from '../common_js/jsdiff.js'
 import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment, flagContent, addFlag } from '../actions'
 
 // swaps newlines to <br/>
@@ -21,7 +22,15 @@ class PostContent extends React.Component {
     }
 
     render() {
-        let lines = this.props.children.split('\n')
+        let content = this.props.post.content
+
+        if (this.props.post.flags[0]) {
+            let flag = this.props.post.flags[0]
+            let diff = JsDiff.diffStringRaw(flag.original, flag.fixed)
+            console.log(diff)
+        }
+
+        let lines = content.split('\n')
         let elements = []
         for (let x of lines) {
             let pattern = /(.*)(https?:\/\/[^ ]*)(.*)/
@@ -109,7 +118,7 @@ class Post extends React.Component {
                 <Poster user={this.props.user} post={post} role={post.role} />
                 :
                 <div>
-                    <PostContent>{post.content}</PostContent>
+                    <PostContent post={post} />
                     <Images images={post.images} />
                 </div>
             }
