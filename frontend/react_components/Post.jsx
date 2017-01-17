@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import randomstring from 'random-string'
+import _ from 'lodash'
 
 import RoleThumbnail from './RoleThumbnail.jsx'
 import RoleLink from './RoleLink.jsx'
@@ -16,36 +18,84 @@ import { commentDelete, addComment, editPost, upload, deleteImage, editComment, 
 
 // swaps newlines to <br/>
 class PostContent extends React.Component {
-    linkify(str, pattern) {
-        let url = str.replace(pattern, '$2')
-        return <a href={url} rel="nofollow">{url}</a>
-    }
 
     render() {
         let content = this.props.post.content
-
-        if (this.props.post.flags[0]) {
-            let flag = this.props.post.flags[0]
-            let diff = JsDiff.diffStringRaw(flag.original, flag.fixed)
-            console.log(diff)
-        }
-
-        let lines = content.split('\n')
         let elements = []
-        for (let x of lines) {
-            let pattern = /(.*)(https?:\/\/[^ ]*)(.*)/
-            if (x.search(/https?:\/\//) >= 0){
-                let leftright = x.split(/https?:\/\/[^ ]*/)
-                elements.push(leftright[0])
-                elements.push(this.linkify(x, pattern))
-                elements.push(leftright[1])
-            } else {
-                elements.push(x)
-            }
-            elements.push(<br/>)
+
+        let flag = this.props.post.flags[0]
+        if (flag) {
+            let diff = JsDiff.diffStringRaw(flag.original, flag.fixed)
+            elements = this.format_diff(diff)
+        } else {
+            elements = this.format_diff({'text': content})
         }
-        elements.pop()
+
         return <div className="post-content">{elements}</div>
+    }
+
+    add_text_with_br(arr, text){
+        let with_br = this.add_br(text)
+        if (_.isArray(with_br)){
+            with_br.forEach(elem => arr.push(elem))
+        } else {
+            arr.push(with_br)
+        }
+    }
+
+    // takes a diff (as returned by diffStringRaw)
+    // output consists of 2 kinds of items:
+    // * string
+    // * html node; one of <br/> <a>...</a>, <span>...</span>. And this can make up a tree.
+    format_diff(diff){
+        let out = []
+
+        for(let i=0; i<diff.length; i++){
+            let current = diff[i]
+            if (current.text){
+                // http links are only converted to <a href=...> in unchanged text
+                let http_urls = current.text.match(/https?:\/\/[^\s]+/g)
+                if (http_urls == null){
+                    this.add_text_with_br(out, current.text)
+                } else {
+                    let text = current.text
+                    let parts
+                    http_urls.forEach((str) => {
+                        parts = text.split(str, 2)
+                        this.add_text_with_br(out, parts[0])
+                        out.push(`<a href="${str}">` + str + '</a>')
+                        text = parts[1]
+                    })
+                    this.add_text_with_br(out, parts[1])
+                }
+            }
+            else
+            {
+                if (current.removed == '')
+                   current.removed = '...'
+                out.push(<span className="del" key={randomstring()}>{this.add_br(current.removed)}</span>)
+                if (current.added != ''){
+                    out.push(<span className="add" key={randomstring()}>{this.add_br(current.added)}</span>)
+                }
+            }
+        }
+
+        return out
+    }
+
+    add_br(str){
+        let m = str.split(/\n/)
+        if (m.length == 1) {
+            return str
+        }
+        let out=[]
+        let i
+        for (i=0; i<m.length-1; i++){
+            out.push(m[i])
+            out.push(<br/>)
+        }
+        out.push(m[i])
+        return out
     }
 }
 

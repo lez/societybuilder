@@ -27,6 +27,13 @@
     word-wrap: break-word;
 }
 
+.Post .post-content .del{
+    background: red;
+}
+.Post .post-content .add{
+    background: green;
+}
+
 .Post .header .SbThumbnail {
     float: left;
 }
