@@ -9,6 +9,7 @@ import Images from './Images.jsx'
 import Poster from './Poster.jsx'
 import MedicFlag from './MedicFlag.jsx'
 import FlagMenu from './FlagMenu.jsx'
+import EditMenu from './EditMenu.jsx'
 import ForbidFlag from './ForbidFlag.jsx'
 import CommentPanel from './CommentPanel.jsx'
 import CreatedModified from './CreatedModified.jsx'
@@ -124,6 +125,7 @@ class Post extends React.Component {
                         active={flag_button_active}
                     />
                 }
+
                 {post.isFlagging == 'forbid' &&
                     <ForbidFlag
                         content_type="post"
@@ -135,6 +137,7 @@ class Post extends React.Component {
                 }
 
                 <RoleThumbnail role={post.role} size="medium" />
+
                 <div className="post_data">
                     <div>
                         <RoleLink role={post.role} />
@@ -145,15 +148,12 @@ class Post extends React.Component {
                         <CreatedModified created={post.created} modified={post.modified} />
                     </div>
                 </div>
+
                 {show_edit &&
-                    <div>
-                        <div className="DeletePostButton">
-                            <a href="#" onClick={this.handleDelete}><i className="icon-cancel"></i></a>
-                        </div>
-                        <div className="EditPostButton">
-                            <a href="#" onClick={this.handleEdit}><i className="icon-edit"></i></a>
-                        </div>
-                    </div>
+                    <EditMenu
+                        onClickEdit={this.handleEdit}
+                        onClickDelete={this.handleDelete}
+                    />
                 }
 
                 {show_flagmenu &&

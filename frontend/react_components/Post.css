@@ -38,22 +38,8 @@
     float: left;
 }
 
-.Post .header .EditPostButton {
+.Post .header .EditMenu {
     float: right;
-    display: none;
-}
-
-.Post:hover .header .EditPostButton {
-    display: block;
-}
-
-.Post .header .DeletePostButton {
-    float: right;
-    display: none;
-}
-
-.Post:hover .header .DeletePostButton {
-    display: block;
 }
 
 .Post .header .CreatedModified a {

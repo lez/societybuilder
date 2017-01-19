@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import RoleLink from './RoleLink.jsx'
 import FlagMenu from './FlagMenu.jsx'
+import EditMenu from './EditMenu.jsx'
 import UserThumbnail from './UserThumbnail.jsx'
 import Thumbnail from './Thumbnail.jsx'
 import Commenter from './Commenter.jsx'
@@ -47,14 +48,10 @@ class Comment extends React.Component {
             </div>
 
             {this.props.editable &&
-                <div className="buttons">
-                    <div className="DeleteCommentButton">
-                        <a href="#" onClick={this.handleDelete}><i className="icon-cancel"></i></a>
-                    </div>
-                    <div className="EditCommentButton">
-                        <a href="#" onClick={this.handleEdit}><i className="icon-edit"></i></a>
-                    </div>
-                </div>
+                <EditMenu
+                    onClickEdit={this.handleEdit}
+                    onClickDelete={this.handleDelete}
+                />
             }
 
             {this.props.flaggable &&
