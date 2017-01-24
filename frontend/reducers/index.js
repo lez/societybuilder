@@ -72,6 +72,8 @@ function posts(state = {}, action) {
         case 'FLAG_CONTENT':
         case 'ADD_FLAG_START':
         case 'ADD_FLAG_END':
+        case 'SHOW_POST_FLAG':
+        case 'CLOSE_POST_FLAG':
             return {
                 ...state,
                 [action.post_id]: post(state[action.post_id], action)
@@ -109,6 +111,20 @@ function post(state = {}, action) {
                 }
             else
                 alert('programming error: not a valid content type: ' + action.content_type)
+
+        case 'SHOW_POST_FLAG':
+            console.log('well, here, ', action)
+            return {
+                ...state,
+                show_flag: true,
+            }
+
+        case 'CLOSE_POST_FLAG':
+            console.log('well, here, ', action)
+            return {
+                ...state,
+                show_flag: false,
+            }
 
         case 'ADD_FLAG_START':
             console.log('well here, ', action)

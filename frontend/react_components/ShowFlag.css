@@ -1,0 +1,16 @@
+.ShowFlag {
+    position: absolute;
+    left: 510px;
+    top: 0px;
+    width: 260px;
+    padding: 10px;
+    border: 1px solid #EBBD5C;
+    /*background: #FFE4BC;*/
+    background: #5FE4BC;
+}
+
+
+.ShowFlagClose {
+    float: right;
+    margin-top: 12px;
+}

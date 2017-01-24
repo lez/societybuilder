@@ -27,11 +27,18 @@
     word-wrap: break-word;
 }
 
-.Post .post-content .del{
-    background: red;
+.Post .post-content .remove{
+    background: #ffefb3;
+    cursor: pointer;
 }
+
+.Post .post-content .remove:hover{
+    background: #ffe168;
+}
+
 .Post .post-content .add{
-    background: green;
+    background: #ffe168;
+    cursor: pointer;
 }
 
 .Post .header .SbThumbnail {

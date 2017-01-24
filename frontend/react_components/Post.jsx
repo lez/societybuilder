@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import randomstring from 'random-string'
 import _ from 'lodash'
-
+import { Tooltip, OverlayTrigger } from 'react-bootstrap'
 import RoleThumbnail from './RoleThumbnail.jsx'
 import RoleLink from './RoleLink.jsx'
 import Images from './Images.jsx'
@@ -11,11 +11,13 @@ import MedicFlag from './MedicFlag.jsx'
 import FlagMenu from './FlagMenu.jsx'
 import EditMenu from './EditMenu.jsx'
 import ForbidFlag from './ForbidFlag.jsx'
+import ShowFlag from './ShowFlag.jsx'
 import CommentPanel from './CommentPanel.jsx'
 import CreatedModified from './CreatedModified.jsx'
 import Time from '../common_js/Time.js'
 import JsDiff from '../common_js/jsdiff.js'
-import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment, flagContent, addFlag } from '../actions'
+
+import { commentDelete, addComment, editPost, upload, deleteImage, editComment, finishEditComment, cancelEditComment, flagContent, addFlag, showPostFlag, closePostFlag } from '../actions'
 
 // swaps newlines to <br/>
 class PostContent extends React.Component {
@@ -72,16 +74,47 @@ class PostContent extends React.Component {
             }
             else
             {
-                if (current.removed == '')
-                   current.removed = '...'
-                out.push(<span className="del" key={randomstring()}>{this.add_br(current.removed)}</span>)
-                if (current.added != ''){
-                    out.push(<span className="add" key={randomstring()}>{this.add_br(current.added)}</span>)
+                if (current.add != ''){
+                    let tooltip_text
+                    let tooltip
+                    if (! this.props.post.show_flag){
+                        if (current.remove == '') tooltip_text = current.add
+                        else tooltip_text = 'Javasolt: ' + current.add
+                        tooltip = <Tooltip id="tooltip">{tooltip_text}</Tooltip>
+                    } else {
+                        if (current.remove == '') tooltip_text = 'hozzáadva'
+                        else tooltip_text = current.remove
+                        tooltip = <Tooltip id="tooltip"><span class="tooltip_remove">{tooltip_text}</span></Tooltip>
+                    }
+
+
+                    if (current.remove == '')
+                       current.remove = '...'
+
+                    let x
+                    if (this.props.post.show_flag){
+                        x = <span className="add" key={randomstring()} onClick={this.props.onCloseFlag}>{this.add_br(current.add)}</span>
+                    } else {
+                        x = <span className="remove" key={randomstring()} onClick={this.show_flag}>{this.add_br(current.remove)}</span>
+                    }
+                    out.push(
+                        <OverlayTrigger placement="top" overlay={tooltip} key={randomstring()}>
+                            {x}
+                        </OverlayTrigger>
+                    )
+                } else {
+                    if (!this.props.post.show_flag){
+                        out.push(<span className="remove" key={randomstring()}>{this.add_br(current.remove)}</span>)
+                    }
                 }
             }
         }
 
         return out
+    }
+
+    show_flag = () => {
+        this.props.onShowPostFlag(1)
     }
 
     add_br(str){
@@ -100,11 +133,19 @@ class PostContent extends React.Component {
     }
 }
 
+PostContent.propTypes = {
+    post: PropTypes.object.isRequired,
+    onCloseFlag: PropTypes.func.isRequired,
+    onShowPostFlag: PropTypes.func.isRequired,
+}
+
+
 class Post extends React.Component {
 
     render() {
         let post = this.props.post;
-        let show_edit = (this.props.user && this.props.user.id == post.author && ! post.isEditing)
+        let can_edit = (this.props.user && this.props.user.id == post.author && ! post.isEditing)
+        let is_author = (this.props.user && this.props.user.id == post.author)
         let show_flagmenu = (this.props.user && this.props.user.id != post.author) && ! post.isFlagging
         let show_commentpanel = this.props.comments && this.props.comments.length > 0 || this.props.user
 
@@ -114,6 +155,17 @@ class Post extends React.Component {
 
         return <div className="Post">
             <div className="header clearfix">
+
+                {post.show_flag &&
+                    <ShowFlag
+                        flag={post.flags[0]}
+                        onClose={this.handleCloseFlag}
+                        onAccept={this.handleAcceptFlag}
+                        // onAgree={this.props.onAgreeFlag}
+                        // onDisagree={this.props.onDisagreeFlag}
+                        is_author={is_author}
+                    />
+                }
 
                 {post.isFlagging == 'medic' &&
                     <MedicFlag
@@ -149,7 +201,7 @@ class Post extends React.Component {
                     </div>
                 </div>
 
-                {show_edit &&
+                {can_edit &&
                     <EditMenu
                         onClickEdit={this.handleEdit}
                         onClickDelete={this.handleDelete}
@@ -168,7 +220,7 @@ class Post extends React.Component {
                 <Poster user={this.props.user} post={post} role={post.role} />
                 :
                 <div>
-                    <PostContent post={post} />
+                    <PostContent post={post} onShowPostFlag={this.props.onShowPostFlag} onCloseFlag={this.handleCloseFlag} />
                     <Images images={post.images} />
                 </div>
             }
@@ -229,6 +281,15 @@ class Post extends React.Component {
         e.preventDefault()
         this.props.onEditPost()
     }
+
+    handleCloseFlag = (e) => {
+        e.preventDefault()
+        this.props.onCloseFlag()
+    }
+
+    handleAcceptFlag = () => {
+        console.log('handleAcceptFlag')
+    }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -269,7 +330,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         onSubmitFlag: (content_type, content_id, flag_data) => {
             dispatch(addFlag(ownProps.post.id, content_type, content_id, flag_data))
-        }
+        },
+        onShowPostFlag: (flag_id) => {
+            dispatch(showPostFlag(ownProps.post.id, flag_id))
+        },
+        onCloseFlag: () => {
+            dispatch(closePostFlag(ownProps.post.id))
+        },
     }
 }
 

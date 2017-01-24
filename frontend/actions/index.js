@@ -293,6 +293,21 @@ export function addFlagEnd(post_id, content_type, content_id, flag_data) {
     }
 }
 
+export function showPostFlag(post_id, flag_id) {
+    return {
+        type: 'SHOW_POST_FLAG',
+        post_id: post_id,
+        flag_id: flag_id,
+    }
+}
+
+export function closePostFlag(post_id) {
+    return {
+        type: 'CLOSE_POST_FLAG',
+        post_id: post_id,
+    }
+}
+
 export function addFlag(post_id, content_type, content_id, flag_data) {
 
     return (dispatch) => {
