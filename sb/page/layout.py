@@ -2,9 +2,9 @@
 from pyramid.httpexceptions import HTTPMovedPermanently
 from pyramid.view import view_config
 from pyramid.exceptions import HTTPNotFound
-from ist.view.element import *
-from ist.util import l
-from ist.model.type import Page, User, AuthToken
+from sb.view.element import *
+from sb.util import l
+from sb.model.type import Page, User, AuthToken
 from pyxl.html import *
 
 @view_config(route_name='createpage', renderer='layout', permission='user')

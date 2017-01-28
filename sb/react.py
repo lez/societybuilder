@@ -1,9 +1,9 @@
 from react.render import render_component
 from react.conf import settings
-from ist import ROOT
+from sb import ROOT
 import os
 from json import JSONDecoder
-from ist.model.base import ApiEncoder
+from sb.model.base import ApiEncoder
 
 # Server side react rendering
 

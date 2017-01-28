@@ -3,7 +3,7 @@ import shutil
 from pyramid.view import view_config
 import os
 import tempfile
-from ist.model.type import Image
+from sb.model.type import Image
 from ..util import *
 from .. import images
 

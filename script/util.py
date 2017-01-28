@@ -4,8 +4,8 @@ import time
 import atexit
 from pyramid.paster import bootstrap as pyramid_bootstrap
 
-from ist import ROOT
-from ist.model.type import *
+from sb import ROOT
+from sb.model.type import *
 
 def bootstrap(ini_filename=None):
 

@@ -33,9 +33,9 @@ setup(name='SocietyBuilder',
       zip_safe=False,
       install_requires=requires,
       tests_require=requires,
-      test_suite="ist",
+      test_suite="sb",
       entry_points="""\
       [paste.app_factory]
-      main = ist:main
+      main = sb:main
       """,
       )

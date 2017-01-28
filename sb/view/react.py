@@ -1,6 +1,6 @@
 #coding: pyxl
-from ist.model.type import User, Page
-from ist.model.base import ApiEncoder
+from sb.model.type import User, Page
+from sb.model.base import ApiEncoder
 from ..react import render
 from ..util import *
 

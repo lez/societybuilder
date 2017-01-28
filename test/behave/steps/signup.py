@@ -67,7 +67,7 @@ def step_impl(c):
 
 @given('{cls} records are cleaned from the database')
 def step_impl(c, cls):
-    types = import_module('ist.model.type')
+    types = import_module('sb.model.type')
     model = getattr(types, cls)
     model.delete().execute()
 

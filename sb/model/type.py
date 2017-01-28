@@ -2,7 +2,7 @@ import hashlib
 import time
 import re
 import os
-import ist
+import sb
 
 from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy, BooleanField, CompositeKey, PrimaryKeyField
 from playhouse.postgres_ext import BinaryJSONField
@@ -250,7 +250,7 @@ class Comment(Base):
             (('item_type', 'item_id', 'id'), True),
         )
 
-MEDIA_DIR = os.path.join(ist.ROOT, 'ist', 'media')  # todo kiszervezni innen, kesobb configbol jojjon
+MEDIA_DIR = os.path.join(sb.ROOT, 'sb', 'media')  # todo kiszervezni innen, kesobb configbol jojjon
 
 class Image(Base):
     created = IntegerField(default=time_int)

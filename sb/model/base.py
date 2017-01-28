@@ -6,7 +6,7 @@ from playhouse.postgres_ext import PostgresqlExtDatabase
 
 from pyramid.request import Request
 
-from ist.util import *
+from sb.util import *
 
 db = PostgresqlExtDatabase(None)
 

@@ -1,5 +1,5 @@
 #coding: pyxl
-from ist.view.element import *
+from sb.view.element import *
 from pyxl import html
 
 from pyramid.interfaces import IRendererFactory

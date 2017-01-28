@@ -11,13 +11,13 @@ var gutil = require('gulp-util');
 var browserSync = require('browser-sync').create();
 var babelify = require('babelify');
 
-var JS_DEST_DIR = '../ist/static/js/compiled';
+var JS_DEST_DIR = '../sb/static/js/compiled';
 var JS_BUNDLE = 'app.js';
 var JS_ENTRYPOINT = 'App.jsx';
 
-var CSS_DEST_DIR = '../ist/static/style';
+var CSS_DEST_DIR = '../sb/static/style';
 var CSS_BUNDLE = 'bundle.css';
-var CSS_FILES = ['react_components/*.css', 'common_css/*.css', '../ist/static/fontello/css/is-codes.css'];
+var CSS_FILES = ['react_components/*.css', 'common_css/*.css', '../sb/static/fontello/css/is-codes.css'];
 
 // Compile javascript files, for production
 gulp.task('build_js', function() {

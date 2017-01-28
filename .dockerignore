@@ -1,4 +1,4 @@
-ist/media/tmp/*
+sb/media/tmp/*
 frontend/node_modules
 docker/pynode/*
 pyramid.log

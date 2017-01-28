@@ -7,9 +7,9 @@ from script.util import bootstrap, run_test
 
 env, registry, settings = bootstrap(sys.argv[1])
 
-from ist.model.type import User, Page
+from sb.model.type import User, Page
 
-from ist.util import permalink
+from sb.util import permalink
 
 # Iterate over the pages and fill in their permalink field
 

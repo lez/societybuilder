@@ -4,8 +4,8 @@ ROOT = os.path.abspath(os.path.dirname(__path__[0]))
 from pyramid.config import Configurator
 from pyramid.settings import asbool
 
-from ist.model.type import User, Page
-from ist.util import l
+from sb.model.type import User, Page
+from sb.util import l
 from .view import notfound, notfound_api, forbidden, forbidden_api
 from .auth import IsAuthenticationPolicy, IsAuthorizationPolicy, user
 
@@ -36,11 +36,11 @@ def main(global_settings, **settings):
                           authentication_policy=IsAuthenticationPolicy(),
                           authorization_policy=IsAuthorizationPolicy())
 
-    config.include('ist.model.base')
-    config.include('ist.react')
-    config.add_renderer(name='pyxl', factory='ist.renderer.PyxlRenderer')
-    config.add_renderer(name='api', factory='ist.renderer.ApiRenderer')
-    config.add_renderer(name='layout', factory='ist.renderer.LayoutRenderer')
+    config.include('sb.model.base')
+    config.include('sb.react')
+    config.add_renderer(name='pyxl', factory='sb.renderer.PyxlRenderer')
+    config.add_renderer(name='api', factory='sb.renderer.ApiRenderer')
+    config.add_renderer(name='layout', factory='sb.renderer.LayoutRenderer')
 
     config.add_request_method(user, reify=True)
 
@@ -88,7 +88,7 @@ def main(global_settings, **settings):
     config.include('cornice')
     config.scan(__name__)
 
-    config.add_tween('ist.request_logger')
+    config.add_tween('sb.request_logger')
 
     return config.make_wsgi_app()
 

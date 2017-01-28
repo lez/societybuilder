@@ -1,7 +1,7 @@
 /nohup.out
-ist/static/js/compiled/app.js
-ist/static/style/bundle.css
-ist/media
+sb/static/js/compiled/app.js
+sb/static/style/bundle.css
+sb/media
 __pycache__
 .idea
 SocietyBuilder.egg-info

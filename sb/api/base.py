@@ -4,8 +4,8 @@ import time
 from cornice.resource import view
 from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPForbidden, HTTPClientError
 
-from ist.model.base import db
-from ist.util import *
+from sb.model.base import db
+from sb.util import *
 
 # TODO:
 # authorization

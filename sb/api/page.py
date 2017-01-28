@@ -2,9 +2,9 @@ import json
 
 from pyramid.httpexceptions import HTTPBadRequest
 
-from ist.api.base import BaseFullRest
-from ist.model.type import Page, User
-from ist.util import permalink
+from sb.api.base import BaseFullRest
+from sb.model.type import Page, User
+from sb.util import permalink
 
 from cornice.resource import resource
 

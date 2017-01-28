@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
-from ist.api.base import BaseFullRest, BaseCollectionRest
-from ist.model.type import Comment, Post
+from sb.api.base import BaseFullRest, BaseCollectionRest
+from sb.model.type import Comment, Post
 
 
 @resource(collection_path='/api/comment', path='/api/comment/{id}', renderer='api')

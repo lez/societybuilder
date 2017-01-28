@@ -1,8 +1,8 @@
 import re
 from cornice.resource import resource
 
-from ist.api.base import BaseFullRest, BaseSubFullRest
-from ist.model.type import Post, Comment, Image, Flag
+from sb.api.base import BaseFullRest, BaseSubFullRest
+from sb.model.type import Post, Comment, Image, Flag
 
 
 @resource(collection_path='/api/post', path='/api/post/{id}', renderer='api')

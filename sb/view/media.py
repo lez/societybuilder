@@ -2,9 +2,9 @@ import os
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.response import FileResponse
 from pyramid.view import view_config
-from ist import images
-from ist.model.type import MEDIA_DIR
-from ist.util import *
+from sb import images
+from sb.model.type import MEDIA_DIR
+from sb.util import *
 
 @view_config(route_name='media')
 def media_view(request):

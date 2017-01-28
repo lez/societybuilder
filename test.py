@@ -1,5 +1,5 @@
 from peewee import *
-from ist.model.base import Base
+from sb.model.base import Base
 
 
 class TestImage(Base):

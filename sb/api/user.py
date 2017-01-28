@@ -6,11 +6,11 @@ from pyramid.response import Response
 from pyramid.security import authenticated_userid
 from pyramid.view import view_config
 
-from ist.util import l
-from ist.api.base import BaseItemRest
-from ist.auth import remember_user
-from ist.model.base import ValidationError, ApiEncoder
-from ist.model.type import User, Page
+from sb.util import l
+from sb.api.base import BaseItemRest
+from sb.auth import remember_user
+from sb.model.base import ValidationError, ApiEncoder
+from sb.model.type import User, Page
 
 
 @resource(path='/api/me', renderer='api', permission='user')
