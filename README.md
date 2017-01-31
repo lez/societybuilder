@@ -38,18 +38,18 @@ This serves the site on http://172.17.0.2
 
 ## Technology stack ##
 
- * Python 3 as the backend
+ * Python on the backend side
  * Pyramid web framework
- * a modified version of [pyxl3](https://github.com/lez/pyxl3) for creating HTML blocks in a safe and modular way
- * React and Redux for the browser
- * Postgresql for persistent data storage
- * Redis for session storage and later for caching
- * Node.js for rendering react elements on the server
+ * modified version of [pyxl3](https://github.com/lez/pyxl3) for generating static HTML content
+ * React and Redux in the browser
+ * Postgresql for data storage
+ * Redis for session storage
 
 ## Roadmap ##
 
- * better navigation for browsing posts
- * peer moderation
+ * peer moderation of comments and posts
+   * Any user can suggest alternative version of content. The suggestion can be discussed among all participants.
+ * image browser
 
 ## License ##
 
