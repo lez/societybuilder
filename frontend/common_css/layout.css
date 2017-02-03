@@ -19,7 +19,7 @@
 #sb_logo {
     float: left;
     margin: 0;
-    margin-left: -20px;
+    margin-left: 80px;
 }
 
 #user_header {
@@ -86,12 +86,12 @@
 
 #jovilag {
     float: left;
-    margin-top: 23px;
-    margin-left: 7px;
+    margin-top: 49px;
+    margin-left: 12px;
 }
 
 #jovilag a {
-    font-size: 1.7em;
+    font-size: 2em;
     font-family: 'Denk One', sans-serif;
     color: yellow;
     text-decoration: none;
@@ -99,8 +99,8 @@
 
 #egyutt {
     float: left;
-    margin-top: 71px;
-    margin-left: -57px;
+    margin-top: 66px;
+    margin-left: 21px;
     font-size: 0.9em;
     color: #ffc954;
 }

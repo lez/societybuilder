@@ -106,7 +106,7 @@ class x_rightbar(x_element):
 
 class x_logo(x_element):
     def render(self):
-        return <span id="sb_logo"><a href="/"><img src="/static/img/logo.png" width="172" height="100"/></a></span>
+        return <span id="sb_logo"><a href="/"><img src="/static/img/logo.png" width="71" height="100"/></a></span>
 
 class x_signupbox(x_element):
     def render(self):
