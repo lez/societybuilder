@@ -6,6 +6,7 @@
 
 behave  # dev only
 cornice
+marshmallow
 git+git://github.com/lez/pyxl3.git
 pasteuwsgi  # prod only
 peewee

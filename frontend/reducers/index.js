@@ -99,11 +99,13 @@ function post(state = {}, action) {
     console.log(action.type)
     switch (action.type) {
         case 'ADD_FLAG_END':
-            if (action.content_type == 'post')
+            if (action.content_type == 'post') {
                 return {
                     ...state,
                     isFlagging: false,
+                    ...action.post_data,
                 }
+            }
             else if (action.content_type == 'comment')
                 return {
                     ...state,

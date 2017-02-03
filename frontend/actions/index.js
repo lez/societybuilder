@@ -282,14 +282,14 @@ export function addFlagStart(post_id, content_type, content_id, flag_data) {
     }
 }
 
-export function addFlagEnd(post_id, content_type, content_id, flag_data) {
+export function addFlagEnd(post_id, content_type, content_id, post_data) {
     console.log('addFlagEnd')
     return {
         type: 'ADD_FLAG_END',
         post_id: post_id,
         content_type: content_type,
         content_id: content_id,
-        flag_data: flag_data,
+        post_data: post_data,
     }
 }
 

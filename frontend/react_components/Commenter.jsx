@@ -32,7 +32,7 @@ class Commenter extends React.Component {
                     />
                 </div>
                 {has_image && <div><ImgUp image={this.props.comment.image} onImageDelete={this.handleImageDelete} /></div>}
-                {this.props.comment.isEditing && <div><a href="#" onClick={this.handleCancel}>mégse</a></div>}
+                {this.props.comment && this.props.comment.isEditing && <div><a href="#" onClick={this.handleCancel}>mégse</a></div>}
             </div>
             {!has_image && <FileUploadButton upload={this.upload}><i className="demo-icon icon-camera"></i></FileUploadButton>}
         </div>

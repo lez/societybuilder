@@ -2,7 +2,7 @@ import re
 from cornice.resource import resource
 
 from sb.api.base import BaseFullRest, BaseSubFullRest
-from sb.model.type import Post, Comment, Image, Flag
+from sb.model.type import Post, Comment, Image, Flag, time_int
 
 
 @resource(collection_path='/api/post', path='/api/post/{id}', renderer='api')
@@ -38,4 +38,5 @@ class PostFlagRest(BaseSubFullRest):
 
     def _pre_create(self, fields):
         fields['owner'] = self.request.user.id
+        fields['created'] = time_int()
 

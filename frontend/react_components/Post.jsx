@@ -84,7 +84,7 @@ class PostContent extends React.Component {
                     } else {
                         if (current.remove == '') tooltip_text = 'hozzáadva'
                         else tooltip_text = current.remove
-                        tooltip = <Tooltip id="tooltip"><span class="tooltip_remove">{tooltip_text}</span></Tooltip>
+                        tooltip = <Tooltip id="tooltip">{tooltip_text}</Tooltip>
                     }
 
 
@@ -159,8 +159,9 @@ class Post extends React.Component {
                 {post.show_flag &&
                     <ShowFlag
                         flag={post.flags[0]}
-                        onClose={this.handleCloseFlag}
-                        onAccept={this.handleAcceptFlag}
+                        onClose={this.handleFlagClose}
+                        onAccept={this.handleFlagAccept}
+                        onReply={this.handleFlagReply}
                         // onAgree={this.props.onAgreeFlag}
                         // onDisagree={this.props.onDisagreeFlag}
                         is_author={is_author}
@@ -220,7 +221,7 @@ class Post extends React.Component {
                 <Poster user={this.props.user} post={post} role={post.role} />
                 :
                 <div>
-                    <PostContent post={post} onShowPostFlag={this.props.onShowPostFlag} onCloseFlag={this.handleCloseFlag} />
+                    <PostContent post={post} onShowPostFlag={this.props.onShowPostFlag} onCloseFlag={this.handleFlagClose} />
                     <Images images={post.images} />
                 </div>
             }
@@ -282,13 +283,17 @@ class Post extends React.Component {
         this.props.onEditPost()
     }
 
-    handleCloseFlag = (e) => {
+    handleFlagClose = (e) => {
         e.preventDefault()
         this.props.onCloseFlag()
     }
 
-    handleAcceptFlag = () => {
-        console.log('handleAcceptFlag')
+    handleFlagAccept = () => {
+        console.log('handleFlagAccept')
+    }
+
+    handleFlagReply = () => {
+        console.log('handleFlagReply')
     }
 }
 

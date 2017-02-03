@@ -4,6 +4,8 @@ import re
 import os
 import sb
 
+from marshmallow import Schema, SchemaOpts, fields
+from marshmallow.validate import OneOf
 from peewee import CharField, IntegerField, ForeignKeyField, TextField, Proxy, BooleanField, CompositeKey, PrimaryKeyField
 from playhouse.postgres_ext import BinaryJSONField
 
@@ -366,20 +368,29 @@ class Page(Base):
     # FIXME: ValidationError
 
 
+
+# a conversation around flags: one initial note, and any # of additional notes
+class Reply(Schema):
+    id = fields.Int()
+    author = fields.Int()
+    created = fields.Int()
+    reply = fields.Str()
+
 # flags are "put" on content (which is a post or a comment)
-class Flag(Base):
+class Flag(Schema):
     NOTE_MAX_LEN = 500
 
-    owner = IntegerField(null=False)
-    created = IntegerField(null=False, default=time_int)
+    owner = fields.Int(required=True)
+    created = fields.Int(required=True, default=time_int)
     # modified = IntegerField(default=time_int)
 
-    flag_type = CharField(null=False, max_length=20)  # medic or forbid. other fields' semantics is based on this value
-    flag_reason = CharField(null=False, max_length=20)  # cinycal / offensive / offtopic / generalize...
-    content_visible = IntegerField(null=True)  # not used when flag_type=forbid
-    note = TextField(null=True)
-    fixed = TextField(null=True)  # based on the original content
-    original = TextField(null=True)  # the original content
+    flag_type = fields.Str(validate=OneOf(['medic', 'forbid']), required=True, max_length=20)  # medic or forbid. other fields' semantics is based on this value
+    flag_reason = fields.Str(required=True, max_length=20)  # cinycal / offensive / offtopic / generalize...
+    # content_visible = fields.Int()  # not used when flag_type=forbid
+    note = fields.Str(required=True)
+    replies = fields.Nested(Reply, many=True, default=[])
+    fixed = fields.Str()  # based on the original content
+    original = fields.Str()  # the original content
 
     rest_required_fields = {'flag_type'}
     rest_optional_fields = {'flag_reason', 'content_visible', 'note', 'fixed', 'original'}
@@ -392,18 +403,13 @@ class Flag(Base):
         if self.note and len(self.note) > self.NOTE_MAX_LEN:
             yield {'field': 'note', 'error': 'note is too long'}
 
-    def json(self):
-        return {
-            'id': self.id,
-            'owner': self.owner,
-            'created': self.created,
-            'flag_type': self.flag_type,
-            'flag_reason': self.flag_reason,
-            'content_visible': int(self.content_visible),
-            'note': self.note,
-            'fixed': self.fixed,
-            'original': self.original,
-        }
+    @classmethod
+    def rest_all_fields(cls):
+        return list(
+            set(cls.rest_required_fields)
+                .union(set(cls.rest_optional_fields))
+                .union(set(cls.rest_editable_fields))
+        )
 
 
 ImageProxy.initialize(Image)

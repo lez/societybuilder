@@ -9,12 +9,12 @@ class ShowFlag extends React.Component {
         return <div className="ShowFlag">
 
             <span>
-                Miért javasolták: {this.props.flag.note}<br/>
-                Egyelőre kénytelen leszel elfogadni az újat.<br/>
+                {this.props.flag.note}<br/>
             </span>
 
             {this.props.is_author &&
                 <Button active={true} bsStyle="success" onClick={this.handleAccept}>Elfogadás</Button>
+                // <Button active={true} bsStyle="link" onClick={this.handleReply}>Válasz</Button>
             }
 
             <span className="ShowFlagClose">
@@ -26,6 +26,10 @@ class ShowFlag extends React.Component {
     handleAccept = (e) => {
         this.props.onAccept(this.props.flag.id)
     }
+
+    handleReply = (e) => {
+        this.props.onReply(this.props.flag.id)
+    }
 }
 
 ShowFlag.propTypes = {
@@ -33,6 +37,7 @@ ShowFlag.propTypes = {
     is_author: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onAccept: PropTypes.func.isRequired,
+    onReply: PropTypes.func.isRequired,
     // onAgree: PropTypes.func.isRequired,
     // onDisagree: PropTypes.func.isRequired,
 }

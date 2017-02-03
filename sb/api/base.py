@@ -184,16 +184,14 @@ class BaseSubCollectionRest(BaseRest):
 
         self._pre_create(fields)
 
-        sub_item = self.sub_cls(**fields)
-
-        errors = list(sub_item.validate())
+        sub_item, errors = self.sub_cls().load(fields)
         if errors:
             raise HTTPBadRequest(body=json.dumps({'errors': errors}))
 
         sub_items = getattr(item, self.sub_cls.rest_collection_name)
-        sub_item.id = 1 if sub_items == [] else sub_items[-1]['id'] + 1
+        sub_item['id'] = 1 if sub_items == [] else sub_items[-1]['id'] + 1
 
-        sub_items.append(sub_item.json())
+        sub_items.append(sub_item)
 
         try:
             item.save()
