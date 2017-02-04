@@ -36,6 +36,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -o APT::Install-Recommends=no 
     nginx \
     openssh-server \
     postgresql \
+    postgresql-contrib-9.4 \
     postgresql-server-dev-9.4 \
     psmisc \
     redis-server \
